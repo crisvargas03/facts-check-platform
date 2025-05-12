@@ -5,7 +5,7 @@ Además de ofrecer verificación automática accesible a los ciudadanos, el sist
 
 ## 📂 Estructura 
 ```
-/mi-plataforma/
+/src/
 │
 ├── frontend/                                 # Frontend
 │   ├── public/
@@ -68,7 +68,6 @@ Servicio que gestiona el portal público, como navegación abierta, artículos o
 #### 🔍 `InternalService/`
 Servicio para funcionalidades internas o administrativas (por ejemplo, dashboards, gestión de usuarios internos).
 - Estructura similar a `AuthService`.
----
 
 ## 🧵 Estructura de Braches
 - **`main`**: Rama principal y estable. Solo se actualiza con versiones listas para producción. Después de cada pase a producción, `main` debe mantenerse sincronizada con `develop`.
