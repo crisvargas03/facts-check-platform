@@ -5,7 +5,7 @@ Además de ofrecer verificación automática accesible a los ciudadanos, el sist
 
 ## 📂 Estructura 
 ```
-/mi-plataforma/
+/src/
 │
 ├── frontend/                                 # Frontend
 │   ├── public/
