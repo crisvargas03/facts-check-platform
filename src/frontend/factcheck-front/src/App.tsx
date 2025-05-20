@@ -1,9 +1,14 @@
-const App = () => {
-	return (
-		<div>
-			<h1>Home</h1>
-		</div>
-	);
-};
+import { BrowserRouter } from 'react-router-dom';
+import { AppRouter } from './router/AppRouter';
 
-export default App;
+export function App() {
+	return (
+		<BrowserRouter
+			future={{
+				v7_startTransition: true,
+				v7_relativeSplatPath: true,
+			}}>
+			<AppRouter />
+		</BrowserRouter>
+	);
+}
