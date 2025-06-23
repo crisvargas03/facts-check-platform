@@ -1,8 +1,8 @@
 import json
 
 from fastapi import FastAPI
-from models import ChatRequest, ArticleRequest
-from service import ask_chatgpt, check_article
+from models import ArticleRequest
+from service import check_article
 
 app = FastAPI(title="ChatGPT API Microservice")
 
@@ -13,6 +13,10 @@ def chat(request: ArticleRequest):
     data = json.loads(response)
 
     return {
-        "fake_rating": data["fake-rating"],
-        "feedback": data["feedback"]
+        "error": "",
+        "sucess": "",
+        "result": {
+            "fake_rating": data["fake-rating"],
+            "feedback": data["feedback"]
+        }
     }
