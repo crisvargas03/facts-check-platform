@@ -9,14 +9,22 @@ app = FastAPI(title="ChatGPT API Microservice")
 
 @app.post("/article")
 def chat(request: ArticleRequest):
-    response = check_article(request)
-    data = json.loads(response)
+    try:
+        response = check_article(request)
+        data = json.loads(response)
 
-    return {
-        "error": "",
-        "sucess": "",
-        "result": {
-            "fake_rating": data["fake-rating"],
-            "feedback": data["feedback"]
+        return {
+            "error": "",
+            "success": True,
+            "result": {
+                "fake_rating": data["fake-rating"],
+                "feedback": data["feedback"]
+            }
         }
-    }
+        
+    except Exception as e:
+        return {
+            "error": str(e),
+            "success": False,
+            "result": None
+        }
