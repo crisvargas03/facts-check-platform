@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using FactCheckBack.Data.Context;
+using FactCheckBack.Data.Core.Interfaces;
+using FactCheckBack.Data.Core.Repositories;
 
 namespace FactCheckBack.Data.Core.UnitOfWork
 {
@@ -7,11 +9,12 @@ namespace FactCheckBack.Data.Core.UnitOfWork
     {
         private readonly FactCheckBackDbContext _context;
 
-        // TODO: Set Repositories Here
+        public IUserRepository Users { get; private set; }
 
         public FactCheckBackIoW(FactCheckBackDbContext context)
         {
             _context = context;
+            Users = new UserRepository(context);
         }
 
         public async Task<int> CompleteAsync() => await _context.SaveChangesAsync();
