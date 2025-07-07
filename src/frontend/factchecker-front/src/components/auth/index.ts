@@ -1,0 +1,1 @@
+export { HasAccount } from './HasAccount';
