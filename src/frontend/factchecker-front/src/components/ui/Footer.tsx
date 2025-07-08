@@ -1,4 +1,4 @@
-import { publicLinksOptions } from '@/utils';
+import { appDescription, appName, appYear, publicLinksOptions } from '@/utils';
 import { FaXTwitter } from 'react-icons/fa6';
 import { IoLogoInstagram } from 'react-icons/io5';
 
@@ -8,11 +8,9 @@ export const Footer = () => {
 			<div className='max-w-7xl mx-auto px-6 py-12'>
 				<div className='lg:flex lg:justify-between'>
 					<div className='mb-10 lg:mb-0 lg:max-w-md'>
-						<h3 className='text-2xl font-bold mb-4'>Certum</h3>
+						<h3 className='text-2xl font-bold mb-4'>{appName}</h3>
 						<p className='text-gray-300 text-sm leading-relaxed'>
-							Where every game is a lesson, and every lesson is a
-							game. Our app transforms learning into playful
-							games, captivating young minds with interactive fun.
+							{appDescription}
 						</p>
 					</div>
 					<div className='grid grid-cols-1 sm:grid-cols-2 gap-10'>
@@ -68,7 +66,7 @@ export const Footer = () => {
 							</div>
 						</div>
 						<p className='text-gray-500 text-sm'>
-							© Copyright 2025, Todos los Derechos Reservados
+							© Copyright {appYear}, Todos los Derechos Reservados
 						</p>
 					</div>
 				</div>

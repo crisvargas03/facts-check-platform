@@ -1,1 +1,2 @@
-export * from './public-links-options';
+export * from './links-options';
+export * from './app-info';
