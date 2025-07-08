@@ -1,22 +1,9 @@
-import { Metadata } from 'next';
 import Link from 'next/link';
 import React from 'react';
 import { NavbarItems } from './NavbarItems';
-
-const options = [
-	{ label: 'Inicio', href: '/' },
-	{ label: 'Planes', href: '/plans' },
-	{ label: 'Acerca de', href: '/about' },
-	{ label: 'Unirse', href: '/auth/login' },
-];
+import { publicLinksOptions } from '@/utils';
 
 const appName = process.env.APP_NAME;
-const appDescription = process.env.APP_DESCRIPTION;
-
-export const metadata: Metadata = {
-	title: appName,
-	description: appDescription,
-};
 
 export const PublicNavbar = () => {
 	return (
@@ -32,7 +19,7 @@ export const PublicNavbar = () => {
 			</div>
 
 			<div className='sm:mb-0 self-center'>
-				{options.map(option => (
+				{publicLinksOptions.map(option => (
 					<NavbarItems
 						key={option.label}
 						label={option.label}

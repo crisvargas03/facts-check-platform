@@ -1,4 +1,4 @@
-import { PublicNavbar } from '@/components/ui/PublicNavbar';
+import { Footer, PublicNavbar } from '@/components/ui';
 
 interface Props {
 	children: React.ReactNode;
@@ -6,11 +6,10 @@ interface Props {
 
 export default function PublicLayout({ children }: Props) {
 	return (
-		<>
+		<div className='min-h-screen flex flex-col'>
 			<PublicNavbar />
-			<div className='m-2'>
-				<div>{children}</div>
-			</div>
-		</>
+			<main className='flex-1 m-2'>{children}</main>
+			<Footer />
+		</div>
 	);
 }
