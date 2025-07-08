@@ -4,7 +4,7 @@ interface Props {
 	children: React.ReactNode;
 }
 
-export default function NamePage({ children }: Props) {
+export default function PublicLayout({ children }: Props) {
 	return (
 		<>
 			<PublicNavbar />

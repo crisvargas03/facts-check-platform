@@ -5,8 +5,8 @@ import { NavbarItems } from './NavbarItems';
 
 const options = [
 	{ label: 'Inicio', href: '/' },
+	{ label: 'Planes', href: '/plans' },
 	{ label: 'Acerca de', href: '/about' },
-	{ label: 'Planes', href: '/contact' },
 	{ label: 'Unirse', href: '/auth/login' },
 ];
 

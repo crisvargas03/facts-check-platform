@@ -10,8 +10,6 @@ interface Props {
 export const NavbarItems = ({ label, path }: Props) => {
 	const pathName = usePathname();
 	const activeClass = path === pathName ? 'text-lg font-bold' : 'text-md';
-
-	console.log(`Current path: ${pathName}, Active path: ${path}`);
 	return (
 		<div className='inline-block'>
 			<Link

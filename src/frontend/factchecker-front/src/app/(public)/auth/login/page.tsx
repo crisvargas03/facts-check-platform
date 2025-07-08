@@ -11,9 +11,9 @@ export default function LoginPage() {
 				Inicia Sesión con tus credenciales
 			</span>
 
-			<div className='m-5 flex flex-row gap-5'>
+			<div className='flex flex-row gap-5'>
 				<div className='flex-1'>
-					<div className='flex flex-col'>
+					<div className='flex flex-col mt-10'>
 						<form>
 							<FormInput
 								labelText='Correo Electrónico'
@@ -48,16 +48,16 @@ export default function LoginPage() {
 						/>
 					</div>
 				</div>
-				<div className='flex-1'>
+				<div className='flex-1 w-full flex h-full items-center justify-center'>
 					<Image
 						src={
 							'https://images.unsplash.com/photo-1727434032773-af3cd98375ba?q=80&w=3864&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
 						}
 						alt='Login Image'
 						width={700}
-						height={700}
+						height={1200}
 						priority
-						className='rounded-lg w-auto h-auto'
+						className='rounded-lg'
 					/>
 				</div>
 			</div>
