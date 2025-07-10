@@ -9,9 +9,9 @@ public partial class User_plan
 
     public string plans_id { get; set; } = null!;
 
-    public DateTime start_date_agreement_ { get; set; }
+    public DateTime start_date_agreement { get; set; }
 
-    public DateTime end_date_agreement_ { get; set; }
+    public DateTime end_date_agreement { get; set; }
 
     public int attempts_used { get; set; }
 

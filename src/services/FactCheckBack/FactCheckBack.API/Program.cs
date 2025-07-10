@@ -10,7 +10,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using FactCheckBack.Business.Services.Jwt;
-using FactCheckBack.Business.Services.Authorization;
+using FactCheckBack.Data.Core.Interfaces;
+using FactCheckBack.Data.Core.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,7 +25,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDataExtensions(builder.Configuration);
 // Add BusinessExtension
 builder.Services.AddBusinessExtensions();
-builder.Services.AddScoped<IAuthService, AuthService>();
 // Authentication Bearer Config
 //builder.Services.AddAuthenticationConfiguration(builder.Configuration);
 //DB context
@@ -45,6 +45,8 @@ builder.Services.AddDbContext<FactCheckBackDbContext>(options =>
 //Json Web Token
 builder.Services.Configure<JwtConfiguration>(builder.Configuration.GetSection("Jwt"));
 builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserPlanRepository, UserPlanRepository>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -53,7 +55,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
-            ValidIssuer = config.Issuer,
+            ValidIssuer = config!.Issuer,
             ValidateAudience = true,
             ValidAudience = config.Audience,
             ValidateLifetime = true,

@@ -51,7 +51,7 @@ namespace FactCheckBack.Data.Context
 
                 entity.Property(e => e.article_id).HasMaxLength(50);
                 entity.Property(e => e.article_type_id).HasMaxLength(50);
-                entity.Property(e => e.created).HasColumnType("timestamp without time zone");
+                entity.Property(e => e.created).HasColumnType("timestamptz");
                 entity.Property(e => e.title).HasMaxLength(50);
                 entity.Property(e => e.user_id).HasMaxLength(50);
 
@@ -109,7 +109,7 @@ namespace FactCheckBack.Data.Context
 
                 entity.Property(e => e.result_id).HasMaxLength(50);
                 entity.Property(e => e.article_id).HasMaxLength(50);
-                entity.Property(e => e.created).HasColumnType("timestamp without time zone");
+                entity.Property(e => e.created).HasColumnType("timestamptz");
                 entity.Property(e => e.verdict_id).HasMaxLength(50);
             });
 
@@ -120,7 +120,7 @@ namespace FactCheckBack.Data.Context
                 entity.ToTable("Users");
 
                 entity.Property(e => e.user_id).HasMaxLength(50);
-                entity.Property(e => e.created).HasColumnType("timestamp without time zone");
+                entity.Property(e => e.created).HasColumnType("timestamptz");
                 entity.Property(e => e.email).HasMaxLength(50);
                 entity.Property(e => e.name).HasMaxLength(50);
                 entity.Property(e => e.password).HasMaxLength(50);
@@ -149,13 +149,13 @@ namespace FactCheckBack.Data.Context
                 entity.ToTable("User_plan");
 
                 entity.Property(e => e.user_id).HasMaxLength(50);
-                entity.Property(e => e.end_date_agreement_)
-                    .HasColumnType("timestamp without time zone")
-                    .HasColumnName("end_date_agreement ");
+                entity.Property(e => e.end_date_agreement)
+                    .HasColumnType("timestamptz")
+                    .HasColumnName("end_date_agreement");
                 entity.Property(e => e.plans_id).HasMaxLength(50);
-                entity.Property(e => e.start_date_agreement_)
-                    .HasColumnType("timestamp without time zone")
-                    .HasColumnName("start_date_agreement ");
+                entity.Property(e => e.start_date_agreement)
+                    .HasColumnType("timestamptz")
+                    .HasColumnName("start_date_agreement");
 
                 entity.HasOne(d => d.plans).WithMany(p => p.User_plans)
                     .HasForeignKey(d => d.plans_id)

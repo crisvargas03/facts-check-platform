@@ -1,4 +1,5 @@
-﻿using FactCheckBack.Data.Core.Exceptions;
+﻿using FactCheckBack.Business.Services.Jwt;
+using FactCheckBack.Data.Core.Exceptions;
 using FactCheckBack.Data.Core.UnitOfWork;
 using FactCheckBack.Models.Configurations;
 using FactCheckBack.Models.Entities;
@@ -11,24 +12,31 @@ namespace FactCheckBack.Business.Features.Auth.Login
     public class LoginCommandHandler : ICommandHandler<LoginCommand, ApiResponse<LoginCommandDto>>
     {
         private readonly IFactCheckBackIoW _unitOfWork;
+        private readonly IJwtService _jwtService;
 
-        public LoginCommandHandler(IFactCheckBackIoW unitOfWork)
+        public LoginCommandHandler(IFactCheckBackIoW unitOfWork, IJwtService jwtService)
         {
             _unitOfWork = unitOfWork;
+            _jwtService = jwtService;
         }
 
         public async Task<ApiResponse<LoginCommandDto>> HandleAsync(LoginCommand request, CancellationToken cancellationToken = default)
         {
             try
             {
-                var dbUser = await _unitOfWork.Users.Query(false).FirstOrDefaultAsync(x => x.email == request.Email);
+                var dbUser = await _unitOfWork.Users.Query(false).FirstOrDefaultAsync(x => x.email.ToLower() == request.Email.ToLower(), cancellationToken);
                 var validate = ValidateUserLogin(request, dbUser);
 
-                // TODO: finish the login logic, the jwt token generation, etc.
+                // Generate token only if the user is valid
+                if (validate != null)
+                    return validate;
+
+                var token = _jwtService.GenerateToken(dbUser!.email, "local");
+
                 var response = new LoginCommandDto()
                 {
                     Email = request.Email,
-                    Token = "dummy_token"
+                    Token = token
                 };
 
                 return ApiResponse<LoginCommandDto>.Success(response);
@@ -42,7 +50,7 @@ namespace FactCheckBack.Business.Features.Auth.Login
                 return ApiResponse<LoginCommandDto>.Fail(ex.Message, HttpStatusCode.InternalServerError);
             }
         }
-
+        
         private static ApiResponse<LoginCommandDto>? ValidateUserLogin(LoginCommand userLogin, Users? userFromDb)
         {
             if (userFromDb is null)

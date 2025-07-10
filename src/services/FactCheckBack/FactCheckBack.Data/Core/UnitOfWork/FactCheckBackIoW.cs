@@ -10,11 +10,15 @@ namespace FactCheckBack.Data.Core.UnitOfWork
         private readonly FactCheckBackDbContext _context;
 
         public IUserRepository Users { get; private set; }
+        public IUserPlanRepository User_plan { get; private set; }
+        public IPlanRepository Plan { get; private set; }
 
         public FactCheckBackIoW(FactCheckBackDbContext context)
         {
             _context = context;
             Users = new UserRepository(context);
+            User_plan = new UserPlanRepository(context);
+            Plan = new PlanRepository(context);
         }
 
         public async Task<int> CompleteAsync() => await _context.SaveChangesAsync();
