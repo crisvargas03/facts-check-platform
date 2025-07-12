@@ -7,9 +7,18 @@ interface Props {
 	path: string;
 }
 
+const getActiveClass = (currentPath: string, path: string): string => {
+	const activeClass = currentPath === path ? 'text-lg font-bold' : 'text-md';
+	if (currentPath === '/auth/signup' && path === '/auth/login') {
+		return 'text-lg font-bold';
+	}
+	return activeClass;
+};
+
 export const NavbarItems = ({ label, path }: Props) => {
 	const pathName = usePathname();
-	const activeClass = path === pathName ? 'text-lg font-bold' : 'text-md';
+	const activeClass = getActiveClass(pathName, path);
+
 	return (
 		<div className='inline-block'>
 			<Link
