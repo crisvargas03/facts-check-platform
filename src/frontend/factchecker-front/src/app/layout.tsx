@@ -1,8 +1,8 @@
 import type { Metadata } from 'next';
-import { Roboto } from 'next/font/google';
+import { DM_Sans } from 'next/font/google';
 import './globals.css';
 
-const roboto = Roboto({
+const dm_sans = DM_Sans({
 	subsets: ['latin'],
 });
 
@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<body className={`${roboto.className} antialiased`}>
+			<body className={`${dm_sans.className} antialiased`}>
 				{children}
 			</body>
 		</html>
