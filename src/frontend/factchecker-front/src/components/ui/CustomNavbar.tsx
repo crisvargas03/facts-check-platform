@@ -11,25 +11,27 @@ interface Props {
 
 export const CustomNavbar = ({ linksOptions }: Props) => {
 	return (
-		<nav className='flex flex-col text-center content-center sm:flex-row sm:text-left sm:justify-between py-2 px-6 bg-white shadow sm:items-baseline w-full'>
-			<div className='mb-2 sm:mb-0 flex flex-row'>
-				<div>
+		<nav className='bg-white shadow w-full px-6 py-2'>
+			<div className='flex flex-col sm:flex-row sm:justify-between sm:items-center'>
+				{/* Brand */}
+				<div className='flex justify-center sm:justify-start mb-2 sm:mb-0'>
 					<Link
 						href='/home'
-						className='text-2xl no-underline text-grey-darkest hover:text-blue-dark font-sans font-bold'>
+						className='text-2xl font-bold font-sans text-gray-800 hover:text-[rgb(37,56,123)] no-underline'>
 						{appName}
 					</Link>
 				</div>
-			</div>
 
-			<div className='sm:mb-0 self-center'>
-				{linksOptions.map(option => (
-					<NavbarItems
-						key={option.label}
-						label={option.label}
-						path={option.href}
-					/>
-				))}
+				{/* Links */}
+				<div className='flex flex-col sm:flex-row items-center gap-4'>
+					{linksOptions.map(option => (
+						<NavbarItems
+							key={option.label}
+							label={option.label}
+							path={option.href}
+						/>
+					))}
+				</div>
 			</div>
 		</nav>
 	);

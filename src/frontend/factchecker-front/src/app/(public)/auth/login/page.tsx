@@ -1,20 +1,21 @@
 import { HasAccount } from '@/components/auth';
-import { Button, FormInput } from '@/components/ui';
+import { Button, FormInput, Separator } from '@/components/ui';
 import Image from 'next/image';
 import { FcGoogle } from 'react-icons/fc';
 
 export default function LoginPage() {
 	return (
 		<div className='m-5'>
-			<h1 className='text-4xl font-bold mb-1'>Bienvenido de Nuevo</h1>
-			<span className='text-gray-600 text-sm '>
+			<h1 className='text-4xl font-bold mb-1'>¡Bienvenido de Nuevo!</h1>
+			<span className='text-gray-600 text-sm'>
 				Inicia Sesión con tus credenciales
 			</span>
 
-			<div className='flex flex-row gap-5'>
-				<div className='flex-1'>
-					<div className='flex flex-col mt-10'>
-						<form>
+			<div className='flex flex-col md:flex-row gap-5 justify-center items-center'>
+				{/* Form Section */}
+				<div className='w-full md:w-1/2'>
+					<div className='flex flex-col'>
+						<form className='flex flex-col gap-5 mt-10'>
 							<FormInput
 								labelText='Correo Electrónico'
 								placeholder='Ingresa tu correo electrónico'
@@ -24,11 +25,13 @@ export default function LoginPage() {
 								labelText='Contraseña'
 								placeholder='Ingresa tu contraseña'
 							/>
+
 							<div className='mb-5'>
 								<Button text='Iniciar Sesión' />
 							</div>
 						</form>
-						<hr className='my-5 text-gray-300' />
+
+						<Separator text='Continuar con' />
 						<div className='mb-10'>
 							<Button
 								text='Iniciar Sesión con Google'
@@ -41,6 +44,7 @@ export default function LoginPage() {
 								}
 							/>
 						</div>
+
 						<HasAccount
 							text='¿No tienes una cuenta?'
 							textLink='Regístrate aquí'
@@ -48,16 +52,16 @@ export default function LoginPage() {
 						/>
 					</div>
 				</div>
-				<div className='flex-1 w-full flex h-full items-center justify-center'>
+
+				{/* Image Section */}
+				<div className='md:w-1/2 flex lg:justify-center'>
 					<Image
-						src={
-							'https://images.unsplash.com/photo-1727434032773-af3cd98375ba?q=80&w=3864&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
-						}
+						src='https://images.law.com/contrib/content/uploads/sites/390/2021/08/Artificial-Intelligence-Technology-767x633.jpg'
 						alt='Login Image'
-						width={700}
-						height={1200}
+						width={400}
+						height={600}
 						priority
-						className='rounded-lg'
+						className='object-cover hidden md:block rounded-3xl shadow-2xl w-auto h-auto'
 					/>
 				</div>
 			</div>
