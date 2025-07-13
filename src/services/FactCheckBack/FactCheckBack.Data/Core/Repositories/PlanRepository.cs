@@ -18,11 +18,12 @@ namespace FactCheckBack.Data.Core.Repositories
             {
                 return await _context.Plans.Include(x => x.Plan_Options)
                      .Include(x => x.plan_type)
+                     .OrderBy(x => x.max_attempts)
                      .ToListAsync();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw new DataException("Error retrieving plans with options");
+                throw new DataException($"Error retrieving plans with options - { ex.Message }");
             }
         }
     }

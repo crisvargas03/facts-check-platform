@@ -182,8 +182,8 @@ namespace FactCheckBack.Data.Context
             modelBuilder.Entity<Plan_Options>(entity =>
             {
                 entity.HasKey(e => e.plan_options_id).HasName("plan_options_pk");
-                entity.ToTable("Plan_Options");
-                entity.Property(e => e.plan_options_id).UseSerialColumn().HasColumnName("plan_options_id");
+                entity.ToTable("plan_options");
+                entity.Property(e => e.plan_options_id).UseSerialColumn().HasColumnName("plan_option_id");
                 entity.Property(e => e.plan_id).HasMaxLength(50);
                 entity.Property(e => e.description).HasMaxLength(200);
                 entity.HasOne(d => d.Plan).WithMany(p => p.Plan_Options)
