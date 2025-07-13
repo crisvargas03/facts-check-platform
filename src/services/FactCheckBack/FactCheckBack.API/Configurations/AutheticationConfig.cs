@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using FactCheckBack.Models.Configurations;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using System.Text;
@@ -70,6 +71,7 @@ namespace FactCheckBack.API.Configurations
         {
             services.AddAuthenticationConfig(configuration);
             services.AddSwaggerBearerConfig();
+            services.Configure<JwtConfiguration>(configuration.GetSection("Jwt"));
         }
 
     }

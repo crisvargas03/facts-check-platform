@@ -1,4 +1,5 @@
 # .NET
+**/.vs/**
 **/bin/
 **/obj/
 *.user

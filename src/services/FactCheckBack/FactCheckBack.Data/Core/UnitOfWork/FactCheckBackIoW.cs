@@ -1,5 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using FactCheckBack.Data.Context;
+using FactCheckBack.Data.Core.Interfaces;
+using FactCheckBack.Data.Core.Repositories;
 
 namespace FactCheckBack.Data.Core.UnitOfWork
 {
@@ -7,16 +9,20 @@ namespace FactCheckBack.Data.Core.UnitOfWork
     {
         private readonly FactCheckBackDbContext _context;
 
-        // TODO: Set Repositories Here
+        public IUserRepository Users { get; private set; }
+        public IUserPlanRepository User_plan { get; private set; }
+        public IPlanRepository Plan { get; private set; }
 
         public FactCheckBackIoW(FactCheckBackDbContext context)
         {
             _context = context;
+            Users = new UserRepository(context);
+            User_plan = new UserPlanRepository(context);
+            Plan = new PlanRepository(context);
         }
 
         public async Task<int> CompleteAsync() => await _context.SaveChangesAsync();
         public async Task<bool> CanConnectAsync() => await _context.Database.CanConnectAsync();
-
         public async Task<bool> ExecuteHealthCheckCommandAsync()
         {
             try
@@ -29,7 +35,6 @@ namespace FactCheckBack.Data.Core.UnitOfWork
                 return false;
             }
         }
-        
         public void Dispose() => _context.Dispose();
     }
 }

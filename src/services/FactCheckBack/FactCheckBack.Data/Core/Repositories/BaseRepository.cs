@@ -6,7 +6,7 @@ using FactCheckBack.Data.Core.Interfaces;
 
 namespace FactCheckBack.Data.Core.Repositories
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : class
+    public abstract class BaseRepository<T> : IBaseRepository<T> where T : class
     {
         protected FactCheckBackDbContext _context;
         protected readonly DbSet<T> _dbSet;
@@ -17,22 +17,22 @@ namespace FactCheckBack.Data.Core.Repositories
             _dbSet = _context.Set<T>();
         }
 
-        public IEnumerable<T> Search(Expression<Func<T, bool>> expression)
+        public virtual IEnumerable<T> Search(Expression<Func<T, bool>> expression)
         {
             return _context.Set<T>().Where(expression);
         }
-        public IQueryable<T> Query(bool tracked = true)
+        public virtual IQueryable<T> Query(bool tracked = true)
         {
             return tracked ? _dbSet : _dbSet.AsNoTracking();
         }
-        public IQueryable<T> Query(Expression<Func<T, bool>> expression, bool tracked = true)
+        public virtual IQueryable<T> Query(Expression<Func<T, bool>> expression, bool tracked = true)
         {
             var query = _context.Set<T>().Where(expression);
             if (tracked) return query.AsNoTracking();
 
             return query;
         }
-        public async Task<T?> GetByIdAsync(object id)
+        public virtual async Task<T?> GetByIdAsync(object id)
         {
             try
             {
@@ -43,7 +43,7 @@ namespace FactCheckBack.Data.Core.Repositories
                 throw new DataException($"Error retrieving entity {typeof(T).Name} by ID", ex);
             }
         }
-        public async Task<bool> ExistsAsync(Expression<Func<T, bool>> expression)
+        public virtual async Task<bool> ExistsAsync(Expression<Func<T, bool>> expression)
         {
             try
             {
@@ -55,7 +55,7 @@ namespace FactCheckBack.Data.Core.Repositories
             }
         }
         
-        public async Task CreateAsync(T entity)
+        public virtual async Task CreateAsync(T entity)
         {
             try
             {
@@ -66,7 +66,7 @@ namespace FactCheckBack.Data.Core.Repositories
                 throw new DataException($"Error creating entity of type {typeof(T).Name}", ex);
             }
         }
-        public async Task CreateCollection(IEnumerable<T> entities)
+        public virtual async Task CreateCollection(IEnumerable<T> entities)
         {
             try
             {
@@ -78,7 +78,7 @@ namespace FactCheckBack.Data.Core.Repositories
                 throw new DataException($"Error Range creating entity of type {typeof(T).Name}", ex);
             }
         }
-        public void Update(T entity)
+        public virtual void Update(T entity)
         {
             try
             {
@@ -89,7 +89,7 @@ namespace FactCheckBack.Data.Core.Repositories
                 throw new DataException($"Error updating entity of type {typeof(T).Name}", ex);
             }
         }
-        public void Delete(T entity)
+        public virtual void Delete(T entity)
         {
             try
             {
