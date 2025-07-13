@@ -18,6 +18,7 @@ public partial class Plan
     public int duration { get; set; }
 
     public virtual ICollection<User_plan> User_plans { get; set; } = new List<User_plan>();
+    public virtual ICollection<Plan_Options> Plan_Options { get; set; } = new List<Plan_Options>();
 
     public virtual Plan_type plan_type { get; set; } = null!;
 }

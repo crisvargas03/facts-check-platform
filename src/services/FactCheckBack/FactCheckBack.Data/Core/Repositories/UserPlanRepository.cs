@@ -6,7 +6,6 @@ namespace FactCheckBack.Data.Core.Repositories
 {
     public class UserPlanRepository : BaseRepository<User_plan>, IUserPlanRepository
     {
-        private readonly FactCheckBackDbContext _context;
         public UserPlanRepository(FactCheckBackDbContext context) : base(context)
         {
             _context = context;

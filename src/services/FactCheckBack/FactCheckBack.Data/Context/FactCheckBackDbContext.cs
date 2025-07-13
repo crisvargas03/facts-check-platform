@@ -26,6 +26,7 @@ namespace FactCheckBack.Data.Context
         public virtual DbSet<User_plan> User_plans { get; set; }
 
         public virtual DbSet<Verdict> Verdicts { get; set; }
+        public virtual DbSet<Plan_Options> Plan_Options { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -176,6 +177,19 @@ namespace FactCheckBack.Data.Context
 
                 entity.Property(e => e.verdict_id).HasMaxLength(50);
                 entity.Property(e => e.desc_text).HasMaxLength(50);
+            });
+
+            modelBuilder.Entity<Plan_Options>(entity =>
+            {
+                entity.HasKey(e => e.plan_options_id).HasName("plan_options_pk");
+                entity.ToTable("Plan_Options");
+                entity.Property(e => e.plan_options_id).UseSerialColumn().HasColumnName("plan_options_id");
+                entity.Property(e => e.plan_id).HasMaxLength(50);
+                entity.Property(e => e.description).HasMaxLength(200);
+                entity.HasOne(d => d.Plan).WithMany(p => p.Plan_Options)
+                    .HasForeignKey(d => d.plan_id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("plan_options_plans_plans_id_fk");
             });
 
             OnModelCreatingPartial(modelBuilder);
