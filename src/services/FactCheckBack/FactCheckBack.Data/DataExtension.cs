@@ -1,7 +1,10 @@
-﻿using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using FactCheckBack.Data.Context;
+﻿using FactCheckBack.Data.Context;
+using FactCheckBack.Data.Core.Interfaces;
+using FactCheckBack.Data.Core.Repositories;
 using FactCheckBack.Data.Core.UnitOfWork;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace FactCheckBack.Data
 {
@@ -12,16 +15,17 @@ namespace FactCheckBack.Data
             services.AddDbContext<FactCheckBackDbContext>(op =>
             {
                 var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")
-                                       ?? configuration.GetConnectionString("");
-                
-                // op.UseNpgsql() for Postgres Connection
-                // op.UseSqlServer() for SQl Server Connection
+                                       ?? configuration.GetConnectionString("DefaultConnection");
+
+                op.UseNpgsql(connectionString); // for Postgres Connection
+                // op.UseSqlServer() // for SQl Server Connection
             });
         }
 
         private static void AddRepositories(this IServiceCollection services)
         {
-            // services.AddScoped<IBooksRepository, BooksRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IUserPlanRepository, UserPlanRepository>();
         }
 
         private static void AddUnitOfWork(this IServiceCollection services)

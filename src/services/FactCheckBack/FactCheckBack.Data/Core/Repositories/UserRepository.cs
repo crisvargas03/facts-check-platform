@@ -7,9 +7,10 @@ namespace FactCheckBack.Data.Core.Repositories
 {
     public class UserRepository : BaseRepository<Users>, IUserRepository
     {
-        //private readonly FactCheckBackDbContext _context;
+        private readonly FactCheckBackDbContext _context;
         public UserRepository(FactCheckBackDbContext context) : base(context)
         {
+            _context = context;
         }
         public override  async Task CreateAsync(Users entity)
         {

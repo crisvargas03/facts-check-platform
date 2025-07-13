@@ -23,7 +23,6 @@ namespace FactCheckBack.Data.Core.UnitOfWork
 
         public async Task<int> CompleteAsync() => await _context.SaveChangesAsync();
         public async Task<bool> CanConnectAsync() => await _context.Database.CanConnectAsync();
-
         public async Task<bool> ExecuteHealthCheckCommandAsync()
         {
             try
@@ -36,7 +35,6 @@ namespace FactCheckBack.Data.Core.UnitOfWork
                 return false;
             }
         }
-        
         public void Dispose() => _context.Dispose();
     }
 }
