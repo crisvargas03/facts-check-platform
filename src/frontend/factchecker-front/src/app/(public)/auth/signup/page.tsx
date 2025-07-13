@@ -5,7 +5,7 @@ import { FcGoogle } from 'react-icons/fc';
 
 export default function SignUpPage() {
 	return (
-		<div className='m-5 max-w-7xl mx-auto'>
+		<div className='m-5 max-w-7xl mx-auto p-5'>
 			<h1 className='text-4xl lg:text-5xl font-bold mb-2'>
 				Crear una cuenta
 			</h1>
@@ -68,7 +68,7 @@ export default function SignUpPage() {
 							alt='Registro Ilustración'
 							width={600}
 							height={600}
-							className='w-full h-auto object-contain rounded-2xl'
+							className='w-full h-auto object-contain rounded-2xl hidden lg:block'
 						/>
 					</div>
 				</div>

@@ -1,9 +1,9 @@
-﻿using LiteBus.Commands.Extensions.MicrosoftDependencyInjection;
+﻿using FactCheckBack.Business.Features.Heath.Command;
+using FactCheckBack.Business.Features.Plans.PricingQuery;
+using LiteBus.Commands.Extensions.MicrosoftDependencyInjection;
 using LiteBus.Messaging.Extensions.MicrosoftDependencyInjection;
 using LiteBus.Queries.Extensions.MicrosoftDependencyInjection;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using FactCheckBack.Business.Features.Heath.Command;
 
 namespace FactCheckBack.Business
 {
@@ -14,7 +14,7 @@ namespace FactCheckBack.Business
             services.AddLiteBus(l =>
             {
                 l.AddCommandModule(module => module.RegisterFromAssembly(typeof(CheckHealthCommandHandler).Assembly));
-                // l.AddQueryModule(module => module.RegisterFromAssembly(typeof().Assembly));
+                l.AddQueryModule(module => module.RegisterFromAssembly(typeof(GetPlansPricingQueryHandler).Assembly));
             });
         }
 

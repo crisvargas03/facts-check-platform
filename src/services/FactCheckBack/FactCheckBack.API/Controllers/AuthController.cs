@@ -30,9 +30,13 @@ namespace FactCheckBack.API.Controllers
         }
 
         [HttpPost("register")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> Register([FromBody] RegisterCommand registerRequest)
         {
             var result = await _commandMediator.SendAsync(registerRequest);
+            if (!result.IsSuccess)
+                return BadRequest(result);
 
             return Ok(result);
         }
