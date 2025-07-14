@@ -34,6 +34,8 @@ namespace FactCheckBack.Business.Features.Auth.Register
                 if (validation != null)
                     return validation;
 
+                var isGoogleUser = request.RegistrationMethod?.ToLower() == "google";
+
                 var userId = Guid.NewGuid().ToString();
                 var newUser = new Users
                 {
@@ -42,7 +44,7 @@ namespace FactCheckBack.Business.Features.Auth.Register
                     name = request.name,
                     created = DateTime.UtcNow,
                     user_type_id = "1",
-                    password = BCrypt.Net.BCrypt.EnhancedHashPassword(request.Password)
+                    password = isGoogleUser ? null : BCrypt.Net.BCrypt.EnhancedHashPassword(request.Password)
                 };
 
                 await _unitOfWork.Users.CreateAsync(newUser);
@@ -80,7 +82,7 @@ namespace FactCheckBack.Business.Features.Auth.Register
             if (string.IsNullOrWhiteSpace(userRegister.Email) || !userRegister.Email.Contains('@'))
                 return ApiResponse<RegisterCommandDto>.Fail("Invalid email", HttpStatusCode.BadRequest);
 
-            if (string.IsNullOrWhiteSpace(userRegister.Password) || userRegister.Password.Length < 8)
+            if (userRegister.RegistrationMethod.ToLower() == "local" & (string.IsNullOrWhiteSpace(userRegister.Password) || userRegister.Password.Length < 8))
                 return ApiResponse<RegisterCommandDto>.Fail("The password must be at least 8 characters", HttpStatusCode.BadRequest);
 
             if (string.IsNullOrWhiteSpace(userRegister.name))
