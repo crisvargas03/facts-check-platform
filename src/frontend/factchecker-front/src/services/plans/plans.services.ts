@@ -8,10 +8,6 @@ export const getPricingPlans = async (): Promise<PricingPlanResponse[]> => {
 			res.json()
 		)) as BaseServicesResponse<PricingPlanResponse[]>;
 
-		if (!respose.isSuccess) {
-			throw new Error('Failed to fetch pricing plans');
-		}
-
 		return respose.data;
 	} catch (error) {
 		console.error('Error fetching pricing plans:', error);

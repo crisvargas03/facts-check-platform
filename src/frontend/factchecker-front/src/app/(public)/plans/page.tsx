@@ -1,4 +1,6 @@
 import { getPricingPlans } from '@/services';
+import Link from 'next/link';
+import { IoCheckmarkCircle } from 'react-icons/io5';
 
 export default async function PlansPage() {
 	const plans = await getPricingPlans();
@@ -6,13 +8,25 @@ export default async function PlansPage() {
 	return (
 		<div className=' from-gray-50 via-white to-blue-50 p-8'>
 			<div className='text-center mb-16'>
-				<h1 className='text-5xl font-bold text-gray-900 mb-4'>
+				<h1 className='text-4xl font-bold text-gray-900 mb-4'>
 					Elige el plan perfecto para ti
 				</h1>
 			</div>
 
 			{/* Plans Grid */}
 			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto'>
+				{plans.length === 0 && (
+					<div className='col-span-4 text-center'>
+						<h2 className='text-2xl font-bold text-gray-900 mb-4'>
+							No hay planes disponibles
+						</h2>
+						<Link href='/'>
+							<span className='text-blue-500'>
+								Volver a la página principal
+							</span>
+						</Link>
+					</div>
+				)}
 				{plans.map((plan, index) => (
 					<div
 						key={plan.planId}
@@ -42,9 +56,9 @@ export default async function PlansPage() {
 								</span>
 							</div>
 							<div>
-								<span className='text-sm text-gray-500'>
-									$DOP{' '}
-									{(parseFloat(plan.price) * 60).toFixed(2)}
+								<span className='text-xs text-gray-500'>
+									{(parseFloat(plan.price) * 60).toFixed(2)}{' '}
+									$DOP
 								</span>
 							</div>
 						</div>
@@ -56,7 +70,7 @@ export default async function PlansPage() {
 									key={optionIndex}
 									className='flex items-start gap-3 mb-3'>
 									<div className='w-5 h-5 rounded-full bg-green-100 flex items-center justify-center mt-0.5 flex-shrink-0'>
-										<div className='w-2 h-2 bg-green-500 rounded-full'></div>
+										<IoCheckmarkCircle className='w-4 h-4 text-green-500' />
 									</div>
 									<span className='text-gray-700 text-sm'>
 										{option}
