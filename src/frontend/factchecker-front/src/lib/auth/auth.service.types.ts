@@ -13,3 +13,16 @@ export type UserCookieData = {
 	token: string;
 	user: string;
 };
+
+export type SignUpFormData = {
+	name: string;
+	lastName: string;
+	email: string;
+	password: string;
+};
+
+export type SignUpResponse = {
+	email: string;
+	token: string;
+	name: string;
+};
