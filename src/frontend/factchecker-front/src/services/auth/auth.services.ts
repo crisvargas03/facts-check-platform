@@ -1,4 +1,4 @@
-import { LoginFormData, LoginResponse } from '@/lib/auth';
+import type { LoginFormData, LoginResponse } from '@/lib/auth';
 import { BaseServicesResponse } from '@/lib/base';
 import { apiUrl } from '@/utils';
 

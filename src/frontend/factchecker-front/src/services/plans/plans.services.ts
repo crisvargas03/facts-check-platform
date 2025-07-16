@@ -1,5 +1,5 @@
 import { BaseServicesResponse } from '@/lib/base';
-import { PricingPlanResponse } from '@/lib/plans';
+import type { PricingPlanResponse } from '@/lib/plans';
 import { apiUrl } from '@/utils/app-info';
 
 export const getPricingPlans = async (): Promise<

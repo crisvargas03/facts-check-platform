@@ -5,6 +5,8 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { postLogin } from '@/services';
 import toast from 'react-hot-toast';
 import { FormInput } from '../ui';
+import { useRouter } from 'next/navigation';
+import { setCookieData } from '@/utils';
 
 type LoginInputs = {
 	email: string;
@@ -12,6 +14,7 @@ type LoginInputs = {
 };
 
 export const LoginForm = () => {
+	const router = useRouter();
 	const {
 		register,
 		handleSubmit,
@@ -22,11 +25,18 @@ export const LoginForm = () => {
 		const toastId = toast.loading('Cargando...');
 		postLogin(data).then(res => {
 			if (res?.statusCode === 200) {
-				// TODO: Guardar el token en el cookie
-				// TODO: Redirigir al dashboard
+				const user = {
+					expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
+					token: res.data?.token,
+					user: res.data?.email,
+				};
+
+				setCookieData('__user__', user);
+
 				toast.success('Inicio de sesión exitoso', {
 					id: toastId,
 				});
+				router.push('/dashboard');
 			}
 
 			if (res?.statusCode === 400) {
