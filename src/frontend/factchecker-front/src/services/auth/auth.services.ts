@@ -1,11 +1,12 @@
 import { LoginFormData, LoginResponse } from '@/lib/auth';
 import { BaseServicesResponse } from '@/lib/base';
+import { apiUrl } from '@/utils';
 
 export const postLogin = async (
 	data: LoginFormData
 ): Promise<BaseServicesResponse<LoginResponse>> => {
 	try {
-		const response = await fetch(`http://localhost:5177/api/auth/login`, {
+		const response = await fetch(`${apiUrl}/auth/login`, {
 			method: 'POST',
 			body: JSON.stringify(data),
 			headers: {

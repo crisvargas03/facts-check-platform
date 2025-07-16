@@ -2,15 +2,25 @@ import { BaseServicesResponse } from '@/lib/base';
 import { PricingPlanResponse } from '@/lib/plans';
 import { apiUrl } from '@/utils/app-info';
 
-export const getPricingPlans = async (): Promise<PricingPlanResponse[]> => {
+export const getPricingPlans = async (): Promise<
+	BaseServicesResponse<PricingPlanResponse[]>
+> => {
 	try {
-		const respose = (await fetch(`${apiUrl}/plans/pricing`).then(res =>
-			res.json()
-		)) as BaseServicesResponse<PricingPlanResponse[]>;
+		const response = await fetch(`${apiUrl}/plans/pricing`);
 
-		return respose.data;
+		const result = (await response.json()) as BaseServicesResponse<
+			PricingPlanResponse[]
+		>;
+
+		return result;
 	} catch (error) {
 		console.error('Error fetching pricing plans:', error);
-		throw error;
+		return {
+			statusCode: 500,
+			message: 'Error al obtener los planes de precios',
+			isSuccess: false,
+			errors: [error as string],
+			data: null,
+		};
 	}
 };

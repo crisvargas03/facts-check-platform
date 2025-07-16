@@ -1,7 +1,13 @@
 import { HasAccount, LoginForm } from '@/components/auth';
 import { Button, Separator } from '@/components/ui';
+import { appName } from '@/utils';
 import Image from 'next/image';
 import { FcGoogle } from 'react-icons/fc';
+
+export const metadata = {
+	title: 'Login | ' + appName,
+	description: 'Login Page - ' + appName,
+};
 
 export default function LoginPage() {
 	return (
@@ -49,6 +55,7 @@ export default function LoginPage() {
 							width={600}
 							height={600}
 							className='w-full h-auto object-contain rounded-2xl hidden lg:block'
+							priority
 						/>
 					</div>
 				</div>

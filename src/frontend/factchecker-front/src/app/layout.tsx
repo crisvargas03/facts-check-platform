@@ -9,6 +9,11 @@ const dm_sans = DM_Sans({
 
 const appName = process.env.APP_NAME;
 const appDescription = process.env.APP_DESCRIPTION;
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
+if (!appName || !appDescription || !apiUrl) {
+	throw new Error('Variables de entorno no definidas');
+}
 
 export const metadata: Metadata = {
 	title: appName,
