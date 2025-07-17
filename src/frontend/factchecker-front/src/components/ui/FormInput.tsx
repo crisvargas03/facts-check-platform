@@ -8,6 +8,7 @@ interface Props {
 	errors: FieldErrors<any>;
 	type: string;
 	name: string;
+	minLength?: number;
 	required?: boolean;
 }
 
@@ -18,15 +19,23 @@ export const FormInput = ({
 	errors,
 	type,
 	name,
+	minLength = 0,
 	required = true,
 }: Props) => {
 	const errorMessage = () => {
 		if (errors[name]?.type === 'required') return 'Este campo es requerido';
+
 		if (errors[name]?.type === 'pattern' && name === 'email')
 			return 'El correo electrónico no es válido';
+
 		if (errors[name]?.type === 'minLength' && name === 'password')
-			return 'La contraseña debe tener al menos 8 caracteres';
-		if (required) return 'Este campo es requerido';
+			return `La contraseña debe tener al menos ${minLength} caracteres`;
+
+		if (errors[name]?.type === 'minLength' && name === 'name')
+			return `El nombre debe tener al menos ${minLength} caracteres`;
+
+		if (errors[name]?.type === 'minLength' && name === 'lastName')
+			return `El apellido debe tener al menos ${minLength} caracteres`;
 	};
 
 	return (
@@ -42,8 +51,9 @@ export const FormInput = ({
 					required={required}
 					{...register(name, {
 						required: required,
+						minLength: minLength,
 						pattern:
-							type === 'email'
+							name === 'email'
 								? /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 								: undefined,
 					})}

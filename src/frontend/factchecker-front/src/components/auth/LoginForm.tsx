@@ -65,7 +65,6 @@ export const LoginForm = () => {
 				errors={errors}
 				type='text'
 				name='email'
-				required={true}
 			/>
 			<FormInput
 				labelText='Contraseña'
@@ -74,7 +73,7 @@ export const LoginForm = () => {
 				errors={errors}
 				type='password'
 				name='password'
-				required={true}
+				minLength={10}
 			/>
 			<Button text='Iniciar Sesión' type='submit' />
 		</form>

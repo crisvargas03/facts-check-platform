@@ -69,6 +69,7 @@ export const SignUpForm = () => {
 				type='text'
 				name='name'
 				required={true}
+				minLength={2}
 			/>
 			<FormInput
 				labelText='Apellido'
@@ -78,6 +79,7 @@ export const SignUpForm = () => {
 				type='text'
 				name='lastName'
 				required={true}
+				minLength={2}
 			/>
 			<FormInput
 				labelText='Correo Electrónico'
@@ -96,6 +98,7 @@ export const SignUpForm = () => {
 				type='password'
 				name='password'
 				required={true}
+				minLength={10}
 			/>
 
 			<PolicyCheckbox />
