@@ -1,7 +1,13 @@
-import { HasAccount } from '@/components/auth';
-import { Button, FormInput, Separator } from '@/components/ui';
+import { HasAccount, LoginForm } from '@/components/auth';
+import { Button, Separator } from '@/components/ui';
+import { appName } from '@/utils';
 import Image from 'next/image';
 import { FcGoogle } from 'react-icons/fc';
+
+export const metadata = {
+	title: 'Login | ' + appName,
+	description: 'Login Page - ' + appName,
+};
 
 export default function LoginPage() {
 	return (
@@ -15,18 +21,7 @@ export default function LoginPage() {
 
 			<div className='flex flex-col lg:flex-row gap-8 mt-8'>
 				<div className='w-full lg:w-1/2'>
-					<form className='flex flex-col gap-4'>
-						<FormInput
-							labelText='Correo Electrónico'
-							placeholder='Ingresa tu correo electrónico'
-						/>
-						<FormInput
-							labelText='Contraseña'
-							placeholder='Ingresa tu contraseña'
-						/>
-
-						<Button text='Iniciar Sesión' />
-					</form>
+					<LoginForm />
 				</div>
 
 				<div className='w-full lg:w-1/2 flex flex-col items-center'>
@@ -60,6 +55,7 @@ export default function LoginPage() {
 							width={600}
 							height={600}
 							className='w-full h-auto object-contain rounded-2xl hidden lg:block'
+							priority
 						/>
 					</div>
 				</div>

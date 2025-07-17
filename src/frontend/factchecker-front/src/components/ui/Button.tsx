@@ -5,6 +5,7 @@ interface Props {
 
 	disabled?: boolean;
 	icon?: React.ReactNode;
+	onClick?: () => void;
 }
 
 interface Colors {
@@ -21,6 +22,7 @@ export const Button = ({
 	color = 'primary',
 	disabled = false,
 	icon = null,
+	onClick,
 }: Props) => {
 	const colors: Colors = {
 		primary: {
@@ -48,6 +50,7 @@ export const Button = ({
 
 	return (
 		<button
+			onClick={onClick}
 			type={type}
 			className={`w-full ${bgColor} ${textColor} p-2 rounded ${hoverColor} transition duration-200`}
 			disabled={disabled}>

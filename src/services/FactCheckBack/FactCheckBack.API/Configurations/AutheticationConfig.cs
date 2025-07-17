@@ -67,11 +67,20 @@ namespace FactCheckBack.API.Configurations
             });
         }
 
+        private static void AddMyCors(this IServiceCollection services)
+        {
+            services.AddCors(p => p.AddPolicy("cors", builder =>
+            {
+                builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+            }));
+        }
+
         public static void AddAuthenticationConfiguration(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddAuthenticationConfig(configuration);
             services.AddSwaggerBearerConfig();
             services.Configure<JwtConfiguration>(configuration.GetSection("Jwt"));
+            services.AddMyCors();
         }
 
     }

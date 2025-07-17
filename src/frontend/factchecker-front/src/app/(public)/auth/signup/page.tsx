@@ -1,5 +1,5 @@
-import { HasAccount, PolicyCheckbox } from '@/components/auth';
-import { Button, FormInput, Separator } from '@/components/ui';
+import { HasAccount, SignUpForm } from '@/components/auth';
+import { Button, Separator } from '@/components/ui';
 import Image from 'next/image';
 import { FcGoogle } from 'react-icons/fc';
 
@@ -15,28 +15,7 @@ export default function SignUpPage() {
 
 			<div className='flex flex-col lg:flex-row gap-8 mt-8'>
 				<div className='w-full lg:w-1/2'>
-					<form className='flex flex-col gap-4'>
-						<FormInput
-							labelText='Nombre'
-							placeholder='Ingresa tu nombre'
-						/>
-						<FormInput
-							labelText='Apellido'
-							placeholder='Ingresa tu apellido'
-						/>
-						<FormInput
-							labelText='Correo Electrónico'
-							placeholder='Ingresa tu correo electrónico'
-						/>
-						<FormInput
-							labelText='Contraseña'
-							placeholder='Ingresa tu contraseña'
-						/>
-
-						<PolicyCheckbox />
-
-						<Button text='Crear Cuenta' />
-					</form>
+					<SignUpForm />
 				</div>
 				<div className='w-full lg:w-1/2 flex flex-col items-center'>
 					<div className='flex flex-col w-full max-w-sm gap-4 mt-4'>
