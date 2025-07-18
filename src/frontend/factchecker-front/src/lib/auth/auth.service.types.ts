@@ -1,6 +1,7 @@
 export type LoginFormData = {
 	email: string;
 	password: string;
+	loginMethod: string;
 };
 
 export type LoginResponse = {

@@ -1,8 +1,8 @@
 import { HasAccount, LoginForm } from '@/components/auth';
-import { Button, Separator } from '@/components/ui';
+import { GoogleLogInButton } from '@/components/auth/GoogleProvider';
+import { Separator } from '@/components/ui';
 import { appName } from '@/utils';
 import Image from 'next/image';
-import { FcGoogle } from 'react-icons/fc';
 
 export const metadata = {
 	title: 'Login | ' + appName,
@@ -28,16 +28,7 @@ export default function LoginPage() {
 					<div className='flex flex-col w-full max-w-sm gap-4 mt-4'>
 						<Separator text='Continuar con' />
 
-						<Button
-							text='Iniciar con Google'
-							color='secondary'
-							icon={
-								<FcGoogle
-									size={20}
-									className='inline-block ml-2'
-								/>
-							}
-						/>
+						<GoogleLogInButton />
 					</div>
 
 					<div className='mt-6'>

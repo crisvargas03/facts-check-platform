@@ -1,5 +1,5 @@
 import { HasAccount, SignUpForm } from '@/components/auth';
-import { GoogleSignUpButton } from '@/components/auth/GoogleSignUpButton';
+import { GoogleSignUpButton } from '@/components/auth/GoogleProvider';
 import { Separator } from '@/components/ui';
 import Image from 'next/image';
 
