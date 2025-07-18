@@ -15,10 +15,10 @@ export type UserCookieData = {
 };
 
 export type SignUpFormData = {
-	name: string;
-	lastName: string;
+	fullName: string;
 	email: string;
 	password: string;
+	registrationMethod: string;
 };
 
 export type SignUpResponse = {

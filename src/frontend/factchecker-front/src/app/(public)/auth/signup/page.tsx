@@ -1,7 +1,7 @@
 import { HasAccount, SignUpForm } from '@/components/auth';
-import { Button, Separator } from '@/components/ui';
+import { GoogleSignUpButton } from '@/components/auth/GoogleSignUpButton';
+import { Separator } from '@/components/ui';
 import Image from 'next/image';
-import { FcGoogle } from 'react-icons/fc';
 
 export default function SignUpPage() {
 	return (
@@ -21,16 +21,7 @@ export default function SignUpPage() {
 					<div className='flex flex-col w-full max-w-sm gap-4 mt-4'>
 						<Separator text='Continuar con' />
 
-						<Button
-							text='Registrarse con Google'
-							color='secondary'
-							icon={
-								<FcGoogle
-									size={20}
-									className='inline-block ml-2'
-								/>
-							}
-						/>
+						<GoogleSignUpButton />
 					</div>
 
 					<div className='mt-6'>
