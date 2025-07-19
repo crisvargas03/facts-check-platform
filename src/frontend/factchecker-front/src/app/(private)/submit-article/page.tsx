@@ -10,6 +10,7 @@ export default function AnalyzarArticulo() {
   });
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [result, setResult] = useState<number | null>(null);
+  const [analysisDetails, setAnalysisDetails] = useState<any>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
@@ -19,6 +20,34 @@ export default function AnalyzarArticulo() {
     }));
   };
 
+  const generateAnalysisDetails = (percentage: number) => {
+    const factors = [
+      { name: "Fuente Confiable", score: Math.floor(Math.random() * 30) + 60, description: "Evaluación de la reputación y confiabilidad de la fuente" },
+      { name: "Evidencia Científica", score: Math.floor(Math.random() * 30) + 60, description: "Presencia de datos, estudios o referencias científicas" },
+      { name: "Citas y Referencias", score: Math.floor(Math.random() * 30) + 60, description: "Calidad y cantidad de citas y referencias incluidas" },
+      { name: "Lenguaje Objetivo", score: Math.floor(Math.random() * 30) + 60, description: "Uso de lenguaje neutral y factual vs. emocional" },
+      { name: "Contexto y Limitaciones", score: Math.floor(Math.random() * 30) + 60, description: "Inclusión de contexto y reconocimiento de limitaciones" }
+    ];
+
+    const summaries = [
+      "Este artículo presenta información con un buen nivel de credibilidad. La fuente es confiable y el contenido incluye elementos válidos, aunque podría beneficiarse de más detalles sobre la metodología.",
+      "El análisis muestra credibilidad moderada. Se identifican elementos positivos pero también áreas de mejora en términos de evidencia y contexto.",
+      "El artículo tiene credibilidad cuestionable. Se recomienda verificar la información con fuentes adicionales antes de considerarla completamente confiable.",
+      "Este contenido presenta baja credibilidad. Se sugiere buscar información en fuentes más confiables y verificar los datos presentados."
+    ];
+
+    let summaryIndex = 0;
+    if (percentage >= 80) summaryIndex = 0;
+    else if (percentage >= 60) summaryIndex = 1;
+    else if (percentage >= 40) summaryIndex = 2;
+    else summaryIndex = 3;
+
+    return {
+      factors,
+      summary: summaries[summaryIndex]
+    };
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsAnalyzing(true);
@@ -26,7 +55,9 @@ export default function AnalyzarArticulo() {
     // Simulate analysis
     setTimeout(() => {
       const randomPercentage = Math.floor(Math.random() * 100) + 1;
+      const details = generateAnalysisDetails(randomPercentage);
       setResult(randomPercentage);
+      setAnalysisDetails(details);
       setIsAnalyzing(false);
     }, 3000);
   };
@@ -171,6 +202,9 @@ export default function AnalyzarArticulo() {
                 animation: 'spin 1s linear infinite'
               }}></div>
               <p style={{ marginTop: '16px', color: '#6b7280' }}>Analizando el artículo, por favor espera...</p>
+              <p style={{ fontSize: '14px', color: '#9ca3af', marginTop: '8px' }}>
+                Evaluando credibilidad, verificando fuentes, analizando contenido...
+              </p>
               <style jsx>{`
                 @keyframes spin {
                   0% { transform: rotate(0deg); }
@@ -181,10 +215,12 @@ export default function AnalyzarArticulo() {
           )}
 
           {/* Result */}
-          {result !== null && !isAnalyzing && (
+          {result !== null && !isAnalyzing && analysisDetails && (
             <div style={{ marginTop: '32px', padding: '24px', borderRadius: '8px', border: '2px solid #3b82f6', backgroundColor: '#dbeafe' }}>
               <h3 style={{ fontSize: '20px', fontWeight: 'bold', color: '#000000', marginBottom: '16px' }}>Resultado del Análisis</h3>
-              <div style={{ textAlign: 'center' }}>
+              
+              {/* Overall Score */}
+              <div style={{ textAlign: 'center', marginBottom: '24px' }}>
                 <div style={{ 
                   display: 'inline-block', 
                   padding: '12px 24px', 
@@ -201,42 +237,80 @@ export default function AnalyzarArticulo() {
                   {result >= 40 && result < 60 && 'El artículo tiene credibilidad cuestionable'}
                   {result < 40 && 'El artículo tiene baja credibilidad'}
                 </p>
-                <div style={{ marginTop: '24px', display: 'flex', justifyContent: 'center', gap: '16px' }}>
-                  <button
-                    onClick={() => {
-                      setResult(null);
-                      setFormData({ titulo: '', contenido: '', url: '' });
-                    }}
-                    style={{ 
-                      backgroundColor: '#6b7280', 
-                      color: 'white', 
-                      padding: '8px 24px', 
-                      borderRadius: '8px', 
-                      border: 'none',
-                      cursor: 'pointer',
-                      transition: 'background-color 0.2s'
-                    }}
-                    onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#4b5563'}
-                    onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#6b7280'}
-                  >
-                    Analizar Otro
-                  </button>
-                  <a
-                    href="/historial"
-                    style={{ 
-                      backgroundColor: '#2563eb', 
-                      color: 'white', 
-                      padding: '8px 24px', 
-                      borderRadius: '8px', 
-                      textDecoration: 'none',
-                      transition: 'background-color 0.2s'
-                    }}
-                    onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#1d4ed8'}
-                    onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#2563eb'}
-                  >
-                    Ver Historial
-                  </a>
+              </div>
+
+              {/* Factors */}
+              <div style={{ marginBottom: '24px' }}>
+                <h4 style={{ fontSize: '16px', fontWeight: '600', color: '#000000', marginBottom: '12px' }}>Factores Evaluados</h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                  {analysisDetails.factors.map((factor: any, index: number) => (
+                    <div key={index} style={{ borderLeft: '4px solid #3b82f6', paddingLeft: '16px' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+                        <span style={{ fontWeight: '500', color: '#374151' }}>{factor.name}</span>
+                        <span style={{ fontSize: '14px', fontWeight: '600', color: '#3b82f6' }}>{factor.score}%</span>
+                      </div>
+                      <div style={{ width: '100%', backgroundColor: '#e5e7eb', borderRadius: '4px', height: '8px', marginBottom: '8px' }}>
+                        <div 
+                          style={{ 
+                            backgroundColor: '#3b82f6', 
+                            height: '8px', 
+                            borderRadius: '4px', 
+                            transition: 'width 1s ease-in-out',
+                            width: `${factor.score}%` 
+                          }}
+                        ></div>
+                      </div>
+                      <p style={{ fontSize: '14px', color: '#6b7280' }}>{factor.description}</p>
+                    </div>
+                  ))}
                 </div>
+              </div>
+
+              {/* Summary */}
+              <div style={{ backgroundColor: '#eff6ff', padding: '16px', borderRadius: '8px', marginBottom: '24px' }}>
+                <h4 style={{ fontSize: '16px', fontWeight: '600', color: '#000000', marginBottom: '8px' }}>Resumen del Análisis</h4>
+                <p style={{ fontSize: '14px', color: '#374151', lineHeight: '1.6' }}>
+                  {analysisDetails.summary}
+                </p>
+              </div>
+
+              {/* Action Buttons */}
+              <div style={{ display: 'flex', justifyContent: 'center', gap: '16px' }}>
+                <button
+                  onClick={() => {
+                    setResult(null);
+                    setAnalysisDetails(null);
+                    setFormData({ titulo: '', contenido: '', url: '' });
+                  }}
+                  style={{ 
+                    backgroundColor: '#6b7280', 
+                    color: 'white', 
+                    padding: '8px 24px', 
+                    borderRadius: '8px', 
+                    border: 'none',
+                    cursor: 'pointer',
+                    transition: 'background-color 0.2s'
+                  }}
+                  onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#4b5563'}
+                  onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#6b7280'}
+                >
+                  Analizar Otro
+                </button>
+                <a
+                  href="/history-results"
+                  style={{ 
+                    backgroundColor: '#2563eb', 
+                    color: 'white', 
+                    padding: '8px 24px', 
+                    borderRadius: '8px', 
+                    textDecoration: 'none',
+                    transition: 'background-color 0.2s'
+                  }}
+                  onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#1d4ed8'}
+                  onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#2563eb'}
+                >
+                  Ver Historial
+                </a>
               </div>
             </div>
           )}
