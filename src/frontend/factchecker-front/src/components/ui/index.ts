@@ -3,3 +3,8 @@ export { FormInput } from './FormInput';
 export { Footer } from './Footer';
 export { CustomNavbar } from './CustomNavbar';
 export { Separator } from './Separator';
+export { DataTable } from './DataTable';
+export { Modal } from './Modal';
+export { ProgressBar } from './ProgressBar';
+export { Badge } from './Badge';
+export { EyeIcon } from './EyeIcon';
