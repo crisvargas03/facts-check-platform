@@ -55,35 +55,35 @@ export default function DemoPage() {
 	};
 
 	return (
-		<div className="min-h-screen bg-gray-50 py-8 px-4">
-			<div className="max-w-6xl mx-auto">
+		<div style={{ backgroundColor: 'white', padding: '40px 20px' }}>
+			<div style={{ maxWidth: '1200px', margin: '0 auto' }}>
 				{/* Header */}
-				<div className="text-center mb-12">
-					<h1 className="text-4xl font-bold text-gray-900 mb-4">
+				<div style={{ textAlign: 'center', marginBottom: '48px' }}>
+					<h1 style={{ fontSize: '32px', fontWeight: 'bold', color: '#1f2937', marginBottom: '16px' }}>
 						Demo: Análisis de Veracidad
 					</h1>
-					<p className="text-xl text-gray-600 max-w-3xl mx-auto">
+					<p style={{ fontSize: '18px', color: '#6b7280', maxWidth: '800px', margin: '0 auto' }}>
 						Ve cómo funciona ChequeaEsoRD analizando un artículo de ejemplo. 
 						Esta es una demostración de nuestra tecnología de IA.
 					</p>
 				</div>
 
 				{/* Demo Container */}
-				<div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+				<div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px', marginBottom: '48px' }}>
 					{/* Article Section */}
-					<div className="bg-white rounded-lg shadow-md p-6">
-						<h2 className="text-2xl font-semibold text-gray-900 mb-4">
+					<div style={{ backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 8px 16px rgba(0,0,0,0.15)', padding: '24px' }}>
+						<h2 style={{ fontSize: '24px', fontWeight: '600', color: '#1f2937', marginBottom: '16px' }}>
 							Artículo de Ejemplo
 						</h2>
-						<div className="space-y-4">
-							<h3 className="text-lg font-medium text-gray-800">
+						<div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+							<h3 style={{ fontSize: '18px', fontWeight: '500', color: '#374151' }}>
 								{sampleArticle.title}
 							</h3>
-							<p className="text-gray-600 text-sm">
+							<p style={{ color: '#6b7280', fontSize: '14px' }}>
 								Fuente: {sampleArticle.source}
 							</p>
-							<div className="bg-gray-50 p-4 rounded-md">
-								<p className="text-gray-700 leading-relaxed whitespace-pre-line">
+							<div style={{ backgroundColor: '#f9fafb', padding: '16px', borderRadius: '8px' }}>
+								<p style={{ color: '#374151', lineHeight: '1.6', whiteSpace: 'pre-line' }}>
 									{sampleArticle.content}
 								</p>
 							</div>
@@ -91,19 +91,31 @@ export default function DemoPage() {
 					</div>
 
 					{/* Analysis Section */}
-					<div className="bg-white rounded-lg shadow-md p-6">
-						<h2 className="text-2xl font-semibold text-gray-900 mb-4">
+					<div style={{ backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 8px 16px rgba(0,0,0,0.15)', padding: '24px' }}>
+						<h2 style={{ fontSize: '24px', fontWeight: '600', color: '#1f2937', marginBottom: '16px' }}>
 							Análisis de Veracidad
 						</h2>
 						
 						{!showResults && !isAnalyzing && (
-							<div className="text-center py-8">
-								<p className="text-gray-600 mb-6">
+							<div style={{ textAlign: 'center', padding: '32px 0' }}>
+								<p style={{ color: '#6b7280', marginBottom: '24px' }}>
 									Haz clic en el botón para analizar este artículo con nuestra IA
 								</p>
 								<button
 									onClick={handleAnalyze}
-									className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+									style={{
+										backgroundColor: '#2563eb',
+										color: 'white',
+										padding: '12px 32px',
+										borderRadius: '8px',
+										border: 'none',
+										fontSize: '16px',
+										fontWeight: '600',
+										cursor: 'pointer',
+										transition: 'background-color 0.2s'
+									}}
+									onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#1d4ed8'}
+									onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#2563eb'}
 								>
 									Analizar Artículo
 								</button>
@@ -111,26 +123,48 @@ export default function DemoPage() {
 						)}
 
 						{isAnalyzing && (
-							<div className="text-center py-8">
-								<div className="inline-block w-8 h-8 border-3 border-gray-200 border-t-blue-600 rounded-full animate-spin mb-4"></div>
-								<p className="text-gray-600">Analizando artículo, por favor espera...</p>
-								<p className="text-sm text-gray-500 mt-2">
+							<div style={{ textAlign: 'center', padding: '32px 0' }}>
+								<div style={{ 
+									display: 'inline-block', 
+									width: '32px', 
+									height: '32px', 
+									border: '3px solid #e5e7eb',
+									borderTop: '3px solid #2563eb',
+									borderRadius: '50%',
+									animation: 'spin 1s linear infinite',
+									marginBottom: '16px'
+								}}></div>
+								<p style={{ color: '#6b7280' }}>Analizando artículo, por favor espera...</p>
+								<p style={{ fontSize: '14px', color: '#9ca3af', marginTop: '8px' }}>
 									Evaluando credibilidad, verificando fuentes, analizando contenido...
 								</p>
+								<style jsx>{`
+									@keyframes spin {
+										0% { transform: rotate(0deg); }
+										100% { transform: rotate(360deg); }
+									}
+								`}</style>
 							</div>
 						)}
 
 						{showResults && (
-							<div className="space-y-6">
+							<div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
 								{/* Overall Score - Adaptado del estilo de analizar artículo */}
-								<div className="text-center">
+								<div style={{ textAlign: 'center' }}>
 									<div 
-										className="inline-block px-6 py-3 rounded-lg text-2xl font-bold mb-4"
-										style={getResultColor(analysisResults.credibilityScore)}
+										style={{
+											display: 'inline-block',
+											padding: '12px 24px',
+											borderRadius: '8px',
+											fontSize: '24px',
+											fontWeight: 'bold',
+											marginBottom: '16px',
+											...getResultColor(analysisResults.credibilityScore)
+										}}
 									>
 										{analysisResults.credibilityScore}% de Veracidad
 									</div>
-									<p className="text-gray-600">
+									<p style={{ color: '#6b7280' }}>
 										{analysisResults.credibilityScore >= 80 && 'El artículo tiene alta credibilidad'}
 										{analysisResults.credibilityScore >= 60 && analysisResults.credibilityScore < 80 && 'El artículo tiene credibilidad moderada'}
 										{analysisResults.credibilityScore >= 40 && analysisResults.credibilityScore < 60 && 'El artículo tiene credibilidad cuestionable'}
@@ -140,30 +174,35 @@ export default function DemoPage() {
 
 								{/* Factors */}
 								<div>
-									<h4 className="font-semibold text-gray-900 mb-3">Factores Evaluados</h4>
-									<div className="space-y-3">
+									<h4 style={{ fontSize: '16px', fontWeight: '600', color: '#000000', marginBottom: '12px' }}>Factores Evaluados</h4>
+									<div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
 										{analysisResults.factors.map((factor, index) => (
-											<div key={index} className="border-l-4 border-blue-500 pl-4">
-												<div className="flex justify-between items-center mb-1">
-													<span className="font-medium text-gray-800">{factor.name}</span>
-													<span className="text-sm font-semibold text-blue-600">{factor.score}%</span>
+											<div key={index} style={{ borderLeft: '4px solid #3b82f6', paddingLeft: '16px' }}>
+												<div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '4px' }}>
+													<span style={{ fontWeight: '500', color: '#374151' }}>{factor.name}</span>
+													<span style={{ fontSize: '14px', fontWeight: '600', color: '#3b82f6' }}>{factor.score}%</span>
 												</div>
-												<div className="w-full bg-gray-200 rounded-full h-2 mb-2">
+												<div style={{ width: '100%', backgroundColor: '#e5e7eb', borderRadius: '4px', height: '8px', marginBottom: '8px' }}>
 													<div 
-														className="bg-blue-500 h-2 rounded-full transition-all duration-1000"
-														style={{ width: `${factor.score}%` }}
+														style={{ 
+															backgroundColor: '#3b82f6', 
+															height: '8px', 
+															borderRadius: '4px', 
+															transition: 'width 1s ease-in-out',
+															width: `${factor.score}%` 
+														}}
 													></div>
 												</div>
-												<p className="text-sm text-gray-600">{factor.description}</p>
+												<p style={{ fontSize: '14px', color: '#6b7280' }}>{factor.description}</p>
 											</div>
 										))}
 									</div>
 								</div>
 
 								{/* Summary */}
-								<div className="bg-blue-50 p-4 rounded-lg">
-									<h4 className="font-semibold text-gray-900 mb-2">Resumen del Análisis</h4>
-									<p className="text-gray-700 text-sm leading-relaxed">
+								<div style={{ backgroundColor: '#eff6ff', padding: '16px', borderRadius: '8px' }}>
+									<h4 style={{ fontSize: '16px', fontWeight: '600', color: '#000000', marginBottom: '8px' }}>Resumen del Análisis</h4>
+									<p style={{ fontSize: '14px', color: '#374151', lineHeight: '1.6' }}>
 										{analysisResults.summary}
 									</p>
 								</div>
@@ -174,24 +213,46 @@ export default function DemoPage() {
 
 				{/* Call to Action - Adaptado del estilo de analizar artículo */}
 				{showResults && (
-					<div className="text-center mt-12 bg-white rounded-lg shadow-md p-8">
-						<h3 className="text-2xl font-bold text-gray-900 mb-4">
+					<div style={{ textAlign: 'center', marginTop: '48px', backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 8px 16px rgba(0,0,0,0.15)', padding: '32px' }}>
+						<h3 style={{ fontSize: '24px', fontWeight: 'bold', color: '#000000', marginBottom: '16px' }}>
 							¿Te gustó lo que viste?
 						</h3>
-						<p className="text-gray-600 mb-6 max-w-2xl mx-auto">
+						<p style={{ color: '#6b7280', marginBottom: '24px', maxWidth: '600px', margin: '0 auto 24px auto' }}>
 							Esta es solo una demostración. Con ChequeaEsoRD puedes analizar cualquier artículo 
 							y obtener resultados detallados de veracidad en tiempo real.
 						</p>
-						<div className="flex justify-center gap-4 flex-wrap">
+						<div style={{ display: 'flex', justifyContent: 'center', gap: '16px', flexWrap: 'wrap' }}>
 							<Link
 								href="/auth/signup"
-								className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-semibold transition-colors"
+								style={{
+									backgroundColor: '#2563eb',
+									color: 'white',
+									padding: '12px 32px',
+									borderRadius: '8px',
+									textDecoration: 'none',
+									fontSize: '16px',
+									fontWeight: '600',
+									transition: 'background-color 0.2s'
+								}}
+								onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#1d4ed8'}
+								onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#2563eb'}
 							>
 								Comenzar Gratis
 							</Link>
 							<Link
 								href="/plans"
-								className="border-2 border-blue-600 text-blue-600 hover:bg-blue-50 px-8 py-3 rounded-lg font-semibold transition-colors"
+								style={{
+									border: '2px solid #2563eb',
+									color: '#2563eb',
+									padding: '12px 32px',
+									borderRadius: '8px',
+									textDecoration: 'none',
+									fontSize: '16px',
+									fontWeight: '600',
+									transition: 'background-color 0.2s'
+								}}
+								onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#eff6ff'}
+								onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
 							>
 								Ver Planes
 							</Link>
@@ -200,10 +261,17 @@ export default function DemoPage() {
 				)}
 
 				{/* Back to Home */}
-				<div className="text-center mt-8">
+				<div style={{ textAlign: 'center', marginTop: '32px' }}>
 					<Link
 						href="/home"
-						className="text-blue-600 hover:text-blue-700 font-medium"
+						style={{
+							color: '#2563eb',
+							fontWeight: '500',
+							textDecoration: 'none',
+							transition: 'color 0.2s'
+						}}
+						onMouseOver={(e) => e.currentTarget.style.color = '#1d4ed8'}
+						onMouseOut={(e) => e.currentTarget.style.color = '#2563eb'}
 					>
 						← Volver al inicio
 					</Link>
