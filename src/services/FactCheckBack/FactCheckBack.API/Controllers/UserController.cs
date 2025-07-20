@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace FactCheckBack.API.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/users")]
     [ApiController]
     [Authorize]
     public class UserController : ControllerBase
