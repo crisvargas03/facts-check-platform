@@ -16,7 +16,7 @@ export const CustomNavbar = ({ linksOptions, appName }: Props) => {
 	const user = getCookieData('__user__') as UserCookieData;
 
 	return (
-		<nav className='bg-white shadow w-full px-6 py-2'>
+		<nav className='bg-white shadow w-full px-6 py-2' style={{ borderBottom: '1px solid rgba(0, 0, 0, 0.1)' }}>
 			<div className='flex items-center justify-between'>
 				<Link
 					href='/home'

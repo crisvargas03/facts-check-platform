@@ -70,9 +70,9 @@ export default function AnalyzarArticulo() {
   };
 
   return (
-    <div style={{ backgroundColor: 'white', padding: '40px 20px' }}>
+    <div style={{ padding: '40px 20px' }}>
       <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
-        <div style={{ backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 8px 16px rgba(0,0,0,0.15)', padding: '40px' }}>
+        <div style={{ backgroundColor: 'white', borderRadius: '12px', boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.15), 0 10px 20px -5px rgba(0, 0, 0, 0.1), 0 4px 8px -2px rgba(0, 0, 0, 0.08)', border: '1px solid rgba(0, 0, 0, 0.05)', padding: '40px' }}>
           <h1 style={{ fontSize: '32px', fontWeight: 'bold', color: '#000000', marginBottom: '32px' }}>Analizar Nuevo Artículo</h1>
           
           <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>

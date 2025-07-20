@@ -49,7 +49,7 @@ export default function Home() {
   
 		  {/* Features */}
 		  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '32px' }}>
-			<div style={{ backgroundColor: 'white', padding: '32px', borderRadius: '12px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+			<div style={{ backgroundColor: 'white', padding: '32px', borderRadius: '12px', boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.15), 0 10px 20px -5px rgba(0, 0, 0, 0.1), 0 4px 8px -2px rgba(0, 0, 0, 0.08)', border: '1px solid rgba(0, 0, 0, 0.05)' }}>
 			  <div style={{ 
 				width: '64px', 
 				height: '64px', 
@@ -68,7 +68,7 @@ export default function Home() {
 			  </p>
 			</div>
 			
-			<div style={{ backgroundColor: 'white', padding: '32px', borderRadius: '12px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+			<div style={{ backgroundColor: 'white', padding: '32px', borderRadius: '12px', boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.15), 0 10px 20px -5px rgba(0, 0, 0, 0.1), 0 4px 8px -2px rgba(0, 0, 0, 0.08)', border: '1px solid rgba(0, 0, 0, 0.05)' }}>
 			  <div style={{ 
 				width: '64px', 
 				height: '64px', 
@@ -87,7 +87,7 @@ export default function Home() {
 			  </p>
 			</div>
 			
-			<div style={{ backgroundColor: 'white', padding: '32px', borderRadius: '12px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+			<div style={{ backgroundColor: 'white', padding: '32px', borderRadius: '12px', boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.15), 0 10px 20px -5px rgba(0, 0, 0, 0.1), 0 4px 8px -2px rgba(0, 0, 0, 0.08)', border: '1px solid rgba(0, 0, 0, 0.05)' }}>
 			  <div style={{ 
 				width: '64px', 
 				height: '64px', 
@@ -108,7 +108,7 @@ export default function Home() {
 		  </div>
 
 		  {/* Demo Preview Section */}
-		  <div style={{ textAlign: 'center', marginTop: '80px', padding: '60px 20px', backgroundColor: 'white', borderRadius: '16px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+		  <div style={{ textAlign: 'center', marginTop: '80px', padding: '60px 20px', backgroundColor: 'white', borderRadius: '16px', boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.15), 0 10px 20px -5px rgba(0, 0, 0, 0.1), 0 4px 8px -2px rgba(0, 0, 0, 0.08)', border: '1px solid rgba(0, 0, 0, 0.05)' }}>
 			<h2 style={{ fontSize: '36px', fontWeight: 'bold', color: '#000000', marginBottom: '16px' }}>
 			  ¿Quieres probar?
 			</h2>

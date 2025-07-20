@@ -65,8 +65,8 @@ export default function Dashboard() {
   };
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f8fafc', padding: '40px 20px' }}>
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+    <div style={{ padding: '40px 20px', minHeight: '100vh' }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', width: '100%' }}>
         {/* Title */}
         <h1 style={{ fontSize: '48px', fontWeight: 'bold', color: '#000000', textAlign: 'center', marginBottom: '32px' }}>DashBoard</h1>
 
@@ -136,7 +136,12 @@ export default function Dashboard() {
         </div>
 
         {/* Chart and Analysis Section */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', gap: '32px', marginBottom: '48px' }}>
+        <div style={{ 
+          display: 'grid', 
+          gridTemplateColumns: 'repeat(auto-fit, minmax(500px, 1fr))', 
+          gap: '32px', 
+          marginBottom: '48px' 
+        }}>
           {/* Chart */}
           <BarChart
             data={[
@@ -153,6 +158,13 @@ export default function Dashboard() {
 
           {/* Recent Analysis */}
           <DataTable
+            columns={[
+              { key: 'index', label: '#', align: 'left', width: '40px' },
+              { key: 'name', label: 'Nombre', sortable: true },
+              { key: 'credibility', label: 'Credibilidad', sortable: true, align: 'center' },
+              { key: 'percentage', label: 'Porcentaje', sortable: true, align: 'center', width: '80px' },
+              { key: 'date', label: 'Fecha', sortable: true, align: 'center', width: '100px' }
+            ]}
             data={filteredData}
             title="Análisis Recientes"
             viewDetailLink="/history-results"

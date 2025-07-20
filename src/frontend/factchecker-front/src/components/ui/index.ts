@@ -7,7 +7,7 @@ export { default as StatCard } from './StatCard';
 export { default as BarChart } from './BarChart';
 export { default as DataTable } from './DataTable';
 export { default as FilterModal } from './FilterModal';
-export { default as ProgressBar } from './ProgressBar';
+export { ProgressBar } from './ProgressBar';
 export { default as Badge } from './Badge';
 export { Modal } from './Modal';
 export { EyeIcon } from './EyeIcon';

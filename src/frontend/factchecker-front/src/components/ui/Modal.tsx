@@ -32,7 +32,8 @@ export const Modal = ({ isOpen, onClose, title, children, maxWidth = '800px' }: 
         width: '100%',
         maxHeight: '90vh',
         overflow: 'auto',
-        position: 'relative'
+        position: 'relative',
+        boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25), 0 10px 20px -5px rgba(0, 0, 0, 0.1), 0 4px 6px -1px rgba(0, 0, 0, 0.1)'
       }}>
         {/* Header del Modal */}
         <div style={{

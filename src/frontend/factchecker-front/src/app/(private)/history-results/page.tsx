@@ -136,7 +136,7 @@ export default function HistorialResultados() {
   };
 
   return (
-    <div style={{ backgroundColor: 'white', padding: '40px 40px 1px 40px' }}>
+    <div style={{ padding: '40px 40px 1px 40px' }}>
       <h1 style={{ fontSize: '32px', fontWeight: 'bold', color: '#1f2937', marginBottom: '40px' }}>
         Historial de Resultados
       </h1>
@@ -150,7 +150,7 @@ export default function HistorialResultados() {
 
       {/* Empty State */}
       {historialData.length === 0 && (
-        <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '48px', textAlign: 'center', width: '100%' }}>
+        <div style={{ backgroundColor: 'white', borderRadius: '12px', padding: '48px', textAlign: 'center', width: '100%', boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.15), 0 10px 20px -5px rgba(0, 0, 0, 0.1), 0 4px 8px -2px rgba(0, 0, 0, 0.08)', border: '1px solid rgba(0, 0, 0, 0.05)' }}>
           <div style={{ fontSize: '64px', color: '#9ca3af', marginBottom: '16px' }}>📊</div>
           <h3 style={{ fontSize: '20px', fontWeight: '600', color: '#000000', marginBottom: '8px' }}>No hay resultados</h3>
           <p style={{ color: '#6b7280', marginBottom: '24px' }}>Aún no has analizado ningún artículo.</p>

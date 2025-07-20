@@ -7,12 +7,12 @@ interface Props {
 
 export default function PublicLayout({ children }: Props) {
 	return (
-		<div className='min-h-screen flex flex-col'>
+		<div className='min-h-screen flex flex-col' style={{ backgroundColor: '#f8fafc' }}>
 			<CustomNavbar
 				linksOptions={publicLinksOptions}
 				appName={appName || ''}
 			/>
-			<main className='flex-1'>{children}</main>
+			<main className='flex-1' style={{ backgroundColor: '#f8fafc' }}>{children}</main>
 			<Footer />
 		</div>
 	);

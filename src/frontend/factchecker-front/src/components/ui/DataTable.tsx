@@ -131,7 +131,7 @@ export const DataTable = ({
   const cellRenderer = renderCell || defaultRenderCell;
 
   return (
-    <div style={{ backgroundColor: 'white', padding: '32px', borderRadius: '12px', boxShadow: '0 4px 6px rgba(0,0,0,0.1)' }}>
+    <div style={{ backgroundColor: 'white', padding: '32px', borderRadius: '12px', boxShadow: '0 20px 40px -10px rgba(0, 0, 0, 0.15), 0 10px 20px -5px rgba(0, 0, 0, 0.1), 0 4px 8px -2px rgba(0, 0, 0, 0.08)', border: '1px solid rgba(0, 0, 0, 0.05)' }}>
       {/* Header con título y enlace si se proporciona */}
       {(title || viewDetailLink) && (
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }}>
