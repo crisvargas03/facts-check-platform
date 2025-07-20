@@ -9,3 +9,5 @@ export { default as DataTable } from './DataTable';
 export { default as FilterModal } from './FilterModal';
 export { default as ProgressBar } from './ProgressBar';
 export { default as Badge } from './Badge';
+export { Modal } from './Modal';
+export { EyeIcon } from './EyeIcon';

@@ -13,7 +13,7 @@ interface DataTableColumn {
 }
 
 interface DataTableProps {
-  columns?: DataTableColumn[];
+  columns: DataTableColumn[];
   data: any[];
   itemsPerPage?: number;
   onRowClick?: (item: any) => void;
