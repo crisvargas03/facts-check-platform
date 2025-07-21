@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import { FormInput } from '../ui';
 import { useRouter } from 'next/navigation';
 import { setCookieData } from '@/utils';
+import { LoginFormData } from '@/lib/auth';
 
 type LoginInputs = {
 	email: string;
@@ -23,7 +24,12 @@ export const LoginForm = () => {
 
 	const onSubmit: SubmitHandler<LoginInputs> = data => {
 		const toastId = toast.loading('Cargando...');
-		postLogin(data).then(res => {
+		const userToLogin: LoginFormData = {
+			email: data.email,
+			password: data.password,
+			loginMethod: 'local',
+		};
+		postLogin(userToLogin).then(res => {
 			if (res?.statusCode === 200) {
 				const user = {
 					expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
