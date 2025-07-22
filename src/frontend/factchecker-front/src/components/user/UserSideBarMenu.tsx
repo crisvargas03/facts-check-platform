@@ -25,8 +25,8 @@ export const UserSideBarMenu = ({ name, email, image, onLogout }: Props) => {
 
 			<div className='flex flex-col gap-4 mt-2'>
 				<Link
-					href='/perfil'
-					className='text-sm text-gray-800 hover:text-gray-600'>
+					href='/'
+					className='text-sm font-medium text-gray-800 hover:text-gray-600'>
 					<span className='flex flex-row justify-start align-middle items-center gap-2'>
 						<FiUser size={20} />
 						<span>Mi Perfil</span>
@@ -34,7 +34,7 @@ export const UserSideBarMenu = ({ name, email, image, onLogout }: Props) => {
 				</Link>
 				<Link
 					href='/configuracion'
-					className='text-sm text-gray-800 hover:text-gray-600'>
+					className='text-sm font-medium text-gray-800 hover:text-gray-600'>
 					<span className='flex flex-row justify-start align-middle items-center gap-2'>
 						<FiSettings size={20} />
 						<span> Configuración </span>
@@ -42,7 +42,7 @@ export const UserSideBarMenu = ({ name, email, image, onLogout }: Props) => {
 				</Link>
 				<button
 					onClick={onLogout}
-					className='text-sm text-red-600 text-left hover:text-red-700'>
+					className='text-sm font-medium text-red-600 text-left hover:text-red-700'>
 					<span className='flex flex-row justify-start align-middle items-center gap-2'>
 						<FiLogOut size={20} />
 						<span>Cerrar Sesión</span>

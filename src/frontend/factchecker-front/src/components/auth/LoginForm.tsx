@@ -42,7 +42,7 @@ export const LoginForm = () => {
 				toast.success('Inicio de sesión exitoso', {
 					id: toastId,
 				});
-				router.push('/dashboard');
+				router.push('/dashboard'); //TODO: Send the user to other page, because the dashboard is only for a type of user.
 			}
 
 			if (res?.statusCode === 400) {
