@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 import { FormInput } from '../ui';
 import { useRouter } from 'next/navigation';
 import { setCookieData } from '@/utils';
+import { LoginFormData } from '@/lib/auth';
 
 type LoginInputs = {
 	email: string;
@@ -23,7 +24,12 @@ export const LoginForm = () => {
 
 	const onSubmit: SubmitHandler<LoginInputs> = data => {
 		const toastId = toast.loading('Cargando...');
-		postLogin(data).then(res => {
+		const userToLogin: LoginFormData = {
+			email: data.email,
+			password: data.password,
+			loginMethod: 'local',
+		};
+		postLogin(userToLogin).then(res => {
 			if (res?.statusCode === 200) {
 				const user = {
 					expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
@@ -36,7 +42,7 @@ export const LoginForm = () => {
 				toast.success('Inicio de sesión exitoso', {
 					id: toastId,
 				});
-				router.push('/dashboard');
+				router.push('/dashboard'); //TODO: Send the user to other page, because the dashboard is only for a type of user.
 			}
 
 			if (res?.statusCode === 400) {

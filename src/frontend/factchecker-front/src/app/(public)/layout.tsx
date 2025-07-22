@@ -1,4 +1,5 @@
-import { CustomNavbar, Footer } from '@/components/ui';
+import { Footer } from '@/components/ui';
+import { PublicNavBar } from '@/components/ui/navbars';
 import { appName, publicLinksOptions } from '@/utils';
 
 interface Props {
@@ -8,7 +9,7 @@ interface Props {
 export default function PublicLayout({ children }: Props) {
 	return (
 		<div className='min-h-screen flex flex-col'>
-			<CustomNavbar
+			<PublicNavBar
 				linksOptions={publicLinksOptions}
 				appName={appName || ''}
 			/>

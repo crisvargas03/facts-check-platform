@@ -50,15 +50,18 @@ namespace FactCheckBack.Business.Features.Auth.Login
                 return ApiResponse<LoginCommandDto>.Fail(ex.Message, HttpStatusCode.InternalServerError);
             }
         }
-        
+
         private static ApiResponse<LoginCommandDto>? ValidateUserLogin(LoginCommand userLogin, Users? userFromDb)
         {
             var isGoogleLogin = userLogin.LoginMethod?.ToLower() == "google";
 
+            if (userFromDb is null)
+                return ApiResponse<LoginCommandDto>.Fail("User not found", HttpStatusCode.NotFound);
+
             if (!isGoogleLogin)
             {
                 // local user must have a valid password
-                if (string.IsNullOrWhiteSpace(userFromDb!.password))
+                if (string.IsNullOrWhiteSpace(userFromDb.password))
                     return ApiResponse<LoginCommandDto>.Fail("Password not set for this user", HttpStatusCode.BadRequest);
 
                 var passwordMatch = BCrypt.Net.BCrypt.EnhancedVerify(userLogin.Password, userFromDb.password);

@@ -7,6 +7,7 @@ import { postSignUp } from '@/services';
 import { setCookieData } from '@/utils';
 import toast from 'react-hot-toast';
 import { useRouter } from 'next/navigation';
+import { SignUpFormData } from '@/lib/auth';
 
 type SignUpInputs = {
 	name: string;
@@ -25,7 +26,13 @@ export const SignUpForm = () => {
 
 	const onSubmit: SubmitHandler<SignUpInputs> = data => {
 		const toastId = toast.loading('Cargando...');
-		postSignUp(data).then(res => {
+		const userToRegister: SignUpFormData = {
+			fullName: `${data.name} ${data.lastName}`,
+			email: data.email,
+			password: data.password,
+			registrationMethod: 'local',
+		};
+		postSignUp(userToRegister).then(res => {
 			if (res?.statusCode === 200) {
 				const user = {
 					expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 30),
@@ -42,7 +49,7 @@ export const SignUpForm = () => {
 			}
 
 			if (res?.statusCode === 400) {
-				toast.error('Verifique los datos ingresados', {
+				toast.error(res.errors.join(', '), {
 					icon: '🔒',
 					id: toastId,
 				});

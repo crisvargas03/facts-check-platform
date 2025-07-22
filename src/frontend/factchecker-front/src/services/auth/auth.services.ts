@@ -36,16 +36,17 @@ export const postLogin = async (
 };
 
 export const postSignUp = async ({
-	name,
-	lastName,
+	fullName,
 	email,
 	password,
+	registrationMethod,
 }: SignUpFormData): Promise<BaseServicesResponse<SignUpResponse>> => {
 	try {
 		const body = {
-			name: `${name} ${lastName}`,
+			name: fullName,
 			email,
 			password,
+			registrationMethod,
 		};
 		const response = await fetch(`${apiUrl}/auth/register`, {
 			method: 'POST',

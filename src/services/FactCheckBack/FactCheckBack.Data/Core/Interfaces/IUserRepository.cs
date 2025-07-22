@@ -4,5 +4,6 @@ namespace FactCheckBack.Data.Core.Interfaces
 {
     public interface IUserRepository : IBaseRepository<Users>
     {
+        Task<Users?> GetByEmailAsync(string email);
     }
 }

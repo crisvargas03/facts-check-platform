@@ -1,32 +1,40 @@
-import { CustomNavbar, Footer } from '@/components/ui';
+import { Footer } from '@/components/ui';
+import { PrivateNavBar } from '@/components/ui/navbars';
 import { UserCookieData } from '@/lib/auth';
-import { appName, deleteCookieData } from '@/utils';
+import { getUserInfo } from '@/services';
+import { appName, getAvatarUrl } from '@/utils';
 import { privateLinksOptions } from '@/utils/links-options';
 import { cookies } from 'next/headers';
-import { redirect } from 'next/navigation';
 
 interface Props {
 	children: React.ReactNode;
 }
 
-export default async function PrivateLayout({ children }: Props) {
+const getCookieFromServer = async (key: string) => {
 	const cookieStore = await cookies();
-	const encryptedUser = cookieStore.get('__user__')?.value;
-
-	if (!encryptedUser) {
-		redirect('/auth/login');
+	// get the cookie data
+	const data = cookieStore.get(key);
+	if (!data) {
+		return null;
 	}
 
-	const user = JSON.parse(atob(encryptedUser)) as UserCookieData;
+	// decrypt the data
+	const decrypted = atob(data.value);
+	return JSON.parse(decrypted);
+};
 
-	if (!user || user.expires < new Date()) {
-		deleteCookieData('__user__');
-		redirect('/auth/login');
-	}
+export default async function PrivateLayout({ children }: Props) {
+	const cookiedata = (await getCookieFromServer(
+		'__user__'
+	)) as UserCookieData;
+
+	const userInfo = await getUserInfo(cookiedata.user, cookiedata.token);
+	userInfo.data!.image = getAvatarUrl(userInfo.data!.name);
 
 	return (
-		<div className='min-h-screen flex flex-col'>
-			<CustomNavbar
+    <div className='min-h-screen flex flex-col'>
+			<PrivateNavBar
+				userInfo={userInfo.data!}
 				linksOptions={privateLinksOptions}
 				appName={appName || ''}
 			/>
