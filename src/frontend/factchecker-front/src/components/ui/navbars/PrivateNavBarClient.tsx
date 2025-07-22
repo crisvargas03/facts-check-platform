@@ -1,21 +1,20 @@
 'use client';
+import { UserAvatarMenu } from '@/components/user';
 import Link from 'next/link';
 import React, { useState } from 'react';
+import { FiX, FiMenu } from 'react-icons/fi';
 import { NavbarItems } from './NavbarItems';
-import { LinkOptions } from '@/utils';
-import { FiMenu, FiX } from 'react-icons/fi';
-import { UserAvatarMenu } from '../user';
 
 interface Props {
-	linksOptions: LinkOptions[];
+	linksOptions: { label: string; href: string }[];
 	appName: string;
 }
 
-export const CustomNavbar = ({ linksOptions, appName }: Props) => {
+const PrivateNavBarClient = ({ linksOptions, appName }: Props) => {
 	const [open, setOpen] = useState(false);
 
 	return (
-		<nav className='bg-white shadow w-fulL py-2'>
+		<nav className='bg-white shadow w-full py-2'>
 			<div className='flex items-center justify-between px-4 gap-6'>
 				<Link
 					href='/home'
@@ -65,3 +64,5 @@ export const CustomNavbar = ({ linksOptions, appName }: Props) => {
 		</nav>
 	);
 };
+
+export default PrivateNavBarClient;
