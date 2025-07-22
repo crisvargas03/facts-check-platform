@@ -32,7 +32,7 @@ export default async function PrivateLayout({ children }: Props) {
 	userInfo.data!.image = getAvatarUrl(userInfo.data!.name);
 
 	return (
-		<div className='min-h-screen flex flex-col'>
+    <div className='min-h-screen flex flex-col'>
 			<PrivateNavBar
 				userInfo={userInfo.data!}
 				linksOptions={privateLinksOptions}
