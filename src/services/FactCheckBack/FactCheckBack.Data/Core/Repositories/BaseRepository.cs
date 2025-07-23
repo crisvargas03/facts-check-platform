@@ -66,6 +66,19 @@ namespace FactCheckBack.Data.Core.Repositories
                 throw new DataException($"Error creating entity of type {typeof(T).Name}", ex);
             }
         }
+
+        public virtual Task UpdateAsync(T entity)
+        {
+            try
+            {
+                _context.Set<T>().Update(entity);
+                return Task.CompletedTask;
+            }
+            catch (Exception ex)
+            {
+                throw new DataException($"Error updating entity of type {typeof(T).Name}", ex);
+            }
+        }
         public virtual async Task CreateCollection(IEnumerable<T> entities)
         {
             try

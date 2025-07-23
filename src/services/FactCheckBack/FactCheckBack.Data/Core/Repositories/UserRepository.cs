@@ -15,5 +15,9 @@ namespace FactCheckBack.Data.Core.Repositories
         {
             await _context.Set<Users>().AddAsync(entity);
         }
+        public async Task<Users?> GetByEmailAsync(string email)
+        {
+            return await _context.Set<Users>().FirstOrDefaultAsync(u => u.email.ToLower() == email.ToLower());
+        }
     }
 }
