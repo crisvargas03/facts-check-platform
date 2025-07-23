@@ -1,6 +1,7 @@
 export type LoginFormData = {
 	email: string;
 	password: string;
+	loginMethod: string;
 };
 
 export type LoginResponse = {
@@ -15,10 +16,10 @@ export type UserCookieData = {
 };
 
 export type SignUpFormData = {
-	name: string;
-	lastName: string;
+	fullName: string;
 	email: string;
 	password: string;
+	registrationMethod: string;
 };
 
 export type SignUpResponse = {

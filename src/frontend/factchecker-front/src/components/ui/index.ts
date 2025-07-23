@@ -1,5 +1,12 @@
 export { Button } from './Button';
 export { FormInput } from './FormInput';
 export { Footer } from './Footer';
-export { CustomNavbar } from './CustomNavbar';
 export { Separator } from './Separator';
+export { default as StatCard } from './StatCard';
+export { default as BarChart } from './BarChart';
+export { default as DataTable } from './DataTable';
+export { default as FilterModal } from './FilterModal';
+export { ProgressBar } from './ProgressBar';
+export { default as Badge } from './Badge';
+export { Modal } from './Modal';
+export { EyeIcon } from './EyeIcon';
