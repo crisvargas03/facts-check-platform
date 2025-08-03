@@ -16,4 +16,8 @@ public partial class Result
     public decimal percentaje_trust { get; set; }
 
     public string motive { get; set; } = null!;
+
+    public virtual Article_input Article_input { get; set; } = null!;
+
+    public virtual Verdict Verdict { get; set; } = null!;
 }
