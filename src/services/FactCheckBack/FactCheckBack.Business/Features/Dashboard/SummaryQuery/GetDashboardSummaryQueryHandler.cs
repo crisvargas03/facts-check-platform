@@ -22,23 +22,40 @@ namespace FactCheckBack.Business.Features.Dashboard.SummaryQuery
                         HttpStatusCode.ServiceUnavailable);
                 }
 
-                var query = unitOfWork.Results.Query(false);
+                var baseQuery = unitOfWork.Results.Query(false);
 
                 if (request.StartDate.HasValue)
                 {
-                    query = query.Where(r => r.created >= request.StartDate.Value);
+                    var startDateUtc = request.StartDate.Value.ToUniversalTime();
+                    baseQuery = baseQuery.Where(r => r.created >= startDateUtc);
                 }
 
                 if (request.EndDate.HasValue)
                 {
-                    query = query.Where(r => r.created <= request.EndDate.Value);
+                    var endDateUtc = request.EndDate.Value.ToUniversalTime();
+                    baseQuery = baseQuery.Where(r => r.created <= endDateUtc);
                 }
 
-                var totalAnalyzed = await query.CountAsync(cancellationToken);
-                var realScans = await query.Where(r => r.percentaje_trust >= 70).CountAsync(cancellationToken);
-                var inaccurateScans = await query.Where(r => r.percentaje_trust >= 40 && r.percentaje_trust < 70)
-                    .CountAsync(cancellationToken);
-                var fakeScans = await query.Where(r => r.percentaje_trust < 40).CountAsync(cancellationToken);
+                var stats = await baseQuery
+                    .GroupBy(r => new
+                    {
+                        IsReal = r.percentaje_trust >= 70,
+                        IsInaccurate = r.percentaje_trust >= 40 && r.percentaje_trust < 70,
+                        IsFake = r.percentaje_trust < 40
+                    })
+                    .Select(g => new
+                    {
+                        g.Key.IsReal,
+                        g.Key.IsInaccurate,
+                        g.Key.IsFake,
+                        Count = g.Count()
+                    })
+                    .ToListAsync(cancellationToken);
+
+                var totalAnalyzed = stats.Sum(s => s.Count);
+                var realScans = stats.Where(s => s.IsReal).Sum(s => s.Count);
+                var inaccurateScans = stats.Where(s => s.IsInaccurate).Sum(s => s.Count);
+                var fakeScans = stats.Where(s => s.IsFake).Sum(s => s.Count);
 
                 var result = new GetDashboardSummaryQueryDto
                 {
