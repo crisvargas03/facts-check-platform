@@ -1,9 +1,11 @@
 using FactCheckBack.Business.Features.Dashboard.SummaryQuery;
 using FactCheckBack.Business.Features.Dashboard.ComparisonQuery;
 using FactCheckBack.Business.Features.Dashboard.HistoryQuery;
+using FactCheckBack.Business.Features.Dashboard.AnalysisByIdQuery;
 using LiteBus.Queries.Abstractions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace FactCheckBack.API.Controllers
 {
@@ -58,6 +60,27 @@ namespace FactCheckBack.API.Controllers
 
             if (!response.IsSuccess)
                 return BadRequest(response);
+
+            return Ok(response);
+        }
+
+        [HttpGet("analysis/{id}")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> GetAnalysisById([FromRoute] string id)
+        {
+            var query = new GetAnalysisByIdQuery(id);
+            var response = await queryMediator.QueryAsync(query);
+
+            if (!response.IsSuccess)
+            {
+                return response.StatusCode switch
+                {
+                    HttpStatusCode.NotFound => NotFound(response),
+                    _ => BadRequest(response)
+                };
+            }
 
             return Ok(response);
         }
