@@ -4,7 +4,7 @@ import { IoLogoInstagram } from 'react-icons/io5';
 
 export const Footer = () => {
 	return (
-		<footer className='bg-gray-900 text-white w-full bottom-0 left-0 z-50 mt-25'>
+		<footer className='bg-gray-900 text-white w-full bottom-0 left-0 z-50 mt-10'>
 			<div className='max-w-7xl mx-auto px-6 py-12'>
 				<div className='lg:flex lg:justify-between'>
 					<div className='mb-10 lg:mb-0 lg:max-w-md'>
