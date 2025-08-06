@@ -18,45 +18,19 @@ export const StatCard = ({
 	iconColor,
 }: StatCardProps) => {
 	return (
-		<div style={{ backgroundColor, padding: '24px', borderRadius: '12px' }}>
-			<div
-				style={{
-					display: 'flex',
-					alignItems: 'center',
-					marginBottom: '16px',
-				}}>
+		<div className='p-6 rounded-lg shadow-sm' style={{ backgroundColor }}>
+			<div className='flex items-center mb-4'>
 				<div
-					style={{
-						width: '48px',
-						height: '48px',
-						backgroundColor: iconBackgroundColor,
-						borderRadius: '8px',
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-					}}>
-					<div style={{ fontSize: '24px', color: iconColor }}>
+					className='w-12 h-12 rounded-md flex items-center justify-center'
+					style={{ backgroundColor: iconBackgroundColor }}>
+					<div className='text-2xl' style={{ color: iconColor }}>
 						{icon}
 					</div>
 				</div>
 			</div>
-			<div
-				style={{
-					fontSize: '32px',
-					fontWeight: 'bold',
-					color: '#000000',
-					marginBottom: '4px',
-				}}>
-				{value}
-			</div>
-			<div
-				style={{
-					color: '#374151',
-					fontWeight: '600',
-					marginBottom: '4px',
-				}}>
-				{label}
-			</div>
+
+			<div className='text-3xl font-bold text-black mb-1'>{value}</div>
+			<div className='text-gray-700 font-semibold text-sm'>{label}</div>
 		</div>
 	);
 };

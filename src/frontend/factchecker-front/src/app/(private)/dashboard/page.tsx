@@ -3,93 +3,15 @@
 import { useState } from 'react';
 import { IoFilter } from 'react-icons/io5';
 import FilterModal from '@/components/ui/FilterModal';
-import { BarChart, DataTable } from '@/components/ui/shared';
-import { StatCardsGrid } from '@/components/ui/dashboard';
-import { DataTableColumn } from '@/lib/ui';
-
-const analysisData = [
-	{
-		id: 1,
-		name: 'Artículo 1',
-		credibility: 90,
-		percentage: '90%',
-		date: '2024-01-15',
-	},
-	{
-		id: 2,
-		name: 'Artículo 2',
-		credibility: 65,
-		percentage: '65%',
-		date: '2024-01-14',
-	},
-	{
-		id: 3,
-		name: 'Artículo 3',
-		credibility: 50,
-		percentage: '50%',
-		date: '2024-01-13',
-	},
-	{
-		id: 4,
-		name: 'Artículo 4',
-		credibility: 25,
-		percentage: '25%',
-		date: '2024-01-12',
-	},
-];
-
-const columnsSamples: DataTableColumn[] = [
-	{
-		key: 'index',
-		label: '#',
-		align: 'left',
-		width: '40px',
-	},
-	{ key: 'name', label: 'Nombre', sortable: true },
-	{
-		key: 'credibility',
-		label: 'Credibilidad',
-		sortable: true,
-		align: 'center',
-	},
-	{
-		key: 'percentage',
-		label: 'Porcentaje',
-		sortable: true,
-		align: 'center',
-		width: '80px',
-	},
-	{
-		key: 'date',
-		label: 'Fecha',
-		sortable: true,
-		align: 'center',
-		width: '100px',
-	},
-];
+import {
+	ChartsAnalysisSection,
+	StatCardsGrid,
+} from '@/components/ui/dashboard';
 
 export default function Dashboard() {
 	const [startDate, setStartDate] = useState('');
 	const [endDate, setEndDate] = useState('');
 	const [showFilterModal, setShowFilterModal] = useState(false);
-
-	const filteredData = analysisData.filter(item => {
-		if (!startDate && !endDate) return true;
-
-		const itemDate = new Date(item.date);
-		const start = startDate ? new Date(startDate) : null;
-		const end = endDate ? new Date(endDate) : null;
-
-		if (start && end) {
-			return itemDate >= start && itemDate <= end;
-		} else if (start) {
-			return itemDate >= start;
-		} else if (end) {
-			return itemDate <= end;
-		}
-
-		return true;
-	});
 
 	const getResultsTitle = () => {
 		if (!startDate && !endDate) {
@@ -121,7 +43,6 @@ export default function Dashboard() {
 	return (
 		<div className='py-5 px-5 min-h-screen'>
 			<div>
-				{/* Stats Section */}
 				<div className='mb-12'>
 					<div className='flex flex-col sm:flex-row justify-between items-center mb-2 gap-4'>
 						<div className='flex-1 flex-rows items-center gap-4'>
@@ -144,29 +65,9 @@ export default function Dashboard() {
 				</div>
 
 				{/* Chart and Analysis Section */}
-				<div className='grid grid-cols-1 xl:grid-cols-2 gap-8 mb-12'>
-					<BarChart
-						data={[
-							{ day: 'Lun', real: 80, fake: 60 },
-							{ day: 'Mar', real: 120, fake: 80 },
-							{ day: 'Mié', real: 70, fake: 100 },
-							{ day: 'Jue', real: 60, fake: 80 },
-							{ day: 'Vie', real: 50, fake: 70 },
-							{ day: 'Sáb', real: 65, fake: 55 },
-							{ day: 'Dom', real: 45, fake: 40 },
-						]}
-						title='Comparativa de Análisis'
-					/>
+				<ChartsAnalysisSection />
 
-					<DataTable
-						columns={columnsSamples}
-						data={filteredData}
-						title='Análisis Recientes'
-						viewDetailLink='/history-results'
-					/>
-				</div>
-
-				{/* Filter Modal */}
+				{/* Filter Modal TODO:  */}
 				<FilterModal
 					isOpen={showFilterModal}
 					onClose={() => setShowFilterModal(false)}
