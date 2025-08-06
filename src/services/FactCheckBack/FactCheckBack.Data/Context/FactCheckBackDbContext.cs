@@ -112,6 +112,16 @@ namespace FactCheckBack.Data.Context
                 entity.Property(e => e.article_id).HasMaxLength(50);
                 entity.Property(e => e.created).HasColumnType("timestamptz");
                 entity.Property(e => e.verdict_id).HasMaxLength(50);
+
+                entity.HasOne(d => d.Article_input).WithMany()
+                    .HasForeignKey(d => d.article_id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Result_article_id_fkey");
+
+                entity.HasOne(d => d.Verdict).WithMany()
+                    .HasForeignKey(d => d.verdict_id)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("Result_verdict_id_fkey");
             });
 
             modelBuilder.Entity<Users>(entity =>
