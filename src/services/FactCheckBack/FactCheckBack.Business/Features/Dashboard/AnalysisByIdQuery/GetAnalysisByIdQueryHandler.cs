@@ -30,6 +30,11 @@ namespace FactCheckBack.Business.Features.Dashboard.AnalysisByIdQuery
                         ArticleName = r.Article_input.title,
                         Credibility = r.percentaje_trust,
                         Motive = r.motive,
+                        ReliableSource = r.reliable_source,
+                        ScientificEvidence = r.scientific_evidence,
+                        CitationsAndReferences = r.citations_and_references,
+                        TargetLanguage = r.target_language,
+                        ContextAndLimitations = r.context_and_limitations,
                         AnalysisDate = r.created
                     })
                     .FirstOrDefaultAsync(cancellationToken);
