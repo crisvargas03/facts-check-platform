@@ -26,6 +26,7 @@ namespace FactCheckBack.Data
         {
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IUserPlanRepository, UserPlanRepository>();
+            services.AddScoped<IResultRepository, ResultRepository>();
         }
 
         private static void AddUnitOfWork(this IServiceCollection services)
@@ -39,6 +40,5 @@ namespace FactCheckBack.Data
             services.AddRepositories();
             services.AddUnitOfWork();
         }
-
     }
 }
