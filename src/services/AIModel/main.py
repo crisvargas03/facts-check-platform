@@ -18,6 +18,11 @@ def chat(request: ArticleRequest):
             "success": True,
             "result": {
                 "fake_rating": data["fake-rating"],
+                "reliable_source": data["reliable-source"],
+                "scientific_evidence": data["scientific-evidence"],
+                "citations_and_references": data["citations-and-references"],
+                "target_language": data["target-language"],
+                "context_and_limitations": data["context-and-limitations"],
                 "feedback": data["feedback"]
             }
         }

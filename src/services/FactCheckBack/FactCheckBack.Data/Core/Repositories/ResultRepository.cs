@@ -1,23 +1,25 @@
-﻿using FactCheckBack.Data.Context;
+using FactCheckBack.Data.Context;
 using FactCheckBack.Data.Core.Interfaces;
 using FactCheckBack.Models.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace FactCheckBack.Data.Core.Repositories
 {
-    public class ResultRepository : BaseRepository<Result>, IResultRepository
+    public class ResultRepository(FactCheckBackDbContext context) : BaseRepository<Result>(context), IResultRepository
     {
-        public ResultRepository(FactCheckBackDbContext context) : base(context)
+        public async Task<IEnumerable<Result>> GetByDateRangeAsync(DateTime startDate, DateTime endDate)
         {
-            _context = context;
+            return await _context.Results
+                .Where(r => r.created >= startDate && r.created <= endDate)
+                .ToListAsync();
         }
-        public override async Task CreateAsync(Result entity)
+
+        public async Task<IEnumerable<Result>> GetByCredibilityRangeAsync(decimal minCredibility,
+            decimal maxCredibility)
         {
-            await _context.Set<Result>().AddAsync(entity);
+            return await _context.Results
+                .Where(r => r.percentaje_trust >= minCredibility && r.percentaje_trust <= maxCredibility)
+                .ToListAsync();
         }
     }
 }

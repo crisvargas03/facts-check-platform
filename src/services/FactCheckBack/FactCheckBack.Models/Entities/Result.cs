@@ -16,4 +16,18 @@ public partial class Result
     public decimal percentaje_trust { get; set; }
 
     public string motive { get; set; } = null!;
+
+    public decimal reliable_source { get; set; }
+
+    public decimal scientific_evidence { get; set; }
+
+    public decimal citations_and_references { get; set; }
+
+    public decimal target_language { get; set; }
+
+    public decimal context_and_limitations { get; set; }
+
+    public virtual Article_input Article_input { get; set; } = null!;
+
+    public virtual Verdict Verdict { get; set; } = null!;
 }
