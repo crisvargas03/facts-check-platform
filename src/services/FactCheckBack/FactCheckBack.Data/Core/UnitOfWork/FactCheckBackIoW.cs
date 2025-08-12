@@ -12,6 +12,7 @@ namespace FactCheckBack.Data.Core.UnitOfWork
         public IUserRepository Users { get; private set; }
         public IUserPlanRepository User_plan { get; private set; }
         public IPlanRepository Plan { get; private set; }
+        public IArticleInputRepository ArticleInput { get; private set; }
         public IResultRepository Results { get; private set; }
 
         public FactCheckBackIoW(FactCheckBackDbContext context, IArticleInputRepository articleInputRepository)
@@ -20,6 +21,7 @@ namespace FactCheckBack.Data.Core.UnitOfWork
             Users = new UserRepository(context);
             User_plan = new UserPlanRepository(context);
             Plan = new PlanRepository(context);
+            ArticleInput = articleInputRepository;
             Results = new ResultRepository(context);
         }
 

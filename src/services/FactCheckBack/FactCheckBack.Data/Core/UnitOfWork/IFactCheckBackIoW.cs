@@ -7,6 +7,7 @@ namespace FactCheckBack.Data.Core.UnitOfWork
         IUserRepository Users { get; }
         IUserPlanRepository User_plan { get; }
         IPlanRepository Plan { get; }
+        IArticleInputRepository ArticleInput { get; }
         IResultRepository Results { get; }
 
         Task<int> CompleteAsync();

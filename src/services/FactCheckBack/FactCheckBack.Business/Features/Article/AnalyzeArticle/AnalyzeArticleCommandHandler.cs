@@ -72,11 +72,16 @@ namespace FactCheckBack.Business.Features.Article.AnalyzeArticle
                     article_id = articleId,
                     verdict_id = "1-EIB426",
                     created = DateTime.UtcNow,
-                    percentaje_trust = result.Data.fake_rating,
-                    motive = result.Data.feedback
+                    percentaje_trust = result.Data.percentaje_trust,
+                    motive = result.Data.feedback,
+                    reliable_source = result.Data.reliable_source,
+                    scientific_evidence = result.Data.scientific_evidence,
+                    citations_and_references  =result.Data.citations_and_references,
+                    target_language = result.Data.target_language,
+                    context_and_limitations = result.Data.context_and_limitations
                 };
 
-                await _unitOfWork.Result.CreateAsync(analysis);
+                await _unitOfWork.Results.CreateAsync(analysis);
 
                 userPlan.attempts_used++;
 
@@ -85,7 +90,12 @@ namespace FactCheckBack.Business.Features.Article.AnalyzeArticle
                 var response = new AnalyzeArticleCommandDto
                 {
                     Percentaje_Trust = analysis.percentaje_trust,
-                    Motive = analysis.motive
+                    Motive = analysis.motive,
+                    Reliable_source = analysis.reliable_source,
+                    Scientific_evidence = analysis.scientific_evidence,
+                    Citations_and_references = analysis.citations_and_references,
+                    Target_language = analysis.target_language,
+                    Context_and_limitations =analysis.context_and_limitations
                 };
 
                 return ApiResponse<AnalyzeArticleCommandDto>.Success(response);
