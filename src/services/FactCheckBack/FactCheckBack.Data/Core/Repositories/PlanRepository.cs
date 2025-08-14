@@ -26,5 +26,9 @@ namespace FactCheckBack.Data.Core.Repositories
                 throw new DataException($"Error retrieving plans with options - { ex.Message }");
             }
         }
+        public async Task<Plan?> GetByPlanIdAsync(string planId)
+        {
+            return await _context.Set<Plan>().FirstOrDefaultAsync(p => p.plans_id == planId);
+        }
     }
 }

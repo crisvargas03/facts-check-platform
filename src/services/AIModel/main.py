@@ -17,7 +17,7 @@ def chat(request: ArticleRequest):
             "error": "",
             "success": True,
             "result": {
-                "fake_rating": data["fake-rating"],
+                "percentaje_trust": data["percentaje-trust"],
                 "reliable_source": data["reliable-source"],
                 "scientific_evidence": data["scientific-evidence"],
                 "citations_and_references": data["citations-and-references"],

@@ -21,5 +21,10 @@ namespace FactCheckBack.Data.Core.Repositories
                 .Where(r => r.percentaje_trust >= minCredibility && r.percentaje_trust <= maxCredibility)
                 .ToListAsync();
         }
+
+        public override async Task CreateAsync(Result entity)
+        {
+            await _context.Set<Result>().AddAsync(entity);
+        }
     }
 }
