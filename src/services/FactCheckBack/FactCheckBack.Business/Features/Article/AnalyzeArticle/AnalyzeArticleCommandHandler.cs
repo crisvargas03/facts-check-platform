@@ -48,7 +48,7 @@ namespace FactCheckBack.Business.Features.Article.AnalyzeArticle
                 await _unitOfWork.CompleteAsync();
 
                 // 2. Llamar al microservicio de análisis externo
-                var result = await _unitOfWork.ArticleInput.AnalyzeArticleAsync(request.Title, request.Complete_Text, "string");
+                var result = await _unitOfWork.ArticleInput.AnalyzeArticleAsync(request.Title, request.CompleteText, "string");
                 if (!result.IsSuccess)
                     return ApiResponse<AnalyzeArticleCommandDto>.Fail($"Fallo en llamada a la IA: {string.Join(" | ", result.Errors)}");
 
@@ -59,7 +59,7 @@ namespace FactCheckBack.Business.Features.Article.AnalyzeArticle
                     article_id = articleId,
                     user_id = user.user_id,
                     title = request.Title,
-                    complete_text = request.Complete_Text,
+                    complete_text = request.CompleteText,
                     created = DateTime.UtcNow,
                     article_type_id = "1-BWS5UB"
                 };
@@ -72,13 +72,13 @@ namespace FactCheckBack.Business.Features.Article.AnalyzeArticle
                     article_id = articleId,
                     verdict_id = "1-EIB426",
                     created = DateTime.UtcNow,
-                    percentaje_trust = result.Data.percentaje_trust,
-                    motive = result.Data.feedback,
-                    reliable_source = result.Data.reliable_source,
-                    scientific_evidence = result.Data.scientific_evidence,
-                    citations_and_references  =result.Data.citations_and_references,
-                    target_language = result.Data.target_language,
-                    context_and_limitations = result.Data.context_and_limitations
+                    percentaje_trust = result.Data.PercentageTrust,
+                    motive = result.Data.Feedback,
+                    reliable_source = result.Data.ReliableSource,
+                    scientific_evidence = result.Data.ScientificEvidence,
+                    citations_and_references  =result.Data.CitationsAndReferences,
+                    target_language = result.Data.TargetLanguage,
+                    context_and_limitations = result.Data.ContextAndLimitations
                 };
 
                 await _unitOfWork.Results.CreateAsync(analysis);
@@ -89,13 +89,13 @@ namespace FactCheckBack.Business.Features.Article.AnalyzeArticle
 
                 var response = new AnalyzeArticleCommandDto
                 {
-                    Percentaje_Trust = analysis.percentaje_trust,
+                    PercentageTrust = analysis.percentaje_trust,
                     Motive = analysis.motive,
-                    Reliable_source = analysis.reliable_source,
-                    Scientific_evidence = analysis.scientific_evidence,
-                    Citations_and_references = analysis.citations_and_references,
-                    Target_language = analysis.target_language,
-                    Context_and_limitations =analysis.context_and_limitations
+                    ReliableSource = analysis.reliable_source,
+                    ScientificEvidence = analysis.scientific_evidence,
+                    CitationsAndReferences = analysis.citations_and_references,
+                    TargetLanguage = analysis.target_language,
+                    ContextAndLimitations = analysis.context_and_limitations
                 };
 
                 return ApiResponse<AnalyzeArticleCommandDto>.Success(response);

@@ -13,6 +13,6 @@ namespace FactCheckBack.Business.Features.Article.AnalyzeArticle
     {
         public string Email { get; set; } = string.Empty;
         public string Title { get; set; } = string.Empty;
-        public string Complete_Text { get; set; } = string.Empty;
+        public string CompleteText { get; set; } = string.Empty;
     }
 }

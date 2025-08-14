@@ -8,12 +8,12 @@ namespace FactCheckBack.Models.AI
 {
     public class AiAnalysisResponse
     {
-        public decimal percentaje_trust { get; set; }
-        public decimal reliable_source { get; set; }
-        public decimal scientific_evidence { get; set; }
-        public decimal citations_and_references { get; set; }
-        public decimal target_language { get; set; }
-        public decimal context_and_limitations { get; set; }
-        public string feedback { get; set; } = string.Empty;
+        public decimal PercentageTrust { get; set; }
+        public decimal ReliableSource { get; set; }
+        public decimal ScientificEvidence { get; set; }
+        public decimal CitationsAndReferences { get; set; }
+        public decimal TargetLanguage { get; set; }
+        public decimal ContextAndLimitations { get; set; }
+        public string Feedback { get; set; } = string.Empty;
     }
 }
