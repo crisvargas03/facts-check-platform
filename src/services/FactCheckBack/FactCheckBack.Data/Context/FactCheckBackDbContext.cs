@@ -53,7 +53,7 @@ namespace FactCheckBack.Data.Context
                 entity.Property(e => e.article_id).HasMaxLength(50);
                 entity.Property(e => e.article_type_id).HasMaxLength(50);
                 entity.Property(e => e.created).HasColumnType("timestamptz");
-                entity.Property(e => e.title).HasMaxLength(50);
+                entity.Property(e => e.title).HasMaxLength(200);
                 entity.Property(e => e.user_id).HasMaxLength(50);
 
                 entity.HasOne(d => d.article_type).WithMany(p => p.Article_inputs)

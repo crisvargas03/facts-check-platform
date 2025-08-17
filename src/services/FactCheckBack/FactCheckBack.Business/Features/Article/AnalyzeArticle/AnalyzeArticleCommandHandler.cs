@@ -72,7 +72,7 @@ namespace FactCheckBack.Business.Features.Article.AnalyzeArticle
                     article_id = articleId,
                     verdict_id = "1-EIB426",
                     created = DateTime.UtcNow,
-                    percentaje_trust = result.Data.PercentageTrust,
+                    percentaje_trust = result.Data.PercentajeTrust,
                     motive = result.Data.Feedback,
                     reliable_source = result.Data.ReliableSource,
                     scientific_evidence = result.Data.ScientificEvidence,
