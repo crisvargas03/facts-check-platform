@@ -3,3 +3,4 @@ export { FormInput } from './FormInput';
 export { Footer } from './Footer';
 export { Separator } from './Separator';
 export { ProgressBar } from './ProgressBar';
+export { DemoSubmitClientComponent } from './article-results/DemoSubmitButton';

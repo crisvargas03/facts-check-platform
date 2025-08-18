@@ -11,7 +11,7 @@ export type factor = {
 };
 
 export type submitFormData = {
-	titulo: string;
-	contenido: string;
-	url?: string;
+	title: string;
+	content: string;
+	source?: string;
 };

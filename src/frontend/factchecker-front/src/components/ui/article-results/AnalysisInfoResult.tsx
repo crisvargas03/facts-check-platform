@@ -4,11 +4,19 @@ import Link from 'next/link';
 
 interface Props {
 	analysisDetails: AnalysisDetails;
+	showActionButton?: boolean;
+	actionButtonText?: string;
+	actionButtonAction?: () => void;
 }
 
-export const AnalysisInfoResult = ({ analysisDetails }: Props) => {
+export const AnalysisInfoResult = ({
+	analysisDetails,
+	showActionButton = true,
+	actionButtonText,
+	actionButtonAction,
+}: Props) => {
 	return (
-		<div className='mt-8 p-6 rounded-lg border-2 border-gray-300 bg-blue-50'>
+		<div className='p-6 rounded-lg border-2 border-gray-200 bg-white'>
 			<h3 className='text-xl font-bold text-black mb-4'>
 				Resultado del Análisis
 			</h3>
@@ -16,7 +24,7 @@ export const AnalysisInfoResult = ({ analysisDetails }: Props) => {
 			{/* Overall Score */}
 			<div className='text-center mb-6'>
 				<div
-					className={`inline-block px-6 py-3 rounded-lg text-2xl font-bold border-1 border-gray-300`}
+					className={`inline-block px-6 py-3 rounded-lg text-2xl font-bold border-1 border-gray-200`}
 					style={getResultColor(analysisDetails.percentageTrust)}>
 					{analysisDetails.percentageTrust}% de Veracidad
 				</div>
@@ -35,7 +43,7 @@ export const AnalysisInfoResult = ({ analysisDetails }: Props) => {
 						(factor, index: number) => (
 							<div
 								key={index}
-								className='pl-4 border-l-4 border-blue-500'>
+								className='pl-4 border-l-3 border-blue-500'>
 								<div className='flex justify-between items-center mb-1'>
 									<span className='font-medium text-gray-700'>
 										{factor.name}
@@ -62,7 +70,7 @@ export const AnalysisInfoResult = ({ analysisDetails }: Props) => {
 			</div>
 
 			{/* Summary */}
-			<div className='bg-gray-50 border border-blue-300 p-4 rounded-lg mb-6'>
+			<div className='bg-gray-50 border border-blue-500 p-4 rounded-lg mb-6'>
 				<h4 className='text-base font-semibold text-black mb-2'>
 					Resumen del Análisis
 				</h4>
@@ -71,15 +79,27 @@ export const AnalysisInfoResult = ({ analysisDetails }: Props) => {
 				</p>
 			</div>
 
-			<div className='flex justify-center gap-4'>
-				<Link
-					href='/history-results'
-					className='bg-gray-700 hover:bg-gray-800 text-white px-6 py-2 rounded-lg transition'>
-					<span className='inline-block align-middle'>
-						Ver Historial
-					</span>
-				</Link>
-			</div>
+			{actionButtonText && actionButtonAction && (
+				<div className='flex justify-center gap-4'>
+					<button
+						onClick={actionButtonAction}
+						className='bg-blue-900 hover:bg-blue-800 text-white px-6 py-2 rounded-lg transition'>
+						{actionButtonText}
+					</button>
+				</div>
+			)}
+
+			{showActionButton && (
+				<div className='flex justify-center gap-4'>
+					<Link
+						href='/history-results'
+						className='bg-gray-700 hover:bg-gray-800 text-white px-6 py-2 rounded-lg transition'>
+						<span className='inline-block align-middle'>
+							Ver Historial
+						</span>
+					</Link>
+				</div>
+			)}
 		</div>
 	);
 };
