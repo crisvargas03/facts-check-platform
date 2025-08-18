@@ -49,7 +49,7 @@ namespace FactCheckBack.Business.Features.Article.AnalyzeArticle
 
                 // 2. Llamar al microservicio de análisis externo
                 var result = await _unitOfWork.ArticleInput.AnalyzeArticleAsync(request.Title, request.CompleteText, "string");
-                if (!result.IsSuccess)
+                if (!result.IsSuccess || result.Data == null)
                     return ApiResponse<AnalyzeArticleCommandDto>.Fail($"Fallo en llamada a la IA: {string.Join(" | ", result.Errors)}");
 
                 var articleId = Guid.NewGuid().ToString();
@@ -89,13 +89,41 @@ namespace FactCheckBack.Business.Features.Article.AnalyzeArticle
 
                 var response = new AnalyzeArticleCommandDto
                 {
-                    PercentageTrust = analysis.percentaje_trust,
                     Motive = analysis.motive,
-                    ReliableSource = analysis.reliable_source,
-                    ScientificEvidence = analysis.scientific_evidence,
-                    CitationsAndReferences = analysis.citations_and_references,
-                    TargetLanguage = analysis.target_language,
-                    ContextAndLimitations = analysis.context_and_limitations
+                    PercentageTrust = analysis.percentaje_trust,
+                    EvaluationFactors = new List<EvaluationFactorDto>
+                    {
+                        new EvaluationFactorDto
+                        {
+                            Title = "Fuente Confiable",
+                            Descripcion = "Evaluación de la reputación y confiabilidad de la fuente",
+                            EvaluationResult = analysis.reliable_source
+                        },
+                        new EvaluationFactorDto
+                        {
+                            Title = "Evidencia Científica",
+                            Descripcion = "Análisis de la solidez y respaldo científico del contenido",
+                            EvaluationResult = analysis.scientific_evidence
+                        },
+                        new EvaluationFactorDto
+                        {
+                            Title = "Citas y Referencias",
+                            Descripcion = "Evaluación de la calidad y pertinencia de las fuentes citadas",
+                            EvaluationResult = analysis.citations_and_references
+                        },
+                        new EvaluationFactorDto
+                        {
+                            Title = "Lenguaje Objetivo",
+                            Descripcion = "Análisis de la objetividad y neutralidad del lenguaje utilizado",
+                            EvaluationResult = analysis.target_language
+                        },
+                        new EvaluationFactorDto
+                        {
+                            Title = "Contexto y Limitaciones",
+                            Descripcion = "Evaluación de la contextualización y reconocimiento de limitaciones",
+                            EvaluationResult = analysis.context_and_limitations
+                        }
+                    }
                 };
 
                 return ApiResponse<AnalyzeArticleCommandDto>.Success(response);
