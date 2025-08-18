@@ -17,19 +17,16 @@ def chat(request: ArticleRequest):
             "error": "",
             "success": True,
             "result": {
-                "motive": data["motive"],
-                "percentage_trust": data["percentage-trust"],
-                "evaluation_factors": [
-                    {
-                        "title": factor["title"],
-                        "description": factor["descripcion"],
-                        "evaluation_result": factor["evaluation-result"]
-                    }
-                    for factor in data["evaluation-factors"]
-                ]
+                "percentaje_trust": data["percentaje-trust"],
+                "reliable_source": data["reliable-source"],
+                "scientific_evidence": data["scientific-evidence"],
+                "citations_and_references": data["citations-and-references"],
+                "target_language": data["target-language"],
+                "context_and_limitations": data["context-and-limitations"],
+                "feedback": data["feedback"]
             }
         }
-        
+
     except Exception as e:
         return {
             "error": str(e),
