@@ -73,24 +73,6 @@ const analysisData = [
 ];
 
 export const ChartsAnalysisSection = () => {
-	// const filteredData = analysisData.filter(item => {
-	// 	if (!startDate && !endDate) return true;
-
-	// 	const itemDate = new Date(item.date);
-	// 	const start = startDate ? new Date(startDate) : null;
-	// 	const end = endDate ? new Date(endDate) : null;
-
-	// 	if (start && end) {
-	// 		return itemDate >= start && itemDate <= end;
-	// 	} else if (start) {
-	// 		return itemDate >= start;
-	// 	} else if (end) {
-	// 		return itemDate <= end;
-	// 	}
-
-	// 	return true;
-	// });
-
 	return (
 		<div className='grid grid-cols-1 xl:grid-cols-2 gap-8 mb-12'>
 			<BarChart data={barChartData} title='Comparativa de Análisis' />

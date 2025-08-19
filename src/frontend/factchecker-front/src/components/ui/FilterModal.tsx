@@ -1,165 +1,143 @@
+import React, { useEffect, useRef } from 'react';
+
 interface FilterModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  startDate: string;
-  endDate: string;
-  onStartDateChange: (date: string) => void;
-  onEndDateChange: (date: string) => void;
-  onClear: () => void;
-  title?: string;
+	isOpen: boolean;
+	onClose: () => void;
+	startDate: string;
+	endDate: string;
+	onStartDateChange: (date: string) => void;
+	onEndDateChange: (date: string) => void;
+	onClear: () => void;
+	onApply: () => void; // <-- nuevo
+	isApplying?: boolean; // <-- nuevo (estado de transición)
+	title?: string;
 }
 
 export default function FilterModal({
-  isOpen,
-  onClose,
-  startDate,
-  endDate,
-  onStartDateChange,
-  onEndDateChange,
-  onClear,
-  title = "Filtrar por Fecha"
+	isOpen,
+	onClose,
+	startDate,
+	endDate,
+	onStartDateChange,
+	onEndDateChange,
+	onClear,
+	onApply,
+	isApplying = false,
+	title = 'Filtrar por Fecha',
 }: FilterModalProps) {
-  if (!isOpen) return null;
+	const initialFocusRef = useRef<HTMLInputElement | null>(null);
+	const headingId = 'filter-modal-title';
 
-  return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      backgroundColor: 'rgba(0, 0, 0, 0.5)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 1000
-    }}>
-      <div style={{
-        backgroundColor: 'white',
-        padding: '32px',
-        borderRadius: '12px',
-        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1)',
-        maxWidth: '500px',
-        width: '90%',
-        position: 'relative'
-      }}>
-        {/* Close Button */}
-        <button
-          onClick={onClose}
-          style={{
-            position: 'absolute',
-            top: '16px',
-            right: '16px',
-            background: 'none',
-            border: 'none',
-            fontSize: '24px',
-            cursor: 'pointer',
-            color: '#6b7280',
-            width: '32px',
-            height: '32px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: '4px',
-            transition: 'background-color 0.2s'
-          }}
-          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f3f4f6'}
-          onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
-        >
-          ×
-        </button>
+	useEffect(() => {
+		if (!isOpen) return;
+		const prevOverflow = document.body.style.overflow;
+		document.body.style.overflow = 'hidden';
+		const onKeyDown = (e: KeyboardEvent) => {
+			if (e.key === 'Escape' && !isApplying) onClose();
+		};
+		window.addEventListener('keydown', onKeyDown);
+		initialFocusRef.current?.focus();
+		return () => {
+			document.body.style.overflow = prevOverflow;
+			window.removeEventListener('keydown', onKeyDown);
+		};
+	}, [isOpen, onClose, isApplying]);
 
-        <h3 style={{ fontSize: '24px', fontWeight: 'bold', color: '#1f2937', marginBottom: '24px' }}>
-          {title}
-        </h3>
+	// YYYY-MM-DD compara bien como string para validar rango
+	const errorDate = Boolean(startDate && endDate && startDate > endDate);
+	const canApply = !errorDate && !isApplying;
 
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <div>
-            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#6b7280', marginBottom: '8px' }}>
-              Fecha Inicio
-            </label>
-            <input
-              type="date"
-              value={startDate}
-              onChange={(e) => onStartDateChange(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '12px 16px',
-                border: '1px solid #d1d5db',
-                borderRadius: '8px',
-                fontSize: '16px',
-                outline: 'none',
-                transition: 'border-color 0.2s'
-              }}
-              onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
-              onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
-            />
-          </div>
+	if (!isOpen) return null;
 
-          <div>
-            <label style={{ display: 'block', fontSize: '14px', fontWeight: '500', color: '#6b7280', marginBottom: '8px' }}>
-              Fecha Fin
-            </label>
-            <input
-              type="date"
-              value={endDate}
-              onChange={(e) => onEndDateChange(e.target.value)}
-              style={{
-                width: '100%',
-                padding: '12px 16px',
-                border: '1px solid #d1d5db',
-                borderRadius: '8px',
-                fontSize: '16px',
-                outline: 'none',
-                transition: 'border-color 0.2s'
-              }}
-              onFocus={(e) => e.target.style.borderColor = '#3b82f6'}
-              onBlur={(e) => e.target.style.borderColor = '#d1d5db'}
-            />
-          </div>
+	return (
+		<div
+			className='fixed inset-0 z-[1000] flex items-center justify-center bg-black/50 backdrop-blur-sm px-4'
+			onClick={e => {
+				if (e.target === e.currentTarget && !isApplying) onClose(); // cerrar al hacer click fuera si no está aplicando
+			}}
+			aria-labelledby={headingId}
+			aria-modal='true'
+			role='dialog'
+			aria-busy={isApplying}>
+			<div className='relative w-full max-w-md rounded-lg bg-white p-8 shadow-sm'>
+				{/* Botón cerrar */}
+				<button
+					onClick={onClose}
+					aria-label='Cerrar'
+					disabled={isApplying}
+					className='absolute right-3 top-3 inline-flex h-8 w-8 items-center justify-center rounded-md text-2xl leading-none text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed'>
+					×
+				</button>
 
-          <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
-            <button
-              onClick={onClear}
-              style={{
-                flex: 1,
-                backgroundColor: '#6b7280',
-                color: 'white',
-                padding: '12px 20px',
-                border: 'none',
-                borderRadius: '8px',
-                fontSize: '16px',
-                fontWeight: '500',
-                cursor: 'pointer',
-                transition: 'background-color 0.2s'
-              }}
-              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#4b5563'}
-              onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#6b7280'}
-            >
-              Limpiar
-            </button>
-            <button
-              onClick={onClose}
-              style={{
-                flex: 1,
-                backgroundColor: '#3b82f6',
-                color: 'white',
-                padding: '12px 20px',
-                border: 'none',
-                borderRadius: '8px',
-                fontSize: '16px',
-                fontWeight: '500',
-                cursor: 'pointer',
-                transition: 'background-color 0.2s'
-              }}
-              onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#2563eb'}
-              onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#3b82f6'}
-            >
-              Aplicar Filtro
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-} 
+				<h3
+					id={headingId}
+					className='mb-6 text-2xl font-bold text-gray-800'>
+					{title}
+				</h3>
+
+				<div className='flex flex-col gap-5'>
+					{/* Fecha Inicio */}
+					<div>
+						<label
+							htmlFor='start-date'
+							className='mb-2 block text-sm font-medium text-gray-600'>
+							Fecha Inicio
+						</label>
+						<input
+							id='start-date'
+							type='date'
+							ref={initialFocusRef}
+							value={startDate}
+							onChange={e => onStartDateChange(e.target.value)}
+							disabled={isApplying}
+							className='w-full rounded-lg border border-gray-300 px-4 py-3 text-base outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:opacity-60'
+						/>
+					</div>
+
+					{/* Fecha Fin */}
+					<div>
+						<label
+							htmlFor='end-date'
+							className='mb-2 block text-sm font-medium text-gray-600'>
+							Fecha Fin
+						</label>
+						<input
+							id='end-date'
+							type='date'
+							value={endDate}
+							onChange={e => onEndDateChange(e.target.value)}
+							disabled={isApplying}
+							className='w-full rounded-lg border border-gray-300 px-4 py-3 text-base outline-none transition focus:border-blue-500 focus:ring-1 focus:ring-blue-500 disabled:opacity-60'
+						/>
+					</div>
+
+					{/* Acciones */}
+					<div className='mt-1 flex gap-3'>
+						<button
+							type='button'
+							onClick={onClear}
+							disabled={isApplying}
+							className='flex-1 rounded-lg bg-gray-600 px-5 py-3 text-base font-medium text-white transition hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 disabled:opacity-50 disabled:cursor-not-allowed'>
+							Limpiar
+						</button>
+						<button
+							type='button'
+							onClick={onApply}
+							disabled={!canApply}
+							aria-disabled={!canApply}
+							className='flex-1 rounded-lg bg-green-600 px-5 py-3 text-base font-semibold text-white transition hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-400 disabled:opacity-50 disabled:cursor-not-allowed'>
+							{isApplying ? 'Aplicando…' : 'Aplicar Filtro'}
+						</button>
+					</div>
+
+					{errorDate && (
+						<p className='text-sm text-red-600'>
+							La fecha de inicio no puede ser mayor que la fecha
+							fin.
+						</p>
+					)}
+				</div>
+			</div>
+		</div>
+	);
+}

@@ -1,27 +1,36 @@
+// disable any
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 'use client';
 
-import { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { Badge } from './Badge';
 import { ProgressBar } from '../ProgressBar';
-import { DataTableColumn } from '@/lib/ui';
+import type { DataTableColumn } from '@/lib/ui';
+import { Pagination } from '../dashboard/Pagination';
+
+type SortOrder = 'asc' | 'desc';
 
 interface DataTableProps {
-	columns: DataTableColumn[];
+	columns?: DataTableColumn[];
 	data: any[];
 	itemsPerPage?: number;
 	onRowClick?: (item: any) => void;
 	renderCell?: (
 		item: any,
 		columnKey: string,
-		index: number
+		rowIndex: number
 	) => React.ReactNode;
-	// Props para compatibilidad con el uso actual
 	title?: string;
 	viewDetailLink?: string;
 	viewDetailText?: string;
+	emptyMessage?: string;
 }
 
-export const DataTable = ({
+const cx = (...classes: Array<string | false | undefined>) =>
+	classes.filter(Boolean).join(' ');
+
+export function DataTable({
 	columns,
 	data,
 	itemsPerPage = 5,
@@ -30,14 +39,15 @@ export const DataTable = ({
 	title,
 	viewDetailLink,
 	viewDetailText = 'Ver Detalle',
-}: DataTableProps) => {
+	emptyMessage = 'No hay datos para mostrar.',
+}: DataTableProps) {
 	const [currentPage, setCurrentPage] = useState(1);
 	const [sortBy, setSortBy] = useState<string>('');
-	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+	const [sortOrder, setSortOrder] = useState<SortOrder>('desc');
 
-	// Columnas por defecto para compatibilidad con el uso actual
+	// Columnas por defecto (compatibilidad)
 	const defaultColumns: DataTableColumn[] = [
-		{ key: 'index', label: '#', align: 'left', width: '40px' },
+		{ key: 'index', label: '#', align: 'left', width: '56px' },
 		{ key: 'name', label: 'Nombre', sortable: true },
 		{
 			key: 'credibility',
@@ -50,79 +60,79 @@ export const DataTable = ({
 			label: 'Porcentaje',
 			sortable: true,
 			align: 'center',
-			width: '80px',
+			width: '96px',
 		},
 		{
 			key: 'date',
 			label: 'Fecha',
 			sortable: true,
 			align: 'center',
-			width: '100px',
+			width: '120px',
 		},
 	];
+	const tableColumns = columns?.length ? columns : defaultColumns;
 
-	const tableColumns = columns || defaultColumns;
-
-	const handleSort = (columnKey: string) => {
+	const toggleSort = (columnKey: string) => {
 		if (sortBy === columnKey) {
-			setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+			setSortOrder(prev => (prev === 'asc' ? 'desc' : 'asc'));
 		} else {
 			setSortBy(columnKey);
 			setSortOrder('desc');
 		}
+		setCurrentPage(1);
 	};
 
-	const sortedData = [...data].sort((a, b) => {
-		if (!sortBy) return 0;
+	const sortedData = useMemo(() => {
+		if (!sortBy) return data;
+		const cp = [...data];
+		cp.sort((a, b) => {
+			let av: any = a?.[sortBy];
+			let bv: any = b?.[sortBy];
+			if (typeof av === 'string') av = av.toLowerCase();
+			if (typeof bv === 'string') bv = bv.toLowerCase();
+			if (av === bv) return 0;
+			const res = av > bv ? 1 : -1;
+			return sortOrder === 'asc' ? res : -res;
+		});
+		return cp;
+	}, [data, sortBy, sortOrder]);
 
-		let aValue: any = a[sortBy];
-		let bValue: any = b[sortBy];
-
-		if (typeof aValue === 'string') {
-			aValue = aValue.toLowerCase();
-			bValue = bValue.toLowerCase();
-		}
-
-		if (sortOrder === 'asc') {
-			return aValue > bValue ? 1 : -1;
-		} else {
-			return aValue < bValue ? 1 : -1;
-		}
-	});
-
-	const totalPages = Math.ceil(sortedData.length / itemsPerPage);
-	const startIndex = (currentPage - 1) * itemsPerPage;
-	const endIndex = startIndex + itemsPerPage;
-	const currentData = sortedData.slice(startIndex, endIndex);
-
-	const handlePageChange = (page: number) => {
-		setCurrentPage(page);
-	};
+	const totalPages = Math.max(1, Math.ceil(sortedData.length / itemsPerPage));
+	const currentData = useMemo(() => {
+		const start = (currentPage - 1) * itemsPerPage;
+		return sortedData.slice(start, start + itemsPerPage);
+	}, [sortedData, currentPage, itemsPerPage]);
 
 	const SortIcon = ({ columnKey }: { columnKey: string }) => {
-		if (sortBy !== columnKey)
-			return <span style={{ color: '#9ca3af' }}>↕</span>;
-		return sortOrder === 'desc' ? (
-			<span style={{ color: '#374151' }}>↓</span>
-		) : (
-			<span style={{ color: '#374151' }}>↑</span>
+		if (sortBy !== columnKey) {
+			return (
+				<span className='text-gray-400' aria-hidden>
+					↕
+				</span>
+			);
+		}
+		return (
+			<span className='text-gray-700' aria-hidden>
+				{sortOrder === 'desc' ? '↓' : '↑'}
+			</span>
 		);
 	};
 
-	// Renderizado por defecto para compatibilidad
-	const defaultRenderCell = (item: any, columnKey: string, index: number) => {
+	const defaultRenderCell = (
+		item: any,
+		columnKey: string,
+		rowIndex: number
+	) => {
 		switch (columnKey) {
 			case 'index':
 				return (
-					<span style={{ fontSize: '14px', color: '#9ca3af' }}>
-						{String(index + 1).padStart(2, '0')}
+					<span className='text-sm text-gray-400'>
+						{String(rowIndex + 1).padStart(2, '0')}
 					</span>
 				);
 			case 'name':
 				return (
-					<span style={{ fontSize: '14px', color: '#000000' }}>
-						{item.name}
-					</span>
+					<span className='text-sm text-gray-900'>{item.name}</span>
 				);
 			case 'credibility':
 				return (
@@ -132,183 +142,178 @@ export const DataTable = ({
 						height='8px'
 					/>
 				);
-			case 'percentage':
-				const getCredibilityColor = (credibility: number) => {
-					if (credibility >= 80) return 'green';
-					if (credibility >= 60) return 'yellow';
-					if (credibility >= 40) return 'orange';
-					return 'red';
-				};
+			case 'percentage': {
+				const getColor = (cred: number) =>
+					cred >= 80
+						? 'green'
+						: cred >= 60
+						? 'yellow'
+						: cred >= 40
+						? 'orange'
+						: 'red';
 				return (
-					<Badge color={getCredibilityColor(item.credibility)}>
+					<Badge color={getColor(item.credibility)}>
 						{item.percentage}
 					</Badge>
 				);
+			}
 			case 'date':
 				return (
-					<span style={{ fontSize: '14px', color: '#6b7280' }}>
-						{new Date(item.date).toLocaleDateString('es-ES')}
+					<span className='text-sm text-gray-500'>
+						{item.date
+							? new Date(item.date).toLocaleDateString('es-ES')
+							: '—'}
 					</span>
 				);
 			default:
-				return item[columnKey];
+				return (
+					<span className='text-sm text-gray-700'>
+						{String(item[columnKey] ?? '—')}
+					</span>
+				);
 		}
 	};
 
-	const cellRenderer = renderCell || defaultRenderCell;
+	const cellRenderer = renderCell ?? defaultRenderCell;
 
 	return (
-		<div
-			style={{
-				backgroundColor: 'white',
-				padding: '32px',
-				borderRadius: '12px',
-				boxShadow:
-					'0 20px 40px -10px rgba(0, 0, 0, 0.15), 0 10px 20px -5px rgba(0, 0, 0, 0.1), 0 4px 8px -2px rgba(0, 0, 0, 0.08)',
-				border: '1px solid rgba(0, 0, 0, 0.05)',
-			}}>
-			{/* Header con título y enlace si se proporciona */}
+		<div className='bg-white rounded-lg border border-gray-200 shadow-sm p-8'>
+			{/* Header */}
 			{(title || viewDetailLink) && (
-				<div
-					style={{
-						display: 'flex',
-						justifyContent: 'space-between',
-						alignItems: 'center',
-						marginBottom: '32px',
-					}}>
+				<div className='mb-8 flex items-center justify-between gap-3'>
 					{title && (
-						<h3
-							style={{
-								fontSize: '24px',
-								fontWeight: 'bold',
-								color: '#000000',
-							}}>
+						<h3 className='text-2xl font-bold text-black'>
 							{title}
 						</h3>
 					)}
 					{viewDetailLink && (
 						<a
 							href={viewDetailLink}
-							style={{
-								fontSize: '14px',
-								color: '#1e3a8a',
-								background: 'none',
-								border: 'none',
-								cursor: 'pointer',
-								textDecoration: 'none',
-								fontWeight: '500',
-							}}>
+							className='text-sm font-medium text-blue-900 hover:underline'>
 							{viewDetailText}
 						</a>
 					)}
 				</div>
 			)}
 
-			{/* Table */}
-			<div
-				style={{
-					backgroundColor: 'white',
-					borderRadius: '12px',
-					overflow: 'hidden',
-					width: '100%',
-				}}>
-				<div style={{ overflowX: 'auto' }}>
-					<table
-						style={{ width: '100%', borderCollapse: 'collapse' }}>
-						<thead>
-							<tr>
-								{tableColumns.map(column => (
-									<th
-										key={column.key}
-										style={{
-											textAlign: column.align || 'left',
-											padding: '16px 24px',
-											fontWeight: '600',
-											color: '#9ca3af',
-											fontSize: '14px',
-											cursor: column.sortable
-												? 'pointer'
-												: 'default',
-											width: column.width,
-										}}
-										onClick={() =>
-											column.sortable &&
-											handleSort(column.key)
-										}
-										onMouseOver={e => {
-											if (column.sortable) {
-												e.currentTarget.style.backgroundColor =
-													'#f3f4f6';
-											}
-										}}
-										onMouseOut={e => {
-											if (column.sortable) {
-												e.currentTarget.style.backgroundColor =
-													'transparent';
-											}
-										}}>
-										<div
-											style={{
-												display: 'flex',
-												alignItems: 'center',
-												justifyContent:
-													column.align === 'center'
-														? 'center'
-														: 'flex-start',
-												gap: '8px',
-											}}>
-											<span>{column.label}</span>
-											{column.sortable && (
-												<SortIcon
-													columnKey={column.key}
-												/>
+			{/* Tabla */}
+			<div className='w-full overflow-hidden rounded-xl'>
+				<div className='w-full overflow-x-auto'>
+					<table className='w-full border-collapse'>
+						<thead className='bg-white'>
+							<tr className='border-b border-gray-100'>
+								{tableColumns.map(col => {
+									const isSortable = !!col.sortable;
+									const align =
+										col.align === 'center'
+											? 'text-center'
+											: col.align === 'right'
+											? 'text-right'
+											: 'text-left';
+									const width = col.width
+										? { width: col.width }
+										: undefined;
+									return (
+										<th
+											key={col.key}
+											scope='col'
+											style={width}
+											className={cx(
+												'px-6 py-4 text-sm font-semibold text-gray-400',
+												align
 											)}
-										</div>
-									</th>
-								))}
+											aria-sort={
+												sortBy === col.key
+													? sortOrder === 'asc'
+														? 'ascending'
+														: 'descending'
+													: 'none'
+											}>
+											{isSortable ? (
+												<button
+													type='button'
+													onClick={() =>
+														toggleSort(col.key)
+													}
+													className={cx(
+														'group inline-flex items-center gap-2',
+														align === 'text-left' &&
+															'justify-start',
+														align ===
+															'text-center' &&
+															'justify-center',
+														align ===
+															'text-right' &&
+															'justify-end'
+													)}
+													aria-label={`Ordenar por ${col.label}`}>
+													<span>{col.label}</span>
+													<span className='transition-colors group-hover:text-gray-600'>
+														<SortIcon
+															columnKey={col.key}
+														/>
+													</span>
+												</button>
+											) : (
+												<span className='inline-flex items-center gap-2'>
+													{col.label}
+												</span>
+											)}
+										</th>
+									);
+								})}
 							</tr>
 						</thead>
+
 						<tbody>
-							{currentData.map((item, index) => (
-								<tr
-									key={item.id || index}
-									style={{
-										borderBottom: '1px solid #f3f4f6',
-										transition: 'background-color 0.2s',
-										cursor: onRowClick
-											? 'pointer'
-											: 'default',
-									}}
-									onClick={() =>
-										onRowClick && onRowClick(item)
-									}
-									onMouseOver={e =>
-										(e.currentTarget.style.backgroundColor =
-											'#f9fafb')
-									}
-									onMouseOut={e =>
-										(e.currentTarget.style.backgroundColor =
-											'white')
-									}>
-									{tableColumns.map(column => (
-										<td
-											key={column.key}
-											style={{
-												padding: '16px 24px',
-												textAlign:
-													column.align || 'left',
-												color: '#374151',
-												fontSize: '14px',
-											}}>
-											{cellRenderer(
-												item,
-												column.key,
-												startIndex + index
-											)}
-										</td>
-									))}
+							{currentData.length === 0 ? (
+								<tr>
+									<td
+										colSpan={tableColumns.length}
+										className='px-6 py-10 text-center text-sm text-gray-500'>
+										{emptyMessage}
+									</td>
 								</tr>
-							))}
+							) : (
+								currentData.map((item, idx) => (
+									<tr
+										key={
+											item.id ??
+											`${idx}-${item?.name ?? 'row'}`
+										}
+										className={cx(
+											'border-b border-gray-100 transition-colors',
+											onRowClick &&
+												'cursor-pointer hover:bg-gray-50'
+										)}
+										onClick={() => onRowClick?.(item)}>
+										{tableColumns.map(col => {
+											const align =
+												col.align === 'center'
+													? 'text-center'
+													: col.align === 'right'
+													? 'text-right'
+													: 'text-left';
+											return (
+												<td
+													key={col.key}
+													className={cx(
+														'px-6 py-4 text-gray-700 text-sm',
+														align
+													)}>
+													{cellRenderer(
+														item,
+														col.key,
+														(currentPage - 1) *
+															itemsPerPage +
+															idx
+													)}
+												</td>
+											);
+										})}
+									</tr>
+								))
+							)}
 						</tbody>
 					</table>
 				</div>
@@ -316,125 +321,12 @@ export const DataTable = ({
 
 			{/* Paginación */}
 			{totalPages > 1 && (
-				<div
-					style={{
-						display: 'flex',
-						justifyContent: 'center',
-						alignItems: 'center',
-						gap: '8px',
-						marginTop: '70px',
-						padding: '24px 0',
-					}}>
-					<button
-						onClick={() => handlePageChange(currentPage - 1)}
-						disabled={currentPage === 1}
-						style={{
-							padding: '8px 12px',
-							border: '1px solid #d1d5db',
-							backgroundColor:
-								currentPage === 1 ? '#f3f4f6' : 'white',
-							color: currentPage === 1 ? '#9ca3af' : '#374151',
-							borderRadius: '6px',
-							cursor:
-								currentPage === 1 ? 'not-allowed' : 'pointer',
-							fontSize: '14px',
-							transition: 'all 0.2s',
-						}}
-						onMouseOver={e => {
-							if (currentPage !== 1) {
-								e.currentTarget.style.backgroundColor =
-									'#f9fafb';
-							}
-						}}
-						onMouseOut={e => {
-							if (currentPage !== 1) {
-								e.currentTarget.style.backgroundColor = 'white';
-							}
-						}}>
-						Anterior
-					</button>
-
-					{Array.from({ length: totalPages }, (_, i) => i + 1).map(
-						page => (
-							<button
-								key={page}
-								onClick={() => handlePageChange(page)}
-								style={{
-									padding: '8px 12px',
-									border: '1px solid #d1d5db',
-									backgroundColor:
-										currentPage === page
-											? '#1e3a8a'
-											: 'white',
-									color:
-										currentPage === page
-											? 'white'
-											: '#374151',
-									borderRadius: '6px',
-									cursor: 'pointer',
-									fontSize: '14px',
-									fontWeight:
-										currentPage === page ? '600' : '400',
-									transition: 'all 0.2s',
-								}}
-								onMouseOver={e => {
-									if (currentPage !== page) {
-										e.currentTarget.style.backgroundColor =
-											'#f9fafb';
-									}
-								}}
-								onMouseOut={e => {
-									if (currentPage !== page) {
-										e.currentTarget.style.backgroundColor =
-											currentPage === page
-												? '#1e3a8a'
-												: 'white';
-									}
-								}}>
-								{page}
-							</button>
-						)
-					)}
-
-					<button
-						onClick={() => handlePageChange(currentPage + 1)}
-						disabled={currentPage === totalPages}
-						style={{
-							padding: '8px 12px',
-							border: '1px solid #d1d5db',
-							backgroundColor:
-								currentPage === totalPages
-									? '#f3f4f6'
-									: 'white',
-							color:
-								currentPage === totalPages
-									? '#9ca3af'
-									: '#374151',
-							borderRadius: '6px',
-							cursor:
-								currentPage === totalPages
-									? 'not-allowed'
-									: 'pointer',
-							fontSize: '14px',
-							transition: 'all 0.2s',
-						}}
-						onMouseOver={e => {
-							if (currentPage !== totalPages) {
-								e.currentTarget.style.backgroundColor =
-									'#f9fafb';
-							}
-						}}
-						onMouseOut={e => {
-							if (currentPage !== totalPages) {
-								e.currentTarget.style.backgroundColor = 'white';
-							}
-						}}>
-						Siguiente
-					</button>
-				</div>
+				<Pagination
+					currentPage={currentPage}
+					totalPages={totalPages}
+					onPageChange={setCurrentPage}
+				/>
 			)}
 		</div>
 	);
-};
-
-export default DataTable;
+}

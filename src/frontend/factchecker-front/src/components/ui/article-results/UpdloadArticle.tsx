@@ -38,9 +38,11 @@ export const UpdloadArticle = ({ onAnalyze }: Props) => {
 			{isPending && <LoadingState />}
 
 			{/* Result */}
-			{analysisInfoResult && (
-				<AnalysisInfoResult analysisDetails={analysisInfoResult} />
-			)}
+			<div className='mt-8'>
+				{analysisInfoResult && (
+					<AnalysisInfoResult analysisDetails={analysisInfoResult} />
+				)}
+			</div>
 		</div>
 	);
 };

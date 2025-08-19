@@ -7,9 +7,9 @@ interface Props {
 }
 
 type NormalUploadInputs = {
-	titulo: string;
-	contenido: string;
-	url?: string;
+	title: string;
+	content: string;
+	sourceUrl?: string;
 };
 
 export const NormalUploadForms = ({ isAnalyzing, onSubmitForm }: Props) => {
@@ -41,14 +41,14 @@ export const NormalUploadForms = ({ isAnalyzing, onSubmitForm }: Props) => {
 				<input
 					type='text'
 					id='titulo'
-					{...register('titulo', { required: true })}
+					{...register('title', { required: true })}
 					className={`w-full px-4 py-3 border border-gray-300 rounded-lg text-base  focus:border-blue-500 focus:ring-blue-500 outline-none transition ${
-						errors.titulo ? errorStyle : ''
+						errors.title ? errorStyle : ''
 					}`}
 					placeholder='Ingresa el título del artículo...'
 					required
 				/>
-				{errors.titulo && (
+				{errors.title && (
 					<span className='mt-2 text-xs text-red-500'>
 						El título es obligatorio
 					</span>
@@ -63,16 +63,16 @@ export const NormalUploadForms = ({ isAnalyzing, onSubmitForm }: Props) => {
 					Contenido del Artículo
 				</label>
 				<textarea
-					id='contenido'
-					{...register('contenido', { required: true })}
+					id='content'
+					{...register('content', { required: true })}
 					rows={10}
 					className={`w-full px-4 py-3 border border-gray-300 rounded-lg text-base focus:border-blue-500 focus:ring-blue-500 outline-none transition resize-y ${
-						errors.contenido ? errorStyle : ''
+						errors.content ? errorStyle : ''
 					}`}
 					placeholder='Pega aquí el contenido completo del artículo...'
 					required
 				/>
-				{errors.contenido && (
+				{errors.content && (
 					<span className='mt-2 text-xs text-red-500'>
 						El contenido es obligatorio
 					</span>
@@ -88,15 +88,15 @@ export const NormalUploadForms = ({ isAnalyzing, onSubmitForm }: Props) => {
 				</label>
 				<input
 					type='url'
-					id='url'
-					{...register('url')}
+					id='sourceUrl'
+					{...register('sourceUrl')}
 					className='w-full px-4 py-3 border border-gray-300 rounded-lg text-base focus:border-blue-500 focus:ring-blue-500 outline-none transition'
 					placeholder='https://ejemplo.com/articulo'
 				/>
 			</div>
 
 			{/* Submit Button */}
-			<div className='flex justify-center pt-4 gap-4'>
+			<div className='flex justify-center pt-2 gap-4'>
 				<button
 					type='submit'
 					disabled={isAnalyzing}
@@ -110,13 +110,6 @@ export const NormalUploadForms = ({ isAnalyzing, onSubmitForm }: Props) => {
 						</span>
 					)}
 				</button>
-				{/* <button
-					type='button'
-					disabled={isAnalyzing}
-					className='px-8 py-3 rounded-lg font-semibold text-white text-base bg-red-600 hover:bg-red-500 transition'
-					onClick={handleClear}>
-					Analizar Otro Artículo
-				</button> */}
 			</div>
 		</form>
 	);
