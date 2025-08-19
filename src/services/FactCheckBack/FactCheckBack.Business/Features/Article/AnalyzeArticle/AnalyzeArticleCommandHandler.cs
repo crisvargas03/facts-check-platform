@@ -47,8 +47,12 @@ namespace FactCheckBack.Business.Features.Article.AnalyzeArticle
                 await _unitOfWork.User_plan.UpdateAsync(userPlan);
                 await _unitOfWork.CompleteAsync();
 
+                var effectiveTitle = string.IsNullOrWhiteSpace(request.Title)
+                    ? GenerateTitle.GenerateTitleFromText(request.CompleteText)
+                    : request.Title.Trim();
+
                 // 2. Llamar al microservicio de análisis externo
-                var result = await _unitOfWork.ArticleInput.AnalyzeArticleAsync(request.Title, request.CompleteText, "string");
+                var result = await _unitOfWork.ArticleInput.AnalyzeArticleAsync(effectiveTitle, request.CompleteText, "string");
                 if (!result.IsSuccess || result.Data == null)
                     return ApiResponse<AnalyzeArticleCommandDto>.Fail($"Fallo en llamada a la IA: {string.Join(" | ", result.Errors)}");
 
@@ -58,7 +62,7 @@ namespace FactCheckBack.Business.Features.Article.AnalyzeArticle
                 {
                     article_id = articleId,
                     user_id = user.user_id,
-                    title = request.Title,
+                    title = effectiveTitle,
                     complete_text = request.CompleteText,
                     created = DateTime.UtcNow,
                     article_type_id = "1-BWS5UB"
@@ -85,12 +89,15 @@ namespace FactCheckBack.Business.Features.Article.AnalyzeArticle
 
                 userPlan.attempts_used++;
 
+                decimal RemainingAttempts = plan!.max_attempts - userPlan.attempts_used;
+
                 await _unitOfWork.CompleteAsync();
 
                 var response = new AnalyzeArticleCommandDto
                 {
                     Motive = analysis.motive,
                     PercentageTrust = analysis.percentaje_trust,
+                    RemainingAttempts = RemainingAttempts,
                     EvaluationFactors = new List<EvaluationFactorDto>
                     {
                         new EvaluationFactorDto
