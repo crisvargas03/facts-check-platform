@@ -1,7 +1,7 @@
 export const publicLinksOptions: LinkOptions[] = [
 	{ label: 'Inicio', href: '/home' },
 	{ label: 'Planes', href: '/plans' },
-	{ label: 'Acerca de', href: '/about' },
+	{ label: 'Demo', href: '/demo' },
 	{ label: 'Unirse', href: '/auth/login' },
 ];
 
