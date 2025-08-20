@@ -1,3 +1,4 @@
+using FactCheckBack.Business.Features.Dashboard.ComparisonQuery;
 using FactCheckBack.Data.Core.UnitOfWork;
 using FactCheckBack.Models.Configurations;
 using LiteBus.Queries.Abstractions;
@@ -22,7 +23,20 @@ namespace FactCheckBack.Business.Features.Dashboard.SummaryQuery
                         HttpStatusCode.ServiceUnavailable);
                 }
 
-                var baseQuery = unitOfWork.Results.Query(false);
+                if (request.User is null)
+                    return ApiResponse<GetDashboardSummaryQueryDto>.Fail("No fueron encontrados datos para este usuario.",
+                        HttpStatusCode.BadRequest);
+
+                var user = await unitOfWork.Users.Query(false)
+                    .Select(x => new { x.user_id, x.email })
+                    .FirstOrDefaultAsync(u => u.email == request.User || u.user_id == request.User, cancellationToken);
+
+                if (user is null)
+                    return ApiResponse<GetDashboardSummaryQueryDto>.Fail("No fueron encontrados datos para este usuario.",
+                        HttpStatusCode.BadRequest);
+
+                var baseQuery = unitOfWork.Results.Query(false)
+                    .Where(r => r.Article_input.user_id == user.user_id);
 
                 if (request.StartDate.HasValue)
                 {
