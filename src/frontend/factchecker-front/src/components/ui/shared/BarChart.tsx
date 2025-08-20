@@ -31,7 +31,7 @@ export const BarChart = ({
 	height = 260,
 	barGap = 10,
 }: BarChartProps) => {
-	const totals = useMemo(() => {
+	/* const totals = useMemo(() => {
 		let real = 0,
 			fake = 0;
 		for (const d of data) {
@@ -39,7 +39,7 @@ export const BarChart = ({
 			fake += d.fake;
 		}
 		return { real, fake };
-	}, [data]);
+	}, [data]);*/
 
 	return (
 		// centralizar verticalmente
@@ -80,7 +80,6 @@ export const BarChart = ({
 									: 'Artículos Reales'
 							}
 						/>
-						{/* stackId hace que se apilen */}
 						<Bar
 							dataKey='fake'
 							stackId='total'
