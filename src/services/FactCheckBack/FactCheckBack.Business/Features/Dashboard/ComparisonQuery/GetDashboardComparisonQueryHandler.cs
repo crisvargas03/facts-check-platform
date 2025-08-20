@@ -19,6 +19,17 @@ namespace FactCheckBack.Business.Features.Dashboard.ComparisonQuery
                     return ApiResponse<GetDashboardComparisonQueryDto>.Fail("No se puede conectar a la base de datos",
                         HttpStatusCode.ServiceUnavailable);
 
+                if (request.User is null)
+                    return ApiResponse<GetDashboardComparisonQueryDto>.Fail("No fueron encontrados datos para este usuario.",
+                        HttpStatusCode.BadRequest);
+
+                var user = await unitOfWork.Users.Query(false)
+                    .FirstOrDefaultAsync(u => u.email == request.User || u.user_id == request.User, cancellationToken);
+
+                if (user is null)
+                    return ApiResponse<GetDashboardComparisonQueryDto>.Fail("No fueron encontrados datos para este usuario.",
+                        HttpStatusCode.BadRequest);
+
                 var weekStart = DateTime.Today.AddDays(-6).ToUniversalTime();
                 var weekEnd = DateTime.Today.AddDays(1).ToUniversalTime();
                 var daysOfWeek = new[] { "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom" };
@@ -27,7 +38,7 @@ namespace FactCheckBack.Business.Features.Dashboard.ComparisonQuery
                 if (request.EndDate.HasValue) weekEnd = request.EndDate.Value.ToUniversalTime();
 
                 var dailyStats = await unitOfWork.Results.Query(false)
-                    .Where(r => r.created >= weekStart && r.created <= weekEnd)
+                    .Where(r => r.Article_input.user_id == user.user_id && r.created >= weekStart && r.created <= weekEnd)
                     .GroupBy(r => new
                     {
                         Day = r.created.Date,

@@ -34,10 +34,11 @@ namespace FactCheckBack.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetDashboardComparison(
+            [FromQuery] string user,
             [FromQuery] DateTime? startDate = null,
             [FromQuery] DateTime? endDate = null)
         {
-            var query = new GetDashboardComparisonQuery(startDate, endDate);
+            var query = new GetDashboardComparisonQuery(startDate, endDate, user);
             var response = await queryMediator.QueryAsync(query);
 
             if (!response.IsSuccess)
