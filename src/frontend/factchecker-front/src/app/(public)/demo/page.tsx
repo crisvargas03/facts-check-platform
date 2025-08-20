@@ -38,7 +38,7 @@ export default async function DemoPage() {
 							<p className='text-sm text-gray-500'>
 								{sampleArticle.source}
 							</p>
-							<div className='bg-gray-100 p-4 rounded-lg text-gray-800 leading-relaxed'>
+							<div className='bg-gray-100 p-4 rounded-lg text-gray-800 leading-relaxed hover:cursor-not-allowed'>
 								{sampleArticle.content}
 							</div>
 						</div>
@@ -68,6 +68,7 @@ export default async function DemoPage() {
 									showActionButton={false}
 									actionButtonText='Reiniciar Demo'
 									actionButtonAction={resetDemoAction}
+									showBorders={false}
 								/>
 								<div>
 									<p className='mt-2 text-xs text-gray-500'>

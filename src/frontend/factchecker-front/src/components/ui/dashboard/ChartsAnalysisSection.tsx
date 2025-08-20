@@ -1,35 +1,5 @@
-import { DataTableColumn } from '@/lib/ui';
 import { BarChart, DataTable } from '../shared';
-
-const columnsSamples: DataTableColumn[] = [
-	{
-		key: 'index',
-		label: '#',
-		align: 'left',
-		width: '40px',
-	},
-	{ key: 'name', label: 'Nombre', sortable: true },
-	{
-		key: 'credibility',
-		label: 'Credibilidad',
-		sortable: true,
-		align: 'center',
-	},
-	{
-		key: 'percentage',
-		label: 'Porcentaje',
-		sortable: true,
-		align: 'center',
-		width: '80px',
-	},
-	{
-		key: 'date',
-		label: 'Fecha',
-		sortable: true,
-		align: 'center',
-		width: '100px',
-	},
-];
+import { dashboardColumns } from '@/utils/datatable-utils';
 
 const barChartData = [
 	{ day: 'Lun', real: 80, fake: 60 },
@@ -70,19 +40,25 @@ const analysisData = [
 		percentage: '25%',
 		date: '2024-01-12',
 	},
+	{
+		id: 5,
+		name: 'Artículo 5',
+		credibility: 80,
+		percentage: '80%',
+		date: '2024-01-11',
+	},
 ];
 
 export const ChartsAnalysisSection = () => {
 	return (
 		<div className='grid grid-cols-1 xl:grid-cols-2 gap-8 mb-12'>
-			<BarChart data={barChartData} title='Comparativa de Análisis' />
-
 			<DataTable
-				columns={columnsSamples}
+				columns={dashboardColumns}
 				data={analysisData}
 				title='Análisis Recientes'
 				viewDetailLink='/history-results'
 			/>
+			<BarChart data={barChartData} title='Comparativa de Análisis' />
 		</div>
 	);
 };

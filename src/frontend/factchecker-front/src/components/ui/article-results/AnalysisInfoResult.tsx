@@ -5,20 +5,27 @@ import Link from 'next/link';
 interface Props {
 	analysisDetails: AnalysisDetails;
 	showActionButton?: boolean;
+	title?: string;
 	actionButtonText?: string;
 	actionButtonAction?: () => void;
+	showBorders?: boolean;
 }
 
 export const AnalysisInfoResult = ({
 	analysisDetails,
 	showActionButton = true,
+	title,
 	actionButtonText,
 	actionButtonAction,
+	showBorders = true,
 }: Props) => {
 	return (
-		<div className='p-6 rounded-lg border-2 border-gray-200 bg-white'>
+		<div
+			className={`p-6 rounded-lg ${
+				showBorders ? 'border-2 border-gray-200' : ''
+			} bg-white`}>
 			<h3 className='text-xl font-bold text-black mb-4'>
-				Resultado del Análisis
+				<span>{title}</span>
 			</h3>
 
 			{/* Overall Score */}

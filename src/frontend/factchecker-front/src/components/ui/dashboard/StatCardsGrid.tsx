@@ -8,7 +8,7 @@ import {
 import { StatCard } from './StatCard';
 
 export const StatCardsGrid = () => {
-	// TODO Here fetch or calculate the data for the stat cards
+	// TODO: Here fetch or calculate the data for the stat cards
 
 	return (
 		<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12'>

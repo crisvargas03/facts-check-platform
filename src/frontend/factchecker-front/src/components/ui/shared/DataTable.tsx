@@ -38,7 +38,7 @@ export function DataTable({
 	renderCell,
 	title,
 	viewDetailLink,
-	viewDetailText = 'Ver Detalle',
+	viewDetailText = 'Ver Detalles',
 	emptyMessage = 'No hay datos para mostrar.',
 }: DataTableProps) {
 	const [currentPage, setCurrentPage] = useState(1);

@@ -11,8 +11,6 @@ interface BarChartProps {
 	gap?: number;
 }
 
-// TODO - Apply a UI library for better styling
-
 export const BarChart = ({
 	data,
 	title,
