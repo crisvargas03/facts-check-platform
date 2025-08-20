@@ -7,5 +7,6 @@ namespace FactCheckBack.Business.Features.Auth.Login
     {
         public string Email { get; set; } = string.Empty;
         public string Password { get; set; } = string.Empty;
+        public string LoginMethod { get; set; } = string.Empty;
     }
 }

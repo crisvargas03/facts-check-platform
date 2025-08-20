@@ -1,11 +1,17 @@
-import { HasAccount } from '@/components/auth';
-import { Button, FormInput, Separator } from '@/components/ui';
+import { HasAccount, LoginForm } from '@/components/auth';
+import { GoogleLogInButton } from '@/components/auth/GoogleProvider';
+import { Separator } from '@/components/ui';
+import { appName } from '@/utils';
 import Image from 'next/image';
-import { FcGoogle } from 'react-icons/fc';
+
+export const metadata = {
+	title: 'Login | ' + appName,
+	description: 'Login Page - ' + appName,
+};
 
 export default function LoginPage() {
 	return (
-		<div className='m-5 max-w-7xl mx-auto'>
+		<div className='m-5 max-w-7xl mx-auto p-5'>
 			<h1 className='text-4xl lg:text-5xl font-bold mb-2'>
 				¡Bienvenido de Nuevo!
 			</h1>
@@ -15,34 +21,14 @@ export default function LoginPage() {
 
 			<div className='flex flex-col lg:flex-row gap-8 mt-8'>
 				<div className='w-full lg:w-1/2'>
-					<form className='flex flex-col gap-4'>
-						<FormInput
-							labelText='Correo Electrónico'
-							placeholder='Ingresa tu correo electrónico'
-						/>
-						<FormInput
-							labelText='Contraseña'
-							placeholder='Ingresa tu contraseña'
-						/>
-
-						<Button text='Iniciar Sesión' />
-					</form>
+					<LoginForm />
 				</div>
 
 				<div className='w-full lg:w-1/2 flex flex-col items-center'>
 					<div className='flex flex-col w-full max-w-sm gap-4 mt-4'>
 						<Separator text='Continuar con' />
 
-						<Button
-							text='Iniciar con Google'
-							color='secondary'
-							icon={
-								<FcGoogle
-									size={20}
-									className='inline-block ml-2'
-								/>
-							}
-						/>
+						<GoogleLogInButton />
 					</div>
 
 					<div className='mt-6'>
@@ -59,7 +45,8 @@ export default function LoginPage() {
 							alt='Login Ilustración'
 							width={600}
 							height={600}
-							className='w-full h-auto object-contain rounded-2xl'
+							className='w-full h-auto object-contain rounded-2xl hidden lg:block'
+							priority
 						/>
 					</div>
 				</div>

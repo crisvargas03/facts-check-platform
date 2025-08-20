@@ -17,7 +17,7 @@ public partial class Users
 
     public string user_type_id { get; set; } = null!;
 
-    public string password { get; set; } = null!;
+    public string? password { get; set; }
 
     public virtual ICollection<Article_input> Article_inputs { get; set; } = new List<Article_input>();
 

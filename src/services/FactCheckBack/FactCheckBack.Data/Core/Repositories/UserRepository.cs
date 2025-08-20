@@ -7,7 +7,6 @@ namespace FactCheckBack.Data.Core.Repositories
 {
     public class UserRepository : BaseRepository<Users>, IUserRepository
     {
-        private readonly FactCheckBackDbContext _context;
         public UserRepository(FactCheckBackDbContext context) : base(context)
         {
             _context = context;
@@ -15,6 +14,10 @@ namespace FactCheckBack.Data.Core.Repositories
         public override  async Task CreateAsync(Users entity)
         {
             await _context.Set<Users>().AddAsync(entity);
+        }
+        public async Task<Users?> GetByEmailAsync(string email)
+        {
+            return await _context.Set<Users>().FirstOrDefaultAsync(u => u.email.ToLower() == email.ToLower());
         }
     }
 }

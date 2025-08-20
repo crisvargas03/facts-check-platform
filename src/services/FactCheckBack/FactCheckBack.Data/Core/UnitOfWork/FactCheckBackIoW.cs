@@ -12,13 +12,17 @@ namespace FactCheckBack.Data.Core.UnitOfWork
         public IUserRepository Users { get; private set; }
         public IUserPlanRepository User_plan { get; private set; }
         public IPlanRepository Plan { get; private set; }
+        public IArticleInputRepository ArticleInput { get; private set; }
+        public IResultRepository Results { get; private set; }
 
-        public FactCheckBackIoW(FactCheckBackDbContext context)
+        public FactCheckBackIoW(FactCheckBackDbContext context, IArticleInputRepository articleInputRepository)
         {
             _context = context;
             Users = new UserRepository(context);
             User_plan = new UserPlanRepository(context);
             Plan = new PlanRepository(context);
+            ArticleInput = articleInputRepository;
+            Results = new ResultRepository(context);
         }
 
         public async Task<int> CompleteAsync() => await _context.SaveChangesAsync();

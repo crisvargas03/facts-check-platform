@@ -2,6 +2,9 @@ using FactCheckBack.API.Configurations;
 using FactCheckBack.Business;
 using FactCheckBack.Business.Services.Jwt;
 using FactCheckBack.Data;
+using FactCheckBack.Data.Context;
+using FactCheckBack.Data.Core.Interfaces;
+using FactCheckBack.Data.Core.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,7 +25,16 @@ builder.Services.AddAuthenticationConfiguration(builder.Configuration);
 
 builder.Services.AddScoped<IJwtService, JwtService>();
 
+builder.Services.AddScoped<IArticleInputRepository>(provider =>
+{
+    var context = provider.GetRequiredService<FactCheckBackDbContext>();
+    var httpClientFactory = provider.GetRequiredService<IHttpClientFactory>();
+    var configuration = provider.GetRequiredService<IConfiguration>();
 
+    return new ArticleInputRepository(context, httpClientFactory.CreateClient(), configuration);
+});
+
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
@@ -34,10 +46,10 @@ if (app.Environment.IsDevelopment())
 
 // app.UseHttpsRedirection();
 
-app.UseAuthorization();
-
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.UseCors("cors");
 
 app.MapControllers();
 

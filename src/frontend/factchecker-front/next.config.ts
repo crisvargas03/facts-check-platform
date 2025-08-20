@@ -12,6 +12,18 @@ const nextConfig: NextConfig = {
 				protocol: 'https',
 				hostname: 'images.law.com',
 			},
+			{
+				protocol: 'https',
+				hostname: 'encrypted-tbn0.gstatic.com',
+			},
+			{
+				protocol: 'https',
+				hostname: 'lh3.googleusercontent.com',
+			},
+			{
+				protocol: 'https',
+				hostname: 'api.dicebear.com',
+			},
 		],
 	},
 };
