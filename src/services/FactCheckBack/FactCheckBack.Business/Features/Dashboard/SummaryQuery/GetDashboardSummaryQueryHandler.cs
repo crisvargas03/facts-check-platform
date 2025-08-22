@@ -1,4 +1,3 @@
-using FactCheckBack.Business.Features.Dashboard.ComparisonQuery;
 using FactCheckBack.Data.Core.UnitOfWork;
 using FactCheckBack.Models.Configurations;
 using LiteBus.Queries.Abstractions;
@@ -41,13 +40,13 @@ namespace FactCheckBack.Business.Features.Dashboard.SummaryQuery
                 if (request.StartDate.HasValue)
                 {
                     var startDateUtc = request.StartDate.Value.ToUniversalTime();
-                    baseQuery = baseQuery.Where(r => r.created >= startDateUtc);
+                    baseQuery = baseQuery.Where(r => r.created.Date >= startDateUtc.Date);
                 }
 
                 if (request.EndDate.HasValue)
                 {
                     var endDateUtc = request.EndDate.Value.ToUniversalTime();
-                    baseQuery = baseQuery.Where(r => r.created <= endDateUtc);
+                    baseQuery = baseQuery.Where(r => r.created.Date <= endDateUtc.Date);
                 }
 
                 var stats = await baseQuery
