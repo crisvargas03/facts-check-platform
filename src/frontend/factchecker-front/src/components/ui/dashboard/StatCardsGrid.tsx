@@ -6,15 +6,18 @@ import {
 	IoBarChart,
 } from 'react-icons/io5';
 import { StatCard } from './StatCard';
+import { SummaryStatsServiceResponse } from '@/lib/dashboard';
 
-export const StatCardsGrid = () => {
-	// TODO: Here fetch or calculate the data for the stat cards
+type Props = {
+	sumaryData: SummaryStatsServiceResponse;
+};
 
+export const StatCardsGrid = async ({ sumaryData }: Props) => {
 	return (
 		<div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12'>
 			<StatCard
 				icon={<IoPerson />}
-				value='24'
+				value={sumaryData?.totalAnalyzed ?? 0}
 				label='Total Analizado'
 				backgroundColor='#f3e8ff'
 				iconBackgroundColor='#e9d5ff'
@@ -22,7 +25,7 @@ export const StatCardsGrid = () => {
 			/>
 			<StatCard
 				icon={<IoCheckmarkCircle />}
-				value='12'
+				value={sumaryData?.realScans ?? 0}
 				label='Escaneos Reales'
 				backgroundColor='#dcfce7'
 				iconBackgroundColor='#bbf7d0'
@@ -30,7 +33,7 @@ export const StatCardsGrid = () => {
 			/>
 			<StatCard
 				icon={<IoWarning />}
-				value='2'
+				value={sumaryData?.inaccurateScans ?? 0}
 				label='Escaneos Imprecisos'
 				backgroundColor='#fed7aa'
 				iconBackgroundColor='#fdba74'
@@ -38,7 +41,7 @@ export const StatCardsGrid = () => {
 			/>
 			<StatCard
 				icon={<IoBarChart />}
-				value='10'
+				value={sumaryData?.fakeScans ?? 0}
 				label='Escaneos Falsos'
 				backgroundColor='#fecaca'
 				iconBackgroundColor='#fca5a5'

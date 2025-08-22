@@ -1,19 +1,9 @@
-﻿using FactCheckBack.Business.Features.Auth.Login;
-using FactCheckBack.Business.Features.Auth.Register;
-using FactCheckBack.Business.Helpers;
-using FactCheckBack.Business.Services.Jwt;
+﻿using FactCheckBack.Business.Helpers;
 using FactCheckBack.Data.Core.UnitOfWork;
 using FactCheckBack.Models.Configurations;
 using FactCheckBack.Models.Entities;
 using LiteBus.Commands.Abstractions;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FactCheckBack.Business.Features.Article.AnalyzeArticle
 {
@@ -48,11 +38,11 @@ namespace FactCheckBack.Business.Features.Article.AnalyzeArticle
                 await _unitOfWork.CompleteAsync();
 
                 var effectiveTitle = string.IsNullOrWhiteSpace(request.Title)
-                    ? GenerateTitle.GenerateTitleFromText(request.CompleteText)
+                    ? GenerateTitle.GenerateTitleFromText(request.Content)
                     : request.Title.Trim();
 
                 // 2. Llamar al microservicio de análisis externo
-                var result = await _unitOfWork.ArticleInput.AnalyzeArticleAsync(effectiveTitle, request.CompleteText, "string");
+                var result = await _unitOfWork.ArticleInput.AnalyzeArticleAsync(effectiveTitle, request.Content, "string");
                 if (!result.IsSuccess || result.Data == null)
                     return ApiResponse<AnalyzeArticleCommandDto>.Fail($"Fallo en llamada a la IA: {string.Join(" | ", result.Errors)}");
 
@@ -63,7 +53,7 @@ namespace FactCheckBack.Business.Features.Article.AnalyzeArticle
                     article_id = articleId,
                     user_id = user.user_id,
                     title = effectiveTitle,
-                    complete_text = request.CompleteText,
+                    complete_text = request.Content,
                     created = DateTime.UtcNow,
                     article_type_id = "1-BWS5UB"
                 };

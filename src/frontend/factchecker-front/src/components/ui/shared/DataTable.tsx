@@ -118,11 +118,21 @@ export function DataTable({
 		);
 	};
 
+	const toShortDate = (dateString: string) => {
+		const options: Intl.DateTimeFormatOptions = {
+			year: 'numeric',
+			month: 'short',
+			day: 'numeric',
+		};
+		return new Date(dateString).toLocaleDateString('es-ES', options);
+	};
+
 	const defaultRenderCell = (
 		item: any,
 		columnKey: string,
 		rowIndex: number
 	) => {
+		console.log(item);
 		switch (columnKey) {
 			case 'index':
 				return (
@@ -132,7 +142,9 @@ export function DataTable({
 				);
 			case 'name':
 				return (
-					<span className='text-sm text-gray-900'>{item.name}</span>
+					<span className='text-sm text-gray-900'>
+						{item.articleName}
+					</span>
 				);
 			case 'credibility':
 				return (
@@ -153,16 +165,14 @@ export function DataTable({
 						: 'red';
 				return (
 					<Badge color={getColor(item.credibility)}>
-						{item.percentage}
+						{item.credibility}%
 					</Badge>
 				);
 			}
 			case 'date':
 				return (
 					<span className='text-sm text-gray-500'>
-						{item.date
-							? new Date(item.date).toLocaleDateString('es-ES')
-							: '—'}
+						{toShortDate(item.analysisDate)}
 					</span>
 				);
 			default:

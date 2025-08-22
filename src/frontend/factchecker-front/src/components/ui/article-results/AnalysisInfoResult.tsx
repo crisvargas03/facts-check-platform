@@ -19,6 +19,7 @@ export const AnalysisInfoResult = ({
 	actionButtonAction,
 	showBorders = true,
 }: Props) => {
+	console.log(analysisDetails.evaluationFactors);
 	return (
 		<div
 			className={`p-6 rounded-lg ${
@@ -46,33 +47,31 @@ export const AnalysisInfoResult = ({
 					Factores Evaluados
 				</h4>
 				<div className='flex flex-col gap-3'>
-					{analysisDetails.evaluationFactors.map(
-						(factor, index: number) => (
-							<div
-								key={index}
-								className='pl-4 border-l-3 border-blue-500'>
-								<div className='flex justify-between items-center mb-1'>
-									<span className='font-medium text-gray-700'>
-										{factor.name}
-									</span>
-									<span className='text-sm font-semibold text-blue-600'>
-										{factor.score}%
-									</span>
-								</div>
-								<div className='w-full bg-gray-200 rounded h-2 mb-2'>
-									<div
-										className='bg-blue-600 h-2 rounded transition-all duration-1000 ease-in-out'
-										style={{
-											width: `${factor.score}%`,
-										}}
-									/>
-								</div>
-								<p className='text-sm text-gray-500'>
-									{factor.description}
-								</p>
+					{analysisDetails.evaluationFactors.map((factor, index) => (
+						<div
+							key={index}
+							className='pl-4 border-l-3 border-blue-500'>
+							<div className='flex justify-between items-center mb-1'>
+								<span className='font-medium text-gray-700'>
+									{factor.name}
+								</span>
+								<span className='text-sm font-semibold text-blue-600'>
+									{factor.score}%
+								</span>
 							</div>
-						)
-					)}
+							<div className='w-full bg-gray-200 rounded h-2 mb-2'>
+								<div
+									className='bg-blue-600 h-2 rounded transition-all duration-1000 ease-in-out'
+									style={{
+										width: `${factor.score}%`,
+									}}
+								/>
+							</div>
+							<p className='text-sm text-gray-500'>
+								{factor.description}
+							</p>
+						</div>
+					))}
 				</div>
 			</div>
 

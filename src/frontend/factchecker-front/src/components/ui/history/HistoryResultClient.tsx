@@ -50,15 +50,17 @@ export const HistoryResultClient = ({ historialData = [] }: Props) => {
 							fontWeight: 500,
 							fontSize: '14px',
 						}}>
-						{item.name}
+						{item.articleName}
 					</span>
 				);
 
 			case 'fecha':
 				return (
 					<span style={{ color: '#374151', fontSize: '14px' }}>
-						{item.date
-							? new Date(item.date).toLocaleDateString('es-ES')
+						{item.analysisDate
+							? new Date(item.analysisDate).toLocaleDateString(
+									'es-ES'
+							  )
 							: '—'}
 					</span>
 				);
@@ -140,14 +142,14 @@ export const HistoryResultClient = ({ historialData = [] }: Props) => {
 				{selectedItem && (
 					<div className='flex flex-col gap-4'>
 						<h3 className='text-lg font-semibold'>
-							{selectedItem.name}
+							{selectedItem.articleName}
 						</h3>
 
 						<span className='text-sm text-gray-500'>
 							{`Analizado el: ${
-								selectedItem.date
+								selectedItem.analysisDate
 									? new Date(
-											selectedItem.date
+											selectedItem.analysisDate
 									  ).toLocaleDateString('es-ES')
 									: '—'
 							}`}
@@ -155,7 +157,8 @@ export const HistoryResultClient = ({ historialData = [] }: Props) => {
 
 						<AnalysisInfoResult
 							analysisDetails={{
-								evaluationFactors: selectedItem.factors, // ajusta al shape que espera tu componente
+								evaluationFactors:
+									selectedItem.evaluationFactors, // ajusta al shape que espera tu componente
 								summary: selectedItem.summary,
 								percentageTrust: selectedItem.credibility,
 							}}

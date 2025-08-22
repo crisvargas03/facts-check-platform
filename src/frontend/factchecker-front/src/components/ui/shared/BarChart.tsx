@@ -1,5 +1,6 @@
 'use client';
 
+import { useMemo } from 'react';
 import {
 	ResponsiveContainer,
 	BarChart as RBarChart,
@@ -10,12 +11,11 @@ import {
 	Legend,
 	CartesianGrid,
 } from 'recharts';
-import React, { useMemo } from 'react';
 
 interface BarChartData {
 	day: string;
-	real: number;
-	fake: number;
+	realArticles: number;
+	fakeArticles: number;
 }
 
 interface BarChartProps {
@@ -31,15 +31,15 @@ export const BarChart = ({
 	height = 260,
 	barGap = 10,
 }: BarChartProps) => {
-	/* const totals = useMemo(() => {
+	const totals = useMemo(() => {
 		let real = 0,
 			fake = 0;
 		for (const d of data) {
-			real += d.real;
-			fake += d.fake;
+			real += d.realArticles;
+			fake += d.fakeArticles;
 		}
 		return { real, fake };
-	}, [data]);*/
+	}, [data]);
 
 	return (
 		// centralizar verticalmente
@@ -65,7 +65,7 @@ export const BarChart = ({
 							}}
 							formatter={(value: number, name) => [
 								value,
-								name === 'fake'
+								name === 'fakeArticles'
 									? 'Artículos Falsos'
 									: 'Artículos Reales',
 							]}
@@ -75,19 +75,19 @@ export const BarChart = ({
 							verticalAlign='bottom'
 							wrapperStyle={{ paddingTop: 14 }}
 							formatter={value =>
-								value === 'fake'
-									? 'Artículos Falsos'
-									: 'Artículos Reales'
+								value === 'fakeArticles'
+									? `Artículos Falsos ${totals.fake}`
+									: `Artículos Reales ${totals.real}`
 							}
 						/>
 						<Bar
-							dataKey='fake'
+							dataKey='fakeArticles'
 							stackId='total'
 							fill='#b91c1c'
 							radius={[3, 3, 3, 3]}
 						/>
 						<Bar
-							dataKey='real'
+							dataKey='realArticles'
 							stackId='total'
 							fill='#166534'
 							radius={[3, 3, 3, 3]}

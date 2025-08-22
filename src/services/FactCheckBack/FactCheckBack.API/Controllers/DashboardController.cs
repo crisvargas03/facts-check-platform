@@ -52,12 +52,13 @@ namespace FactCheckBack.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetDashboardHistory(
+            [FromQuery] string user,
             [FromQuery] DateTime? startDate = null,
             [FromQuery] DateTime? endDate = null,
             [FromQuery] int page = 1,
             [FromQuery] int pageSize = 10)
         {
-            var query = new GetDashboardHistoryQuery(startDate, endDate, page, pageSize);
+            var query = new GetDashboardHistoryQuery(startDate, endDate, user, page, pageSize);
             var response = await queryMediator.QueryAsync(query);
 
             if (!response.IsSuccess)
