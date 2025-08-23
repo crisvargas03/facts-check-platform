@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { getResultColor } from '@/utils';
-import { historyColumns } from '@/utils/datatable-utils';
+import { historyColumns, toShortDate } from '@/utils/datatable-utils';
 import { ProgressBar } from '../ProgressBar';
 import { Badge, EyeIcon, DataTable, Modal } from '../shared';
 import { EmptyStateCard } from './EmptyStateCard';
@@ -56,12 +56,8 @@ export const HistoryResultClient = ({ historialData = [] }: Props) => {
 
 			case 'fecha':
 				return (
-					<span style={{ color: '#374151', fontSize: '14px' }}>
-						{item.analysisDate
-							? new Date(item.analysisDate).toLocaleDateString(
-									'es-ES'
-							  )
-							: '—'}
+					<span className='text-sm text-gray-500'>
+						{toShortDate(item.analysisDate)}
 					</span>
 				);
 

@@ -1,6 +1,7 @@
 import { AnalysisDetails } from '@/lib/article-results';
 import { getResultColor, getResultLabel } from '@/utils';
 import Link from 'next/link';
+import toast from 'react-hot-toast';
 
 interface Props {
 	analysisDetails: AnalysisDetails;
@@ -19,7 +20,16 @@ export const AnalysisInfoResult = ({
 	actionButtonAction,
 	showBorders = true,
 }: Props) => {
-	console.log(analysisDetails.evaluationFactors);
+	if (!analysisDetails) {
+		toast.error('No se encontraron resultados de análisis.');
+		return (
+			<div className='p-6 bg-white rounded-lg border border-gray-200'>
+				<p className='text-red-500'>
+					No se encontraron resultados de análisis.
+				</p>
+			</div>
+		);
+	}
 	return (
 		<div
 			className={`p-6 rounded-lg ${

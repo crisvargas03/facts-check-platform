@@ -8,6 +8,7 @@ import { Badge } from './Badge';
 import { ProgressBar } from '../ProgressBar';
 import type { DataTableColumn } from '@/lib/ui';
 import { Pagination } from '../dashboard/Pagination';
+import { toShortDate } from '@/utils/datatable-utils';
 
 type SortOrder = 'asc' | 'desc';
 
@@ -118,21 +119,11 @@ export function DataTable({
 		);
 	};
 
-	const toShortDate = (dateString: string) => {
-		const options: Intl.DateTimeFormatOptions = {
-			year: 'numeric',
-			month: 'short',
-			day: 'numeric',
-		};
-		return new Date(dateString).toLocaleDateString('es-ES', options);
-	};
-
 	const defaultRenderCell = (
 		item: any,
 		columnKey: string,
 		rowIndex: number
 	) => {
-		console.log(item);
 		switch (columnKey) {
 			case 'index':
 				return (

@@ -9,7 +9,7 @@ namespace FactCheckBack.Business.Features.Article.AnalyzeArticle
 {
     public class AnalyzeArticleCommandDto
     {
-        [JsonPropertyName("motive")]
+        [JsonPropertyName("summary")]
         public string Motive { get; set; } = string.Empty;
         
         [JsonPropertyName("percentageTrust")]
@@ -17,7 +17,7 @@ namespace FactCheckBack.Business.Features.Article.AnalyzeArticle
         [JsonPropertyName("remainingAttempts")]
         public decimal RemainingAttempts { get; set; } = 0;
 
-        [JsonPropertyName("evaluation-factors")]
+        [JsonPropertyName("evaluationFactors")]
         public List<EvaluationFactorDto> EvaluationFactors { get; set; } = new List<EvaluationFactorDto>();
     }
 
