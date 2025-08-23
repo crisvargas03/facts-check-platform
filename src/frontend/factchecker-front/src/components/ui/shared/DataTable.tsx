@@ -8,6 +8,7 @@ import { Badge } from './Badge';
 import { ProgressBar } from '../ProgressBar';
 import type { DataTableColumn } from '@/lib/ui';
 import { Pagination } from '../dashboard/Pagination';
+import { toShortDate } from '@/utils/datatable-utils';
 
 type SortOrder = 'asc' | 'desc';
 
@@ -132,7 +133,9 @@ export function DataTable({
 				);
 			case 'name':
 				return (
-					<span className='text-sm text-gray-900'>{item.name}</span>
+					<span className='text-sm text-gray-900'>
+						{item.articleName}
+					</span>
 				);
 			case 'credibility':
 				return (
@@ -153,16 +156,14 @@ export function DataTable({
 						: 'red';
 				return (
 					<Badge color={getColor(item.credibility)}>
-						{item.percentage}
+						{item.credibility}%
 					</Badge>
 				);
 			}
 			case 'date':
 				return (
 					<span className='text-sm text-gray-500'>
-						{item.date
-							? new Date(item.date).toLocaleDateString('es-ES')
-							: '—'}
+						{toShortDate(item.analysisDate)}
 					</span>
 				);
 			default:

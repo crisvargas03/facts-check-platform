@@ -1,43 +1,34 @@
 import { UpdloadArticle } from '@/components/ui/article-results/UpdloadArticle';
-import { AnalysisDetails, submitFormData } from '@/lib/article-results';
-import { BaseServicesResponse } from '@/lib/base';
+import { submitFormData, SubmitResult } from '@/lib/article-results';
+import { PostArticle } from '@/services';
 
 // server action
 export async function submitArticleToBack(
 	data: submitFormData
-): Promise<BaseServicesResponse<AnalysisDetails>> {
+): Promise<SubmitResult> {
 	'use server';
 
-	// TODO: SEND TO THE BACKEND
-
-	const dummy: BaseServicesResponse<AnalysisDetails> = {
-		statusCode: 200,
-		message: 'Artículo analizado correctamente',
-		isSuccess: true,
-		errors: [],
-		data: {
-			summary: 'Este es un resumen del artículo.',
-			percentageTrust: 87,
-			evaluationFactors: [
-				{
-					name: 'Fuente Confiable',
-					score: 90,
-					description:
-						'Evaluacion de la reputacion y confiabilidad de la fuente',
-				},
-				{
-					name: 'Evidencia Cientifica',
-					score: 85,
-					description:
-						'Precesia de datos, estudios, p referencias cientificas',
-				},
-			],
-		},
-	};
-
-	console.log(data);
-
-	return dummy;
+	try {
+		// TODO: SEND TO THE BACKEND
+		data.email = 'chatgptplus550@gmail.com';
+		const { data: analysisResult, statusCode } = await PostArticle(data);
+		if (statusCode === 403 || !analysisResult) {
+			return {
+				analysisDetails: null,
+				message: 'Haz excedido el límite de análisis para hoy',
+			};
+		}
+		return {
+			analysisDetails: analysisResult,
+			message: null,
+		};
+	} catch (error) {
+		console.error('Error submitting article:', error);
+		return {
+			analysisDetails: null,
+			message: 'Error al enviar el artículo para análisis',
+		};
+	}
 }
 
 export default function AnalyzarArticulo() {

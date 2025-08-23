@@ -1,5 +1,5 @@
 export const getResultsTitle = (startDate: string, endDate: string) => {
-	if (!startDate && !endDate) {
+	if ((!startDate && !endDate) || startDate === endDate) {
 		return 'Resultados de Hoy';
 	}
 

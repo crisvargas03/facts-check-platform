@@ -16,7 +16,6 @@ export const UserAvatarMenu = ({ smallScreen, userInfo }: Props) => {
 
 	const handleLogout = () => {
 		const toastId = toast.loading('Cargando...');
-		console.log('Logout clicked');
 		deleteCookieData('__user__');
 		toast.success('Cierre de sesión exitoso', {
 			id: toastId,
