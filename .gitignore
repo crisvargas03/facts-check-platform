@@ -23,6 +23,7 @@
 *.env.development
 *.env.production
 *.env.test
+**/__pycache__/
 
 *.log
 npm-debug.log*

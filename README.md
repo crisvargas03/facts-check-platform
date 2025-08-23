@@ -9,24 +9,31 @@ Además de ofrecer verificación automática accesible a los ciudadanos, el sist
 ```
 /src/
 │
-├── frontend/                                   # Frontend
-│   ├── public/
-│   ├── src/
-|   |   |-- app/
-|   |   |-- api/                                # Server interno
-|   │   │   ├── features/                       # Lógica por módulo (Ejemplo Auth, Articles)
-|   │   │   ├── components/                     # Componentes reutilizables
-|   │   │   ├── pages/                          # Rutas o vistas
-|   │   │   ├── services/                       # HTTP clients (fetch)
-│   └── package.json
+├── frontend/                                       # Frontend
+|   |   |-- factchecker-front
+|   |   |   ├── public/
+|   |   |   ├── src/
+|   |   |   |-- app/
+|   |   |   |-- api/                                # Server interno
+|   |   |   │   ├── features/                       # Lógica por módulo (Ejemplo Auth, Articles)
+|   |   |   │   ├── components/                     # Componentes reutilizables
+|   |   |   │   ├── pages/                          # Rutas o vistas
+|   |   |   │   ├── services/                       # HTTP clients (fetch)
+|   |   |   └── package.json
+|   |   |── README.md
 │
-├── services/                                   # Servicios
+├── services/                                       # Servicios
 │   ├── FactCheckBack/
-│   │   ├── FactCheckBack.API/                  # API REST (Controllers, Middlewares)
-│   │   ├── FactCheckBack.Data/                 # EF Core, Repositories, DbContext
-│   │   ├── FactCheckBack.Business/             # Lógica de negocio (CQRS)
-│   │   ├── FactCheckBack.Models/               # DTOs, Requests, Responses
-│   │   └── FactCheckBack.sln
+│   │   ├── FactCheckBack.API/                      # API REST (Controllers, Middlewares)
+│   │   ├── FactCheckBack.Data/                     # EF Core, Repositories, DbContext
+│   │   ├── FactCheckBack.Business/                 # Lógica de negocio (CQRS)
+│   │   ├── FactCheckBack.Models/                   # DTOs, Requests, Responses
+│   │   |── FactCheckBack.sln
+|   |
+│   |-- IAModel
+│   |   |-- main.py                                 # API
+│   |   |-- requirements.txt
+│   |   |-- services.py
 └── README.md
 ```
 
