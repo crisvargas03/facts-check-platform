@@ -1,12 +1,12 @@
 import { AnalysisDetails, submitFormData } from '@/lib/article-results';
 import { BaseServicesResponse } from '@/lib/base';
-import { apiUrl } from '@/utils';
+import { getApiBaseUrl } from '@/utils';
 
 export const PostArticle = async (
 	articleData: submitFormData
 ): Promise<BaseServicesResponse<AnalysisDetails | null>> => {
 	try {
-		const response = await fetch(`${apiUrl}/articles/analyze`, {
+		const response = await fetch(`${getApiBaseUrl()}/articles/analyze`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',

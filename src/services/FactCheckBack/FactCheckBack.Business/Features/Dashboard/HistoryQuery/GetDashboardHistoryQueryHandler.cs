@@ -1,4 +1,4 @@
-using FactCheckBack.Business.Features.Article.AnalyzeArticle;
+锘縰sing FactCheckBack.Business.Features.Article.AnalyzeArticle;
 using FactCheckBack.Data.Core.UnitOfWork;
 using FactCheckBack.Models.Configurations;
 using LiteBus.Queries.Abstractions;
@@ -66,31 +66,31 @@ namespace FactCheckBack.Business.Features.Dashboard.HistoryQuery
                         new EvaluationFactorDto
                         {
                             Title = "Fuente Confiable",
-                            Descripcion = "Evaluaci髇 de la reputaci髇 y confiabilidad de la fuente",
+                            Descripcion = "Evaluaci贸n de la reputaci贸n y confiabilidad de la fuente",
                             EvaluationResult = r.reliable_source
                         },
                         new EvaluationFactorDto
                         {
-                            Title = "Evidencia Cient韋ica",
-                            Descripcion = "An醠isis de la solidez y respaldo cient韋ico del contenido",
+                            Title = "Evidencia Cient铆fica",
+                            Descripcion = "An谩lisis de la solidez y respaldo cient铆fico del contenido",
                             EvaluationResult = r.scientific_evidence
                         },
                         new EvaluationFactorDto
                         {
                             Title = "Citas y Referencias",
-                            Descripcion = "Evaluaci髇 de la calidad y pertinencia de las fuentes citadas",
+                            Descripcion = "Evaluaci贸n de la calidad y pertinencia de las fuentes citadas",
                             EvaluationResult = r.citations_and_references
                         },
                         new EvaluationFactorDto
                         {
                             Title = "Lenguaje Objetivo",
-                            Descripcion = "An醠isis de la objetividad y neutralidad del lenguaje utilizado",
+                            Descripcion = "An谩lisis de la objetividad y neutralidad del lenguaje utilizado",
                             EvaluationResult = r.target_language
                         },
                         new EvaluationFactorDto
                         {
                             Title = "Contexto y Limitaciones",
-                            Descripcion = "Evaluaci髇 de la contextualizaci髇 y reconocimiento de limitaciones",
+                            Descripcion = "Evaluaci贸n de la contextualizaci贸n y reconocimiento de limitaciones",
                             EvaluationResult = r.context_and_limitations
                         }
                     }

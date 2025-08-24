@@ -5,7 +5,7 @@ import {
 	HistoryDataServiceResponse,
 	SummaryStatsServiceResponse,
 } from '@/lib/dashboard/dashboard.responses';
-import { apiUrl } from '@/utils';
+import { getApiBaseUrl } from '@/utils';
 
 interface Params {
 	user: string;
@@ -28,7 +28,7 @@ export const getSummaryStatsInfo = async (
 			};
 		}
 		const response = await fetch(
-			`${apiUrl}/dashboard/summary?user=${user}&startDate=${startDate}&endDate=${endDate}`
+			`${getApiBaseUrl()}/dashboard/summary?user=${user}&startDate=${startDate}&endDate=${endDate}`
 		);
 
 		if (!response.ok) {
@@ -76,7 +76,7 @@ export const getComparisonStatsInfo = async (
 			};
 		}
 		const response = await fetch(
-			`${apiUrl}/dashboard/comparison?user=${user}&startDate=${startDate}&endDate=${endDate}`
+			`${getApiBaseUrl()}/dashboard/comparison?user=${user}&startDate=${startDate}&endDate=${endDate}`
 		);
 
 		if (!response.ok) {
@@ -118,7 +118,7 @@ export const getHistoryData = async ({
 }: HistoryDataParams) => {
 	try {
 		const response = await fetch(
-			`${apiUrl}/dashboard/history?user=${user}&startDate=${startDate}&endDate=${endDate}&page=${page}&pageSize=${pageSize}`
+			`${getApiBaseUrl()}/dashboard/history?user=${user}&startDate=${startDate}&endDate=${endDate}&page=${page}&pageSize=${pageSize}`
 		);
 
 		if (!response.ok) {

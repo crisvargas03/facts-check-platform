@@ -1,13 +1,30 @@
 import { HistoryResultClient } from '@/components/ui/history';
+import { UserCookieData } from '@/lib/auth';
 import { getHistoryData } from '@/services';
+import { cookies } from 'next/headers';
+
+const getCookieFromServer = async (key: string) => {
+	const cookieStore = await cookies();
+	// get the cookie data
+	const data = cookieStore.get(key);
+	if (!data) {
+		return null;
+	}
+
+	// decrypt the data
+	const decrypted = atob(data.value);
+	// console.log('Decrypted cookie data:', decrypted);
+	return JSON.parse(decrypted);
+};
 
 export default async function HistorialResultados() {
+	const { user } = (await getCookieFromServer('__user__')) as UserCookieData;
 	const { data: historialData } = await getHistoryData({
 		startDate: '',
 		endDate: '',
-		user: 'chatgptplus550@gmail.com',
+		user: user,
 		page: 1,
-		pageSize: 10,
+		pageSize: 50,
 	});
 
 	if (!historialData) {

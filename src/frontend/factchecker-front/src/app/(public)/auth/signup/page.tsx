@@ -39,6 +39,8 @@ export default function SignUpPage() {
 							width={600}
 							height={600}
 							className='w-full h-auto object-contain rounded-2xl hidden lg:block'
+							priority
+							unoptimized
 						/>
 					</div>
 				</div>
