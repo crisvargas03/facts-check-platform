@@ -1,6 +1,7 @@
 services:
     - type: web
       name: factcheck-backend
+      plan: free
       runtime: docker
       dockerContext: src/services/FactCheckBack
       dockerfilePath: src/services/FactCheckBack/FactCheckBack.API/Dockerfile
@@ -25,6 +26,7 @@ services:
 
     - type: web
       name: factcheck-iamodel
+      plan: free
       runtime: docker
       dockerContext: src/services/AIModel
       dockerfilePath: src/services/AIModel/Dockerfile
@@ -42,6 +44,7 @@ services:
     - type: web
       name: factcheck-frontend
       runtime: docker
+      plan: free
       dockerContext: src/frontend/factchecker-front
       dockerfilePath: src/frontend/factchecker-front/Dockerfile
       autoDeploy: true
