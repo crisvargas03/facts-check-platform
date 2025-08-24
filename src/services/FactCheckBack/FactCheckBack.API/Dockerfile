@@ -15,6 +15,7 @@ RUN dotnet publish FactCheckBack.API/FactCheckBack.API.csproj -c Release -o /out
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 ENV ASPNETCORE_URLS=http://0.0.0.0:8080
-EXPOSE 8080
 COPY --from=build /out .
-CMD ["dotnet", "FactCheckBack.API.dll"]
+EXPOSE 8080
+# Usa $PORT de Render (default 8080 local)
+CMD sh -lc "ASPNETCORE_URLS=http://0.0.0.0:${PORT:-8080} dotnet FactCheckBack.API.dll"

@@ -1,0 +1,73 @@
+services:
+    - type: web
+      name: factcheck-backend
+      runtime: docker
+      dockerContext: src/services/FactCheckBack
+      dockerfilePath: src/services/FactCheckBack/FactCheckBack.API/Dockerfile
+      autoDeploy: true
+      envVars:
+          - key: ConnectionStrings__DefaultConnection
+            sync: false
+          - key: AllowedOrigins
+            value: https://REEMPLAZA-FRONT.onrender.com
+          - key: AiApi__Url
+            value: https://REEMPLAZA-IAMODEL.onrender.com
+          - key: JWT__SecretKey
+            sync: false
+          - key: JWT__Issuer
+            value: FactCheckAPI
+          - key: JWT__Audience
+            value: FactCheckClient
+          - key: Logging__LogLevel__Default
+            value: Information
+          - key: Logging__LogLevel__Microsoft__AspNetCore
+            value: Warning
+
+    - type: web
+      name: factcheck-iamodel
+      runtime: docker
+      dockerContext: src/services/AIModel
+      dockerfilePath: src/services/AIModel/Dockerfile
+      autoDeploy: true
+      envVars:
+          - key: ALLOWED_ORIGINS
+            value: https://REEMPLAZA-FRONT.onrender.com
+          - key: OPENAI_API_KEY
+            sync: false
+          - key: MODEL
+            value: gpt-4o-mini
+          - key: PROMPT
+            value: CODEHERE
+
+    - type: web
+      name: factcheck-frontend
+      runtime: docker
+      dockerContext: src/frontend/factchecker-front
+      dockerfilePath: src/frontend/factchecker-front/Dockerfile
+      autoDeploy: true
+      envVars:
+          # Auth.js (NextAuth v5)
+          - key: AUTH_URL
+            value: https://REEMPLAZA-FRONT.onrender.com
+          - key: AUTH_REDIRECT_PROXY_URL
+            value: https://REEMPLAZA-FRONT.onrender.com
+          - key: AUTH_TRUST_HOST
+            value: 'true'
+          - key: AUTH_SECRET
+            sync: false
+          - key: AUTH_GOOGLE_ID
+            sync: false
+          - key: AUTH_GOOGLE_SECRET
+            sync: false
+
+          # API base (cliente y SSR apuntan al backend público)
+          - key: NEXT_PUBLIC_API_URL
+            value: https://REEMPLAZA-BACK.onrender.com/api
+          - key: API_URL_INTERNAL
+            value: https://REEMPLAZA-BACK.onrender.com/api
+
+          # Branding
+          - key: APP_NAME
+            value: ChequeaEsoRD
+          - key: APP_DESCRIPTION
+            value: Plataforma basada en IA para detectar y mitigar noticias falsas en tiempo real.
