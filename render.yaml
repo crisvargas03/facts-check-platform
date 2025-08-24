@@ -39,7 +39,7 @@ services:
           - key: MODEL
             value: gpt-4o-mini
           - key: PROMPT
-            value: CODEHERE
+            sync: false
 
     - type: web
       name: factcheck-frontend
