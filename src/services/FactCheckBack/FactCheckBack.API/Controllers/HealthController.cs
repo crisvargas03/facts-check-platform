@@ -19,7 +19,11 @@ namespace FactCheckBack.API.Controllers
         public async Task<IActionResult> Check()
         {
             var result = await _commandMediator.SendAsync(new CheckHealthCommand());
-            return Ok(result);
+            if (result.IsSuccess)
+            {
+                return Ok(result);
+            }
+            return StatusCode((int)result.StatusCode, "Internal server error");
         }
     }
 }

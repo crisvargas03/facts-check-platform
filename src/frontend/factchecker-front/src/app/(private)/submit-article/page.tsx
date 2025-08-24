@@ -1,16 +1,35 @@
 import { UpdloadArticle } from '@/components/ui/article-results/UpdloadArticle';
 import { submitFormData, SubmitResult } from '@/lib/article-results';
+import { UserCookieData } from '@/lib/auth';
 import { PostArticle } from '@/services';
+import { cookies } from 'next/headers';
+
+const getCookieFromServer = async (key: string) => {
+	const cookieStore = await cookies();
+	// get the cookie data
+	const data = cookieStore.get(key);
+	if (!data) {
+		return null;
+	}
+
+	// decrypt the data
+	const decrypted = atob(data.value);
+	// console.log('Decrypted cookie data:', decrypted);
+	return JSON.parse(decrypted);
+};
 
 // server action
-export async function submitArticleToBack(
+async function submitArticleToBack(
 	data: submitFormData
 ): Promise<SubmitResult> {
 	'use server';
 
 	try {
 		// TODO: SEND TO THE BACKEND
-		data.email = 'chatgptplus550@gmail.com';
+		const { user } = (await getCookieFromServer(
+			'__user__'
+		)) as UserCookieData;
+		data.email = user;
 		const { data: analysisResult, statusCode } = await PostArticle(data);
 		if (statusCode === 403 || !analysisResult) {
 			return {

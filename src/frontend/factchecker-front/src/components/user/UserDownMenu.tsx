@@ -19,7 +19,13 @@ export const UserDownMenu = ({ name, email, image, onLogout }: Props) => {
 				onClick={() => setOpen(!open)}
 				className='flex items-center gap-2'>
 				<div className='rounded-full flex items-center justify-center text-white font-semibold'>
-					<Image src={image} alt={name} width={30} height={30} />
+					<Image
+						src={image}
+						alt={name}
+						width={30}
+						height={30}
+						unoptimized
+					/>
 				</div>
 				<div className='hidden sm:flex flex-col text-left'>
 					<span className='text-sm font-medium text-gray-800'>

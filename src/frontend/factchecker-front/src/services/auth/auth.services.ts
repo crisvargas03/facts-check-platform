@@ -5,13 +5,13 @@ import type {
 	SignUpResponse,
 } from '@/lib/auth';
 import { BaseServicesResponse } from '@/lib/base';
-import { apiUrl } from '@/utils';
+import { getApiBaseUrl } from '@/utils';
 
 export const postLogin = async (
 	data: LoginFormData
 ): Promise<BaseServicesResponse<LoginResponse>> => {
 	try {
-		const response = await fetch(`${apiUrl}/auth/login`, {
+		const response = await fetch(`${getApiBaseUrl()}/auth/login`, {
 			method: 'POST',
 			body: JSON.stringify(data),
 			headers: {
@@ -48,7 +48,7 @@ export const postSignUp = async ({
 			password,
 			registrationMethod,
 		};
-		const response = await fetch(`${apiUrl}/auth/register`, {
+		const response = await fetch(`${getApiBaseUrl()}/auth/register`, {
 			method: 'POST',
 			body: JSON.stringify(body),
 			headers: {

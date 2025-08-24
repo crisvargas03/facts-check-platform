@@ -7,24 +7,29 @@ const dm_sans = DM_Sans({
 	subsets: ['latin'],
 });
 
-const appName = process.env.APP_NAME;
-const appDescription = process.env.APP_DESCRIPTION;
-const apiUrl = process.env.NEXT_PUBLIC_API_URL;
-
-if (!appName || !appDescription || !apiUrl) {
-	throw new Error('Variables de entorno no definidas');
+export async function generateMetadata(): Promise<Metadata> {
+	const title = process.env.APP_NAME ?? 'FactChecker';
+	const description =
+		process.env.APP_DESCRIPTION ?? 'Detector de noticias falsas';
+	return { title, description };
 }
-
-export const metadata: Metadata = {
-	title: appName,
-	description: appDescription,
-};
 
 export default function RootLayout({
 	children,
 }: Readonly<{
 	children: React.ReactNode;
 }>) {
+	if (process.env.NODE_ENV !== 'production') {
+		if (
+			!process.env.APP_NAME ||
+			!process.env.APP_DESCRIPTION ||
+			!process.env.NEXT_PUBLIC_API_URL
+		) {
+			console.warn(
+				'Faltan variables APP_NAME / APP_DESCRIPTION / NEXT_PUBLIC_API_URL (solo aviso en dev).'
+			);
+		}
+	}
 	return (
 		<html lang='en'>
 			<body className={`${dm_sans.className} antialiased`}>
