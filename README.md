@@ -1,70 +1,101 @@
 # 🤖 facts-check-platform
 
-Este proyecto consiste en el desarrollo de una plataforma digital basada en inteligencia artificial (IA) orientada a la detección, clasificación y mitigación de noticias falsas (fake news) en entornos digitales, con especial enfoque en la República Dominicana. La solución integra tecnologías avanzadas como procesamiento de lenguaje natural (NLP) y visión por computadora, permitiendo verificar contenidos textuales y multimedia en tiempo real, a fin de reducir la propagación de desinformación en redes sociales y medios digitales.
+ChequeaEsoRD is a fact-checking platform to analyze and verify the authenticity of news articles. Using AI models, it evaluates the credibility of information and provides a score (0 to 100 %) to classify news as "fake" or "real".
 
-Además de ofrecer verificación automática accesible a los ciudadanos, el sistema incluirá una API especializada para medios de comunicación, instituciones y entidades gubernamentales, promoviendo una cultura de consumo crítico de información y fortaleciendo la confianza pública en el ecosistema informativo. Este proyecto busca impactar positivamente en áreas como la política, la salud pública y la democracia, ofreciendo una herramienta escalable, transparente y adaptada al contexto sociocultural dominicano.
+## Screenshots / Demo
 
-## 📂 Estructura
+### Home
 
-```
+![Home](docs/home.png)
+
+### Article Analysis
+
+![Article Analysis](docs/example.png)
+![Demo Video](docs/example-video.gif)
+
+### Sign Up
+
+![Sign Up](docs/create-account.png)
+
+## Architecture & Tech Stack
+
+- **Frontend**: React & Next.JS with TypeScript
+- **Main Backend**: .NET 8 (C#) CQRS Layer Architecture
+- **AI Service**: Python with FastAPI Using OpenAI Services
+- **Base de Datos**: PostgreSQL (Deploy on Supabase)
+
+```py
 /src/
-│
-├── frontend/                                       # Frontend
-|   |   |-- factchecker-front
-|   |   |   ├── public/
-|   |   |   ├── src/
-|   |   |   |-- app/
-|   |   |   |-- api/                                # Server interno
-|   |   |   │   ├── features/                       # Lógica por módulo (Ejemplo Auth, Articles)
-|   |   |   │   ├── components/                     # Componentes reutilizables
-|   |   |   │   ├── pages/                          # Rutas o vistas
-|   |   |   │   ├── services/                       # HTTP clients (fetch)
-|   |   |   └── package.json
-|   |   |── README.md
-│
-├── services/                                       # Servicios
-│   ├── FactCheckBack/
-│   │   ├── FactCheckBack.API/                      # API REST (Controllers, Middlewares)
-│   │   ├── FactCheckBack.Data/                     # EF Core, Repositories, DbContext
-│   │   ├── FactCheckBack.Business/                 # Lógica de negocio (CQRS)
-│   │   ├── FactCheckBack.Models/                   # DTOs, Requests, Responses
-│   │   |── FactCheckBack.sln
-|   |
-│   |-- IAModel
-│   |   |-- main.py                                 # API
-│   |   |-- requirements.txt
-│   |   |-- services.py
-└── README.md
+├── frontend/           # Frontend
+| |-- factchecker-front
+
+├── services/           # Backend Services
+│ ├── FactCheckBack/    # Main Backend (auth, business logic,data access, etc.)
+│ ├── IAModel/          # AI Model Service (Python + FastAPI + OpenAI)
 ```
 
 ### 💻 `frontend/`
 
-Aplicación cliente desarrollada con React & Next.JS.
+Client application developed with React & Next.JS.
 
--   `public/`: Archivos estáticos públicos.
--   `src/features/`: Módulos funcionales de la app (ej. autenticación, perfil, publicaciones).
--   `src/components/`: Componentes reutilizables entre módulos.
--   `src/pages/`: Vistas conectadas a rutas principales.
--   `src/services/`: Clientes HTTP (fetch o axios) que se comunican con los microservicios.
--   `src/app/`: Configuración global de la aplicación (rutas, contexto, estado global).
+- `public/`: Public static files.
+- `src/features/`: Functional modules of the app (e.g., authentication, profile, publications).
+- `src/components/`: Reusable components between modules.
+- `src/pages/`: Views connected to main routes.
+- `src/services/`: HTTP clients (fetch or axios) that communicate with the microservices.
+- `src/app/`: Global application configuration (routes, context, global state).
+
+The decision to use Next.JS allows for server-side rendering and improved performance, while TypeScript ensures type safety across the codebase.
 
 ### ⚙️ `services/`
 
-Contiene los **servicios** backend en .NET, cada uno organizado como una solución independiente.
-
 #### 🔍 `FactCheckBack/`
 
-Servicio responsable de autenticación, manejo de sesiones y emisión de tokens.
+Main backend developed with .NET 8, structured with a CQRS pattern.
 
--   `FactCheckBack.API/`: Punto de entrada HTTP (controladores, middlewares).
--   `FactCheckBack.Data/`: Acceso a datos con Entity Framework (DbContext, repositorios).
--   `FactCheckBack.Business/`: Lógica de negocio con patrón CQRS.
--   `FactCheckBack.Models/`: Modelos internos (DTOs, Requests, Responses).
+- `FactCheckBack.API/`: Entry point of the application (controllers, API configuration).
+- `FactCheckBack.Data/`: Data access layer (repositories, database context).
+- `FactCheckBack.Business/`: Business logic and CQRS handlers, services, etc.
+- `FactCheckBack.Models/`: Internal models (DTOs, Requests, Responses).
 
-## 🧵 Estructura de Braches
+The decision to use the CQRS pattern allows for better scalability and separation of read and write operations, improving performance and maintainability as the application grows.
 
--   **`main`**: Rama principal y estable. Solo se actualiza con versiones listas para producción. Después de cada pase a producción, `main` debe mantenerse sincronizada con `develop`.
--   **`develop`**: Rama de integración donde se combinan todas las funcionalidades y tareas antes de ser fusionadas en `main`. Es la base para el desarrollo de nuevas características.
--   **`feature/{nombre}`** o **`task/{nombre}`**: Ramas utilizadas para el desarrollo de nuevas características o tareas individuales.
-    -   Se crean a partir de `develop`
-    -   Ejemplo: `feature/bdinit`
+#### 🤖 `IAModel/`
+
+AI model service developed with Python and FastAPI, utilizing OpenAI services.
+
+- `IAModel/app.py`: Main application file with FastAPI configuration and route definitions.
+- `IAModel/services/`: Services that interact with OpenAI APIs and handle AI logic.
+
+This service is responsible for processing news articles, analyzing their content, and returning a credibility score based on the AI model's evaluation.
+
+## Setup & Installation
+
+1. **Clone the repository**:
+    ```bash
+    git clone
+    ```
+2. **Navigate to the project directory**:
+    ```bash
+    cd facts-check-platform
+    ```
+3. **Setup the backend**:
+    ```bash
+    cd services/FactCheckBack
+    dotnet restore
+    dotnet run
+    ```
+4. **Setup the AI service**:
+    ```bash
+    cd services/IAModel
+    pip install -r requirements.txt
+    uvicorn app:app --reload
+    ```
+5. **Setup the frontend**:
+    ```bash
+    cd src/frontend
+    npm install
+    npm run dev
+    ```
+6. **Access the application**:
+   Open your browser and navigate to `http://localhost:3000` to access the platform.
