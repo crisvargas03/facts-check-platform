@@ -69,9 +69,14 @@ namespace FactCheckBack.API.Configurations
 
         private static void AddMyCors(this IServiceCollection services)
         {
+            var allowedOriginsFromEnv = Environment.GetEnvironmentVariable("AllowedOrigins");
+            Console.WriteLine(allowedOriginsFromEnv);
             services.AddCors(p => p.AddPolicy("cors", builder =>
             {
-                builder.WithOrigins("*").AllowAnyMethod().AllowAnyHeader();
+                 builder.WithOrigins((allowedOriginsFromEnv ?? "http://localhost:3000") .Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
             }));
         }
 

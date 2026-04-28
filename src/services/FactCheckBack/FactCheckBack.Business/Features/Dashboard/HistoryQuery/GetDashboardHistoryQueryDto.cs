@@ -1,3 +1,5 @@
+using FactCheckBack.Business.Features.Article.AnalyzeArticle;
+
 namespace FactCheckBack.Business.Features.Dashboard.HistoryQuery
 {
     public class GetDashboardHistoryQueryDto
@@ -12,6 +14,8 @@ namespace FactCheckBack.Business.Features.Dashboard.HistoryQuery
         public string ArticleName { get; set; } = string.Empty;
         public decimal Credibility { get; set; }
         public DateTime AnalysisDate { get; set; }
+        public string Summary { get; set; } = string.Empty;
+        public List<EvaluationFactorDto> EvaluationFactors { get; set; } = [];
     }
 
     public class PaginationDto

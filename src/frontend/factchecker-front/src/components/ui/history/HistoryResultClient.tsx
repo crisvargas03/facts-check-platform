@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { getResultColor } from '@/utils';
-import { historyColumns } from '@/utils/datatable-utils';
+import { historyColumns, toShortDate } from '@/utils/datatable-utils';
 import { ProgressBar } from '../ProgressBar';
 import { Badge, EyeIcon, DataTable, Modal } from '../shared';
 import { EmptyStateCard } from './EmptyStateCard';
@@ -50,16 +50,14 @@ export const HistoryResultClient = ({ historialData = [] }: Props) => {
 							fontWeight: 500,
 							fontSize: '14px',
 						}}>
-						{item.name}
+						{item.articleName}
 					</span>
 				);
 
 			case 'fecha':
 				return (
-					<span style={{ color: '#374151', fontSize: '14px' }}>
-						{item.date
-							? new Date(item.date).toLocaleDateString('es-ES')
-							: '—'}
+					<span className='text-sm text-gray-500'>
+						{toShortDate(item.analysisDate)}
 					</span>
 				);
 
@@ -140,14 +138,14 @@ export const HistoryResultClient = ({ historialData = [] }: Props) => {
 				{selectedItem && (
 					<div className='flex flex-col gap-4'>
 						<h3 className='text-lg font-semibold'>
-							{selectedItem.name}
+							{selectedItem.articleName}
 						</h3>
 
 						<span className='text-sm text-gray-500'>
 							{`Analizado el: ${
-								selectedItem.date
+								selectedItem.analysisDate
 									? new Date(
-											selectedItem.date
+											selectedItem.analysisDate
 									  ).toLocaleDateString('es-ES')
 									: '—'
 							}`}
@@ -155,7 +153,8 @@ export const HistoryResultClient = ({ historialData = [] }: Props) => {
 
 						<AnalysisInfoResult
 							analysisDetails={{
-								evaluationFactors: selectedItem.factors, // ajusta al shape que espera tu componente
+								evaluationFactors:
+									selectedItem.evaluationFactors, // ajusta al shape que espera tu componente
 								summary: selectedItem.summary,
 								percentageTrust: selectedItem.credibility,
 							}}

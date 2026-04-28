@@ -18,10 +18,11 @@ namespace FactCheckBack.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetDashboardSummary(
+            [FromQuery] string user,
             [FromQuery] DateTime? startDate = null,
             [FromQuery] DateTime? endDate = null)
         {
-            var query = new GetDashboardSummaryQuery(startDate, endDate);
+            var query = new GetDashboardSummaryQuery(user, startDate, endDate);
             var response = await queryMediator.QueryAsync(query);
 
             if (!response.IsSuccess)
@@ -34,10 +35,11 @@ namespace FactCheckBack.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetDashboardComparison(
+            [FromQuery] string user,
             [FromQuery] DateTime? startDate = null,
             [FromQuery] DateTime? endDate = null)
         {
-            var query = new GetDashboardComparisonQuery(startDate, endDate);
+            var query = new GetDashboardComparisonQuery(startDate, endDate, user);
             var response = await queryMediator.QueryAsync(query);
 
             if (!response.IsSuccess)
@@ -50,12 +52,13 @@ namespace FactCheckBack.API.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<IActionResult> GetDashboardHistory(
+            [FromQuery] string user,
             [FromQuery] DateTime? startDate = null,
             [FromQuery] DateTime? endDate = null,
             [FromQuery] int page = 1,
             [FromQuery] int pageSize = 10)
         {
-            var query = new GetDashboardHistoryQuery(startDate, endDate, page, pageSize);
+            var query = new GetDashboardHistoryQuery(startDate, endDate, user, page, pageSize);
             var response = await queryMediator.QueryAsync(query);
 
             if (!response.IsSuccess)

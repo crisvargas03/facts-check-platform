@@ -3,7 +3,8 @@ import Link from 'next/link';
 import { IoCheckmarkCircle } from 'react-icons/io5';
 
 export default async function PlansPage() {
-	const { data: plans } = await getPricingPlans();
+	const response = await getPricingPlans();
+	const plans = response.isSuccess ? response.data : [];
 
 	return (
 		<div className=' from-gray-50 via-white to-blue-50 p-8'>
@@ -15,19 +16,39 @@ export default async function PlansPage() {
 
 			{/* Plans Grid */}
 			<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto'>
-				{plans && plans.length === 0 && (
+				{!response.isSuccess && (
 					<div className='col-span-4 text-center'>
-						<h2 className='text-2xl font-bold text-gray-900 mb-4'>
-							No hay planes disponibles
+						<h2 className='text-2xl font-bold text-red-600 mb-4'>
+							Error al cargar los planes
 						</h2>
+						<p className='text-gray-600 mb-4'>
+							{response.message ||
+								'No se pudieron cargar los planes disponibles'}
+						</p>
 						<Link href='/'>
-							<span className='text-blue-500'>
+							<span className='text-blue-500 hover:underline'>
 								Volver a la página principal
 							</span>
 						</Link>
 					</div>
 				)}
-				{plans &&
+
+				{response.isSuccess && plans && plans.length === 0 && (
+					<div className='col-span-4 text-center'>
+						<h2 className='text-2xl font-bold text-gray-900 mb-4'>
+							No hay planes disponibles
+						</h2>
+						<Link href='/'>
+							<span className='text-blue-500 hover:underline'>
+								Volver a la página principal
+							</span>
+						</Link>
+					</div>
+				)}
+
+				{response.isSuccess &&
+					plans &&
+					plans.length > 0 &&
 					plans.map((plan, index) => (
 						<div
 							key={plan.planId}

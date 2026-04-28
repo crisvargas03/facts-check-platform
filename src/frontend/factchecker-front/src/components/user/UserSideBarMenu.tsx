@@ -15,7 +15,13 @@ export const UserSideBarMenu = ({ name, email, image, onLogout }: Props) => {
 		<div className='flex flex-col gap-2 px-4 py-2'>
 			<div className='flex items-center gap-3 py-2'>
 				<div className='w-8 h-8 rounded-full flex items-center justify-center font-bold'>
-					<Image src={image} alt={name} width={32} height={32} />
+					<Image
+						src={image}
+						alt={name}
+						width={32}
+						height={32}
+						unoptimized
+					/>
 				</div>
 				<div>
 					<p className='text-md font-semibold'>{name}</p>

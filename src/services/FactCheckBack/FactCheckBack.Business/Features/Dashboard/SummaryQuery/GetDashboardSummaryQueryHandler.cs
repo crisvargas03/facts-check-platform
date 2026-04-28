@@ -22,18 +22,31 @@ namespace FactCheckBack.Business.Features.Dashboard.SummaryQuery
                         HttpStatusCode.ServiceUnavailable);
                 }
 
-                var baseQuery = unitOfWork.Results.Query(false);
+                if (request.User is null)
+                    return ApiResponse<GetDashboardSummaryQueryDto>.Fail("No fueron encontrados datos para este usuario.",
+                        HttpStatusCode.BadRequest);
+
+                var user = await unitOfWork.Users.Query(false)
+                    .Select(x => new { x.user_id, x.email })
+                    .FirstOrDefaultAsync(u => u.email == request.User || u.user_id == request.User, cancellationToken);
+
+                if (user is null)
+                    return ApiResponse<GetDashboardSummaryQueryDto>.Fail("No fueron encontrados datos para este usuario.",
+                        HttpStatusCode.BadRequest);
+
+                var baseQuery = unitOfWork.Results.Query(false)
+                    .Where(r => r.Article_input.user_id == user.user_id);
 
                 if (request.StartDate.HasValue)
                 {
                     var startDateUtc = request.StartDate.Value.ToUniversalTime();
-                    baseQuery = baseQuery.Where(r => r.created >= startDateUtc);
+                    baseQuery = baseQuery.Where(r => r.created.Date >= startDateUtc.Date);
                 }
 
                 if (request.EndDate.HasValue)
                 {
                     var endDateUtc = request.EndDate.Value.ToUniversalTime();
-                    baseQuery = baseQuery.Where(r => r.created <= endDateUtc);
+                    baseQuery = baseQuery.Where(r => r.created.Date <= endDateUtc.Date);
                 }
 
                 var stats = await baseQuery

@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation';
 
 interface Props {
 	smallScreen?: boolean;
-	userInfo: UserServicesResponse;
+	userInfo?: UserServicesResponse;
 }
 
 export const UserAvatarMenu = ({ smallScreen, userInfo }: Props) => {
@@ -16,7 +16,6 @@ export const UserAvatarMenu = ({ smallScreen, userInfo }: Props) => {
 
 	const handleLogout = () => {
 		const toastId = toast.loading('Cargando...');
-		console.log('Logout clicked');
 		deleteCookieData('__user__');
 		toast.success('Cierre de sesión exitoso', {
 			id: toastId,
@@ -28,16 +27,16 @@ export const UserAvatarMenu = ({ smallScreen, userInfo }: Props) => {
 		<>
 			{smallScreen ? (
 				<UserSideBarMenu
-					name={userInfo.name || 'User'}
-					email={userInfo.email || 'user@example.com'}
-					image={userInfo.image!}
+					name={userInfo?.name || 'User'}
+					email={userInfo?.email || 'user@example.com'}
+					image={userInfo?.image || ''}
 					onLogout={handleLogout}
 				/>
 			) : (
 				<UserDownMenu
-					name={userInfo.name || 'User'}
-					email={userInfo.email || 'user@example.com'}
-					image={userInfo.image!}
+					name={userInfo?.name || 'User'}
+					email={userInfo?.email || 'user@example.com'}
+					image={userInfo?.image || ''}
 					onLogout={handleLogout}
 				/>
 			)}

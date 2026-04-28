@@ -1,0 +1,76 @@
+services:
+    - type: web
+      name: factcheck-backend
+      plan: free
+      runtime: docker
+      dockerContext: src/services/FactCheckBack
+      dockerfilePath: src/services/FactCheckBack/FactCheckBack.API/Dockerfile
+      autoDeploy: true
+      envVars:
+          - key: ConnectionStrings__DefaultConnection
+            sync: false
+          - key: AllowedOrigins
+            sync: false
+          - key: AiApi__Url
+            sync: false
+          - key: JWT__SecretKey
+            sync: false
+          - key: JWT__Issuer
+            value: FactCheckAPI
+          - key: JWT__Audience
+            value: FactCheckClient
+          - key: Logging__LogLevel__Default
+            value: Information
+          - key: Logging__LogLevel__Microsoft__AspNetCore
+            value: Warning
+
+    - type: web
+      name: factcheck-iamodel
+      plan: free
+      runtime: docker
+      dockerContext: src/services/AIModel
+      dockerfilePath: src/services/AIModel/Dockerfile
+      autoDeploy: true
+      envVars:
+          - key: ALLOWED_ORIGINS
+            sync: false
+          - key: OPENAI_API_KEY
+            sync: false
+          - key: MODEL
+            value: gpt-4o-mini
+          - key: PROMPT
+            sync: false
+
+    - type: web
+      name: factcheck-frontend
+      runtime: docker
+      plan: free
+      dockerContext: src/frontend/factchecker-front
+      dockerfilePath: src/frontend/factchecker-front/Dockerfile
+      autoDeploy: true
+      envVars:
+          # Auth.js (NextAuth v5)
+          - key: AUTH_URL
+            sync: false
+          - key: AUTH_REDIRECT_PROXY_URL
+            sync: false
+          - key: AUTH_TRUST_HOST
+            value: 'true'
+          - key: AUTH_SECRET
+            sync: false
+          - key: AUTH_GOOGLE_ID
+            sync: false
+          - key: AUTH_GOOGLE_SECRET
+            sync: false
+
+          # API base (cliente y SSR apuntan al backend público)
+          - key: NEXT_PUBLIC_API_URL
+            sync: false
+          - key: API_URL_INTERNAL
+            sync: false
+
+          # Branding
+          - key: APP_NAME
+            value: ChequeaEsoRD
+          - key: APP_DESCRIPTION
+            value: Plataforma basada en inteligencia artificial que detecta y mitiga noticias falsas en tiempo real. Verifica textos e imágenes, promueve el consumo responsable de información y fortalece la confianza en medios digitales en Rep Dom.

@@ -14,8 +14,9 @@ namespace FactCheckBack.Data
         {
             services.AddDbContext<FactCheckBackDbContext>(op =>
             {
-                var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_STRING")
+                var connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection")
                                        ?? configuration.GetConnectionString("DefaultConnection");
+                Console.WriteLine(connectionString);
 
                 op.UseNpgsql(connectionString); // for Postgres Connection
                 // op.UseSqlServer() // for SQl Server Connection

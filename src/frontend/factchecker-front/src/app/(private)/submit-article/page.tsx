@@ -1,43 +1,53 @@
 import { UpdloadArticle } from '@/components/ui/article-results/UpdloadArticle';
-import { AnalysisDetails, submitFormData } from '@/lib/article-results';
-import { BaseServicesResponse } from '@/lib/base';
+import { submitFormData, SubmitResult } from '@/lib/article-results';
+import { UserCookieData } from '@/lib/auth';
+import { PostArticle } from '@/services';
+import { cookies } from 'next/headers';
+
+const getCookieFromServer = async (key: string) => {
+	const cookieStore = await cookies();
+	// get the cookie data
+	const data = cookieStore.get(key);
+	if (!data) {
+		return null;
+	}
+
+	// decrypt the data
+	const decrypted = atob(data.value);
+	// console.log('Decrypted cookie data:', decrypted);
+	return JSON.parse(decrypted);
+};
 
 // server action
-export async function submitArticleToBack(
+async function submitArticleToBack(
 	data: submitFormData
-): Promise<BaseServicesResponse<AnalysisDetails>> {
+): Promise<SubmitResult> {
 	'use server';
 
-	// TODO: SEND TO THE BACKEND
-
-	const dummy: BaseServicesResponse<AnalysisDetails> = {
-		statusCode: 200,
-		message: 'Artículo analizado correctamente',
-		isSuccess: true,
-		errors: [],
-		data: {
-			summary: 'Este es un resumen del artículo.',
-			percentageTrust: 87,
-			evaluationFactors: [
-				{
-					name: 'Fuente Confiable',
-					score: 90,
-					description:
-						'Evaluacion de la reputacion y confiabilidad de la fuente',
-				},
-				{
-					name: 'Evidencia Cientifica',
-					score: 85,
-					description:
-						'Precesia de datos, estudios, p referencias cientificas',
-				},
-			],
-		},
-	};
-
-	console.log(data);
-
-	return dummy;
+	try {
+		// TODO: SEND TO THE BACKEND
+		const { user } = (await getCookieFromServer(
+			'__user__'
+		)) as UserCookieData;
+		data.email = user;
+		const { data: analysisResult, statusCode } = await PostArticle(data);
+		if (statusCode === 403 || !analysisResult) {
+			return {
+				analysisDetails: null,
+				message: 'Haz excedido el límite de análisis para hoy',
+			};
+		}
+		return {
+			analysisDetails: analysisResult,
+			message: null,
+		};
+	} catch (error) {
+		console.error('Error submitting article:', error);
+		return {
+			analysisDetails: null,
+			message: 'Error al enviar el artículo para análisis',
+		};
+	}
 }
 
 export default function AnalyzarArticulo() {

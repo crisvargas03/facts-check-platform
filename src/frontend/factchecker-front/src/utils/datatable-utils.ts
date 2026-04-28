@@ -19,6 +19,15 @@ export const historyColumns: DataTableColumn[] = [
 	},
 ];
 
+export const toShortDate = (dateString: string) => {
+	const options: Intl.DateTimeFormatOptions = {
+		year: 'numeric',
+		month: 'short',
+		day: 'numeric',
+	};
+	return new Date(dateString).toLocaleDateString('es-ES', options);
+};
+
 export const dashboardColumns: DataTableColumn[] = [
 	{
 		key: 'name',

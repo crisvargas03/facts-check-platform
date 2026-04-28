@@ -27,7 +27,8 @@ public class CheckHealthCommandHandler : ICommandHandler<CheckHealthCommand, Api
             var isSuccess = await _unitOfWork.ExecuteHealthCheckCommandAsync();
             response.Status = (canConnect && isSuccess) ? "Up" : "Down";
             response.ResponseTime = stopwatch.Elapsed;
-            
+            response.DatabaseConnected = canConnect && isSuccess;
+
             return ApiResponse<CheckHealthCommandDto>.Success(response);
         }
         catch (Exception e)

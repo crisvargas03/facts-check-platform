@@ -1,11 +1,11 @@
 import { BaseServicesResponse } from '@/lib/base';
 import { UserServicesResponse } from '@/lib/users';
-import { apiUrl } from '@/utils/app-info';
+import { getApiBaseUrl } from '@/utils/app-info';
 
 export const getUserInfo = async (email: string, token: string) => {
 	try {
 		const response = await fetch(
-			`${apiUrl}/users/info?email=${encodeURIComponent(email)}`,
+			`${getApiBaseUrl()}/users/info?email=${encodeURIComponent(email)}`,
 			{
 				headers: {
 					Authorization: `Bearer ${token}`,
